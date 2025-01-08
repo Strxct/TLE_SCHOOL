@@ -3,13 +3,12 @@
 @extends('layout.base')
 @section('content')
 <div class="w-1/2 mx-auto mt-5">
-    <h1 class="text-center">Update Employe</h1>
     <form action="{{ route('employes.update' , $Employe->id) }}" method="POST" class="max-w-md mx-auto" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <!-- firstname -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">Firstname</label>
+            <label for="firstname" class="block font-medium text-gray-700">Firstname</label>
             <input type="text" name="firstname" id="firstname" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->firstname }}">
             @error('firstname')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -19,7 +18,7 @@
 
         <!-- lastname -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">lastname</label>
+            <label for="lastname" class="block font-medium text-gray-700">lastname</label>
             <input type="text" name="lastname" id="lastname" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->lastname }}">
             @error('lastname')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -28,51 +27,42 @@
 
 
         <!-- email -->
-
         <div class="mb-4">
-            <label for="quantity" class="block font-medium text-gray-700">Email</label>
+            <label for="email" class="block font-medium text-gray-700">Email</label>
             <input type="email" name="email" id="email" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->email }}">
             @error('email')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
-
-         <!-- address -->
+        <!-- wachtwoord -->
         <div class="mb-4">
-            <label for="price" class="block font-medium text-gray-700">Address</label>
-            <input type="text" name="address" id="address" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->address }}">
-            @error('address')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-        <!-- phone -->
-        <div class="mb-4">
-            <label for="phone" class="block font-medium text-gray-700">Phone</label>
-            <input type="tel" name="phone" id="phone" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->phone }}">
-            @error('phone')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div>
-
-
-        <!-- image -->
-        <div class="mb-4">
-            <label for="image" class="block font-medium text-gray-700">Image</label>
-            <input type="file" name="image" id="image" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Employe->image }}">
-            <img src="/images/{{$Employe->image}}" alt="employe image" srcset="">
-        </div>
-        @error('image')
+            <label for="wachtwoord" class="block font-medium text-gray-700">Wachtwoord</label>
+            <input type="password" name="wachtwoord" id="wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('email')
             <span class="text-red-500 text-sm">{{ $message }}</span>
-        @enderror
+            @enderror
+        </div>
 
+        <!-- admin -->
+        <div class="mb-4">
+            <label for="admin" class="block font-medium text-gray-700">Beheerder</label>
+            <input type="checkbox" name="admin" id="admin" class="w-6 h-6">
+            @error('admin')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
 
         <div class="mb-4">
-            <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Update Employe</button>
+            <button type="submit" style="background-color: #019AAC;" class="bg-indigo-500 text-white w-full py-2 px-4 rounded hover:bg-indigo-600">Update</button>
         </div>
-        <div>
-            <a href="{{ url('/employes') }}" class="text-blue-500 p-2">Back</a>
+
+        <div class="mb-4">
+            <button type="submit" style="background-color: #C8304E;" class="bg-indigo-500 text-white w-full py-2 px-4 rounded hover:bg-indigo-600">Verwijder</button>
+        </div>
+
+        <div class="mb-4">
+            <a href="{{ url('/employes') }}" style="background-color: #C8304E;" class="bg-indigo-500 text-white block text-center w-full py-2 px-4 rounded hover:bg-indigo-600">Back</a>
         </div>
     </form>
 </div>
