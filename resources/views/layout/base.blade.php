@@ -12,7 +12,7 @@
 
 </head>
 <body>
-    @include('layout.nav')
-    @yield('content')
+@include('layout.nav')
+@yield('content')
 </body>
 </html>
