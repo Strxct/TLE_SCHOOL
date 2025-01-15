@@ -7,8 +7,8 @@
     <!-- label -->
 
     <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      <strong>Product Label: </strong>
-      {{ $Product['noun'] }}
+      <strong>Naam: </strong>
+      {{ $voorwerp['Naam'] }}
     </h5>
 
     <!-- quantity -->
@@ -17,7 +17,7 @@
 
     <h4 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>Quantity: </strong>
-      {{ $Product->quantity }}
+      {{ $voorwerp->Beschrijving }}
     </h4>
 
 
@@ -26,13 +26,13 @@
 
     <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>Price: </strong>
-      {{ $Product->price }}
+      {{ $voorwerp->price }}
     </h5>
   </div>
 
-  
+
   <div class="p-6 pt-0">
-    <a href="{{ url('/products') }}" class="bg-red-400 p-3 border-rounded w-full">Back</a>
+    <a href="{{ url('/voorwerpen') }}" class="bg-red-400 p-3 border-rounded w-full">Back</a>
   </div>
 </div>
 

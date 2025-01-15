@@ -1,26 +1,27 @@
 @extends('layout.base')
 @section('content')
+    <div class="w-full max-w-md mx-auto mt-5 bg-white shadow-lg rounded-lg p-6 sm:p-8">
 
-    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-4 sm:p-6 mx-auto mt-8">
-        <!-- Logo -->
         <div class="text-center mb-4">
             <img src="{{ asset('images/lovk create.png') }}" alt="LOVK Logo" class="mx-auto w-24">
         </div>
 
-        <!-- Form -->
-        <form action="{{ route('products.store') }}" method="POST" class="mx-auto">
-            @csrf
+        <form action="{{ route('voorwerpen.update', $Voorwerp->id) }}" method="POST">
+
+        @csrf
+            @method('PUT')
+
             <div class="mb-4">
-                <label for="noun" class="block text-neutral-950 mb-1">Naam</label>
-                <input type="text" name="noun" id="noun" placeholder="Enter product label" class="w-full border border-gray-300 rounded-md p-2 sm:p-3">
-                @error('noun')
+                <label for="name" class="block text-neutral-950 mb-1">Naam</label>
+                <input type="text" id="name" name="name" placeholder="Naam" value="{{ $Product->name }}" class="w-full border border-gray-300 rounded-md p-2 sm:p-3">
+                @error('name')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <div class="mb-4">
                 <label for="description" class="block text-neutral-950 mb-1">Beschrijving</label>
-                <textarea id="description" name="description" placeholder="Voer een beschrijving in" class="w-full border border-gray-300 rounded-md p-2 sm:p-3 h-[80px]"></textarea>
+                <textarea id="description" name="description" placeholder="Omschrijving" class="w-full border border-gray-300 rounded-md p-2 sm:p-3 h-[80px]">{{ $Product->description }}</textarea>
                 @error('description')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -48,14 +49,24 @@
                 </div>
             </div>
 
+            <div class="mb-4">
+                <label for="note" class="block text-neutral-950 mb-1">Notitie</label>
+                <textarea id="note" name="note" placeholder="Notitie" class="w-full border border-gray-300 rounded-md p-2 sm:p-3 h-[80px]">{{ $Product->note }}</textarea>
+            </div>
+
+            <div class="mb-4 flex items-center">
+                <label for="active" class="block text-neutral-950 mb-1 mr-2">Actief</label>
+                <input type="checkbox" id="active" name="active" {{ $Product->active ? 'checked' : '' }} class="toggle-checkbox">
+            </div>
+
             <div class="flex flex-col sm:flex-row gap-2">
                 <button type="submit" class="flex-1 bg-[#0099ae] text-white rounded-md p-2 sm:p-3">
-                    Registeren
+                    Update
                 </button>
-                <a href="{{ url('/products') }}" class="flex-1 text-center bg-[#e91d20] text-white rounded-md p-2 sm:p-3">
+                <a href="{{ url('/voorwerpen') }}" class="flex-1 text-center bg-[#e91d20] text-white rounded-md p-2 sm:p-3">
                     Annuleren
                 </a>
             </div>
         </form>
     </div>
-@endsection
+@stop
