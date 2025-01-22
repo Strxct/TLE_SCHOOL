@@ -12,6 +12,7 @@ use App\Http\Controllers\MentorenController;
 use App\Http\Controllers\ReserveringenController;
 use App\Http\Controllers\UitleengeschiedenisController;
 use App\Http\Controllers\VoorwerpenController;
+use App\Http\Controllers\KinderenController;
 
 
 Route::get('/', function(){
@@ -53,3 +54,6 @@ Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
 
 // Routes for Voorwerpen
 Route::resource('voorwerpen', VoorwerpenController::class);
+
+// Route for the kinderen
+Route::resource('kinderen', KinderenController::class);

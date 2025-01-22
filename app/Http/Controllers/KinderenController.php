@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kinderen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class KinderenController extends Controller
 {
@@ -42,6 +43,7 @@ class KinderenController extends Controller
         $Kind->Geboortedatum = $request->Geboortedatum;
         $Kind->Contact = $request->Contact;
         $Kind->MentorUUID = $request->MentorUUID; // Assuming MentorUUID is provided
+        $Kind->UUID = Str::uuid()->toString(); // Populate the UUID
         $Kind->save();
 
         return redirect('/kinderen')->with('msg', 'Kind created successfully');

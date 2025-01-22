@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Uitleengeschiedenis;  // Import the Uitleengeschiedenis model
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class UitleengeschiedenisController extends Controller
 {
@@ -18,12 +20,13 @@ class UitleengeschiedenisController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UUID' => 'required|unique:uitleengeschiedenis,UUID',
             'VoorwerpUUID' => 'required|exists:voorwerpen,UUID',
             'KindUUID' => 'required|exists:kinderen,UUID',
             'Uitleendatum' => 'required|date',
             'Aanmaakdatum' => 'required|date',
         ]);
+        
+        $validated['UUID'] = Str::uuid()->toString();
 
         $uitleengeschiedenis = Uitleengeschiedenis::create($validated);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mentoren;  // Import the Mentoren model
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class MentorenController extends Controller
 {
@@ -18,7 +19,6 @@ class MentorenController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UUID' => 'required|unique:Mentorenen,UUID',
             'Voornaam' => 'required|string|max:50',
             'Achternaam' => 'required|string|max:50',
             'Email' => 'required|email|max:50',
@@ -26,6 +26,8 @@ class MentorenController extends Controller
             'Admin' => 'required|boolean',
             'Aanmaakdatum' => 'required|date',
         ]);
+
+        $validated['UUID'] = Str::uuid()->toString();
 
         $Mentor = Mentoren::create($validated);
 

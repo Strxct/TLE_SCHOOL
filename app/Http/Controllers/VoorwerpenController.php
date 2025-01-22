@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Voorwerpen;  // Import the Voorwerpen model
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class VoorwerpenController extends Controller
 {
@@ -18,7 +20,6 @@ class VoorwerpenController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UUID' => 'required|unique:voorwerpen,UUID',
             'CategorieUUID' => 'required|exists:categories,UUID',
             'Naam' => 'required|string|max:100',
             'Beschrijving' => 'required|string',
@@ -28,6 +29,8 @@ class VoorwerpenController extends Controller
             'Actief' => 'required|boolean',
             'Aanmaakdatum' => 'required|date',
         ]);
+
+        $validated['UUID'] = Str::uuid()->toString();
 
         $voorwerp = Voorwerpen::create($validated);
 

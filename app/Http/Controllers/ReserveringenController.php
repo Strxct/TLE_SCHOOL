@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reserveringen;  // Import the Reserveringen model
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ReserveringenController extends Controller
 {
@@ -18,11 +19,12 @@ class ReserveringenController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'UUID' => 'required|unique:reserveringen,UUID',
             'MentorUUID' => 'required|exists:mentoren,UUID',
             'VoorwerpUUID' => 'required|exists:voorwerpen,UUID',
             'Aanmaakdatum' => 'required|date',
         ]);
+
+        $validated['UUID'] = Str::uuid()->toString();
 
         $reservering = Reserveringen::create($validated);
 
