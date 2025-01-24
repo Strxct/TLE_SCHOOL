@@ -4,7 +4,7 @@
 @section('content')
 <div class="w-1/2 mx-auto mt-5">
     <h1 class="text-center">Edit Product</h1>
-    <form action="{{ route('products.update', $Product->id) }}" method="POST" class="max-w-md mx-auto">
+    <form action="{{ route('voorwerpen.update', $Product->id) }}" method="POST" class="max-w-md mx-auto">
         @csrf
         @method('PUT')
          <!-- noun -->
@@ -42,7 +42,7 @@
             <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Update Product</button>
         </div>
         <div>
-            <a href="{{ url('/products') }}" class="text-blue-500 p-2">Back</a>
+            <a href="{{ url('/voorwerpen') }}" class="text-blue-500 p-2">Back</a>
         </div>
     </form>
 </div>

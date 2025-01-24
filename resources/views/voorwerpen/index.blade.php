@@ -2,8 +2,8 @@
 @section('content')
 
 <div class="p-4">
-        <h3 class="text-xl font-bold mb-4 text-center my-4 ">Products crud Program</h3>
-        <a href="{{ route('products.create') }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700">Add new Product</a>
+        <h3 class="text-xl font-bold mb-4 text-center my-4 ">Voorwerpen crud Program</h3>
+        <a href="{{ route('voorwerpen.create') }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700">Add new Voorwerp</a>
     </div>
 
     <table class="w-3/4 mx-auto">
@@ -30,12 +30,12 @@
 
 <!-- end alert  -->
 <div class="w-3/4 mx-auto">
-        {{ $Products->links()  }}
+        {{ $Voorwerpen->links()  }}
     </div>
         <thead>
             <tr>
                 <th class="px-4 py-2">ID</th>
-                <th class="px-4 py-2">Product Label</th>
+                <th class="px-4 py-2">Voorwerp Label</th>
                 <th class="px-4 py-2">quantity</th>
                 <th class="px-4 py-2">Price</th>
                 <th class="px-4 py-2">Actions</th>
@@ -43,20 +43,20 @@
         </thead>
 
         <tbody>
-            @foreach($Products as $Product)
+            @foreach($Voorwerpen as $Voorwerp)
                 <tr>
-                    <td class="border px-4 py-2">{{ $Product['id'] }}</td>
-                    <td class="border px-4 py-2">{{ $Product['noun'] }}</td>
-                    <td class="border px-4 py-2">{{ $Product['quantity'] }}</td>
-                    <td class="border px-4 py-2">{{ $Product['price'] }}</td>
+                    <td class="border px-4 py-2">{{ $Voorwerp['UUID'] }}</td>
+                    {{-- <td class="border px-4 py-2">{{ $Voorwerp['noun'] }}</td>
+                    <td class="border px-4 py-2">{{ $Voorwerp['quantity'] }}</td>
+                    <td class="border px-4 py-2">{{ $Voorwerp['price'] }}</td> --}}
                     <td class="border px-4 py-2">
                         <button class="bg-blue-500 text-white py-1 px-2 rounded">
-                            <a href="{{ route('products.edit' , $Product->id) }}" class="text-white"><i class="fas fa-edit"></i>Edit</a>
+                            <a href="{{ route('voorwerpen.edit' , $Voorwerp->UUID) }}" class="text-white"><i class="fas fa-edit"></i>Edit</a>
                         </button>
                         <button class="bg-yellow-500 text-white py-1 px-2 rounded">
-                            <a href="{{ route('products.show' , $Product->id) }}" class="text-white"><i class="fas fa-eye"></i>View</a>
+                            <a href="{{ route('voorwerpen.show' , $Voorwerp->UUID) }}" class="text-white"><i class="fas fa-eye"></i>View</a>
                         </button>
-                        <form action="{{ url('/products/' . $Product->id) }}" method="post" class="inline">
+                        <form action="{{ url('/voorwerpen/' . $Voorwerp->UUID) }}" method="post" class="inline">
                             @csrf 
                             @method('DELETE')
                             <button class="bg-red-500 text-white py-1 px-2 rounded" type="submit"><i class="fas fa-trash"></i> Delete</button>

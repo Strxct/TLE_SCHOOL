@@ -11,8 +11,14 @@ class MentorenController extends Controller
     // Toon een lijst van alle Mentorenen
     public function index()
     {
-        $Mentoren = Mentoren::all();
-        return response()->json($Mentoren);
+        $Mentoren = Mentoren::latest()->paginate(5);
+        // return response()->json($Mentoren);
+        return view('mentoren.index', compact('Mentoren'));
+    }
+
+    public function create()
+    {
+        return view('mentoren.create');
     }
 
     // Sla een nieuwe Mentoren op in de database
@@ -29,21 +35,17 @@ class MentorenController extends Controller
 
         $validated['UUID'] = Str::uuid()->toString();
 
-        $Mentor = Mentoren::create($validated);
+        Mentoren::create($validated);
 
-        return response()->json($Mentor, 201);  // Retourneer de nieuw gemaakte Mentoren met HTTP-status 201
+        // return response()->json($Mentor, 201);  // Retourneer de nieuw gemaakte Mentoren met HTTP-status 201
+        return redirect('/mentoren')->with('msg', 'Mentor created successfully');
     }
 
     // Toon de specifieke Mentoren
     public function show($id)
     {
-        $Mentor = Mentoren::find($id);
-
-        if (!$Mentor) {
-            return response()->json(['message' => 'Mentor niet gevonden'], 404);
-        }
-
-        return response()->json($Mentor);
+        $Mentor = Mentoren::findOrFail($id);
+        return view('mentoren.show', compact('mentor'));
     }
 
     // Werk de gegevens van een specifieke Mentoren bij
@@ -58,28 +60,18 @@ class MentorenController extends Controller
             'Aanmaakdatum' => 'required|date',
         ]);
 
-        $Mentor = Mentoren::find($id);
-
-        if (!$Mentor) {
-            return response()->json(['message' => 'Mentor niet gevonden'], 404);
-        }
-
+        $Mentor = Mentoren::findOrFail($id);
         $Mentor->update($validated);
-
-        return response()->json($Mentor);
+    
+        return redirect('/mentoren')->with('msg', 'Mentor updated successfully');
     }
 
     // Verwijder een Mentoren
     public function destroy($id)
     {
-        $Mentor = Mentoren::find($id);
-
-        if (!$Mentor) {
-            return response()->json(['message' => 'Mentor niet gevonden'], 404);
-        }
-
+        $Mentor = Mentoren::findOrFail($id);
         $Mentor->delete();
-
-        return response()->json(['message' => 'Mentor succesvol verwijderd']);
+    
+        return back()->with('msg', 'Mentor deleted successfully');
     }
 }

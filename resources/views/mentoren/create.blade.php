@@ -4,7 +4,7 @@
 @section('content')
 <div class="w-1/2 mx-auto mt-5">
     <h1 class="text-center">Create Employe</h1>
-    <form action="{{ route('employes.store') }}" method="post" class="max-w-md mx-auto" enctype="multipart/form-data">
+    <form action="{{ route('mentoren.store') }}" method="post" class="max-w-md mx-auto" enctype="multipart/form-data">
         @csrf
         <!-- firstname -->
         <div class="mb-4">
@@ -67,7 +67,7 @@
             <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Create Employe</button>
         </div>
         <div>
-            <a href="{{ url('/employes') }}" class="text-blue-500 p-2">Back</a>
+            <a href="{{ url('/mentoren') }}" class="text-blue-500 p-2">Back</a>
         </div>
     </form>
 </div>

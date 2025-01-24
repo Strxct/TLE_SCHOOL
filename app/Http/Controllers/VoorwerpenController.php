@@ -12,8 +12,14 @@ class VoorwerpenController extends Controller
     // Toon een lijst van alle voorwerpen
     public function index()
     {
-        $voorwerpen = Voorwerpen::all();
-        return response()->json($voorwerpen);
+        $Voorwerpen = Voorwerpen::latest()->paginate(5);
+        // return response()->json($voorwerpen);
+        return view('voorwerpen.index', compact('Voorwerpen'));
+    }
+
+    public function create()
+    {
+        return view('voorwerpen.create');
     }
 
     // Sla een nieuw voorwerp op in de database
@@ -29,24 +35,19 @@ class VoorwerpenController extends Controller
             'Actief' => 'required|boolean',
             'Aanmaakdatum' => 'required|date',
         ]);
-
+    
         $validated['UUID'] = Str::uuid()->toString();
-
-        $voorwerp = Voorwerpen::create($validated);
-
-        return response()->json($voorwerp, 201);  // Retourneer het nieuw gemaakte voorwerp met HTTP-status 201
+    
+        Voorwerpen::create($validated);
+    
+        return redirect('/voorwerpen')->with('msg', 'Voorwerp created successfully');
     }
 
     // Toon een specifiek voorwerp
     public function show($id)
     {
-        $voorwerp = Voorwerpen::find($id);
-
-        if (!$voorwerp) {
-            return response()->json(['message' => 'Voorwerpen niet gevonden'], 404);
-        }
-
-        return response()->json($voorwerp);
+        $voorwerp = Voorwerpen::findOrFail($id);
+        return view('voorwerpen.show', compact('voorwerp'));
     }
 
     // Werk de gegevens van een specifiek voorwerp bij
@@ -62,29 +63,19 @@ class VoorwerpenController extends Controller
             'Actief' => 'required|boolean',
             'Aanmaakdatum' => 'required|date',
         ]);
-
-        $voorwerp = Voorwerpen::find($id);
-
-        if (!$voorwerp) {
-            return response()->json(['message' => 'Voorwerpen niet gevonden'], 404);
-        }
-
+    
+        $voorwerp = Voorwerpen::findOrFail($id);
         $voorwerp->update($validated);
-
-        return response()->json($voorwerp);
+    
+        return redirect('/voorwerpen')->with('msg', 'Voorwerp updated successfully');
     }
 
     // Verwijder een voorwerp
     public function destroy($id)
     {
-        $voorwerp = Voorwerpen::find($id);
-
-        if (!$voorwerp) {
-            return response()->json(['message' => 'Voorwerpen niet gevonden'], 404);
-        }
-
+        $voorwerp = Voorwerpen::findOrFail($id);
         $voorwerp->delete();
-
-        return response()->json(['message' => 'Voorwerpen succesvol verwijderd']);
+    
+        return back()->with('msg', 'Voorwerp deleted successfully');
     }
 }

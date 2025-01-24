@@ -8,7 +8,7 @@
 
     <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>fullName: </strong>
-      {{ $Student['firstname'] }} {{ $Student['lastname'] }}
+      {{ $Kinderen['firstname'] }} {{ $Kinderen['lastname'] }}
     </h5>
 
     <!-- email -->
@@ -17,7 +17,7 @@
 
     <h4 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>Email: </strong>
-      {{ $Student->email }}
+      {{ $Kinderen->email }}
     </h4>
 
 
@@ -26,13 +26,13 @@
 
     <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>Phone: </strong>
-      {{ $Student->phone }}
+      {{ $Kinderen->phone }}
     </h5>
   </div>
 
   
   <div class="p-6 pt-0">
-    <a href="{{ url('/students') }}" class="bg-red-400 p-3 border-rounded w-full">Back</a>
+    <a href="{{ url('/kinderen') }}" class="bg-red-400 p-3 border-rounded w-full">Back</a>
   </div>
 </div>
 

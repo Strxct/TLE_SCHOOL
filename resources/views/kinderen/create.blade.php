@@ -2,7 +2,7 @@
 @section('content')
 <div class="w-1/2 mx-auto mt-5">
     <h1 class="text-center">Voeg en nieuw kind toe</h1>
-    <form action="{{ route('student.store') }}" method="POST" class="max-w-md mx-auto">
+    <form action="{{ route('kinderen.store') }}" method="POST" class="max-w-md mx-auto">
         @csrf
 
         <!-- firstname -->
@@ -56,7 +56,7 @@
             <button type="submit" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center ">Register</button>
         </div>
         <div>
-            <a href="{{ url('/students') }}" class="text-blue-500">Terug</a>
+            <a href="{{ url('/kinderen') }}" class="text-blue-500">Terug</a>
         </div>
     </form>
 </div>
