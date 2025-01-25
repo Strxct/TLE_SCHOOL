@@ -46,6 +46,12 @@
             <p>{{ $voorwerp->created_at }}</p>
         </div>
 
+        <!-- Categorie -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Categorie:</h2>
+            <p>{{ optional($voorwerp->categorie)->Naam}}</p>
+        </div>
+
         <div class="mt-4">
             <a href="{{ url('/voorwerpen') }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Back</a>
         </div>

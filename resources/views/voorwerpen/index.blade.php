@@ -34,6 +34,7 @@
     <thead>
         <tr>
             <th class="px-4 py-2">Naam</th>
+            <th class="px-4 py-2">Categorie</th>
             <th class="px-4 py-2">Beschrijving</th>
             <th class="px-4 py-2">Notities</th>
             <th class="px-4 py-2">QR</th>
@@ -46,7 +47,8 @@
     <tbody>
         @foreach($Voorwerpen as $Voorwerp)
             <tr>
-                <td class="border px-4 py-2">{{ $Voorwerp->Naam }}</td>
+                <td class="border px-4 py-2">{{ $Voorwerp->Naam }}</td>'
+                <td class="border px-4 py-2">{{ optional($Voorwerp->categorie)->Naam }}</td>
                 <td class="border px-4 py-2">{{ $Voorwerp->Beschrijving }}</td>
                 <td class="border px-4 py-2">{{ $Voorwerp->Notities }}</td>
                 <td class="border px-4 py-2">{{ $Voorwerp->QR }}</td>

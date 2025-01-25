@@ -6,6 +6,7 @@ use App\Models\Voorwerpen;  // Import the Voorwerpen model
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categories;
+use App\Models\Reserveringen;
 
 
 class VoorwerpenController extends Controller
@@ -13,9 +14,11 @@ class VoorwerpenController extends Controller
     // Toon een lijst van alle voorwerpen
     public function index()
     {
+        $Categories = Categories::all();
+        $Reserveringen = Reserveringen::all();
         $Voorwerpen = Voorwerpen::latest()->paginate(5);
         // return response()->json($voorwerpen);
-        return view('voorwerpen.index', compact('Voorwerpen'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen'));
     }
 
     public function create()
@@ -56,7 +59,9 @@ class VoorwerpenController extends Controller
     public function show($id)
     {
         $voorwerp = Voorwerpen::findOrFail($id);
-        return view('voorwerpen.show', compact('voorwerp'));
+        $Categories = Categories::all();
+        $Reserveringen = Reserveringen::all();
+        return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen'));
     }
 
     // Werk de gegevens van een specifiek voorwerp bij
