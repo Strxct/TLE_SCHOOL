@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="p-4">
-        <a href="{{ route('kinderen.create') }}" class="w-3/4 mx-auto bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Add new Kind</a>
+        <a href="{{ route('kinderen.create') }}" class="w-3/4 mx-auto bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700">Voeg Kind toe</a>
     </div>
 
     <table class="w-3/4 mx-auto">

@@ -15,7 +15,7 @@ use App\Http\Controllers\VoorwerpenController;
 use App\Http\Controllers\KinderenController;
 
 
-Route::get('/', function(){
+Route::get('/', function () {
     return view('layout.index');
 })->name('home');
 
