@@ -13,8 +13,6 @@
 
     <!-- email -->
 
-
-
     <h4 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
       <strong>Email: </strong>
       {{ $Kinderen->email }}
