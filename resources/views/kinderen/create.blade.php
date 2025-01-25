@@ -7,35 +7,62 @@
 
         <!-- firstname -->
         <div class="mb-4">
-            <label for="name" class="block font-medium text-gray-700">Naam</label>
-            <input type="text" name="name" id="name" placeholder="Naam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('firstname')
+            <label for="name" class="block font-medium text-gray-700">Voornaam</label>
+            <input type="text" name="Voornaam" id="Voornaam" placeholder="Naam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Voornaam')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <!-- firstname -->
+        <div class="mb-4">
+            <label for="name" class="block font-medium text-gray-700">Achternaam</label>
+            <input type="text" name="Achternaam" id="Achternaam" placeholder="Achternaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Achternaam')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
+        <!-- geboortedatum -->
+        <div class="mb-4">
+            <label for="name" class="block font-medium text-gray-700">Geboortedatum</label>
+            <input type="date" name="Geboortedatum" id="Geboortedatum" placeholder="Geboortedatum" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Geboortedatum')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
 
-        <!-- lastname -->
-
+        <!-- Email ouders / contact -->
         <div class="mb-4">
-            <label for="parentMail" class="block font-medium text-gray-700">email ouders</label>
-            <input type="text" name="parentMail" id="parentMail" placeholder="ouderemail@gmail.com" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('lastname')
+            <label for="Contact" class="block font-medium text-gray-700">E-mail ouders</label>
+            <input type="text" name="Contact" id="Contact" placeholder="ouderemail@gmail.com" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Contact')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
 
         <!-- email -->
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <label for="class" class="block font-medium text-gray-700">Klas</label>
-            <select name="class" id="class" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            <select name="Klas" id="Klas" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
                 <option value="">Klas naam</option>
                 <option value="class1">klas 1</option>
                 <option value="class2">klas 2</option>
                 <option value="class3">klas 3</option>
             </select>
             @error('class')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div> --}}
+        <div class="mb-4">
+            <label for="MentorUUID" class="block font-medium text-gray-700">Mentor</label>
+            <select name="MentorUUID" id="MentorUUID" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+                @foreach($Mentoren as $mentor)
+                    <option value="{{ $mentor->UUID }}">{{ $mentor->Voornaam }} {{ $mentor->Achternaam }}</option>
+                @endforeach
+            </select>
+            @error('MentorUUID')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>

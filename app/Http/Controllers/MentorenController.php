@@ -29,8 +29,7 @@ class MentorenController extends Controller
             'Achternaam' => 'required|string|max:50',
             'Email' => 'required|email|max:50',
             'Wachtwoord' => 'required|string|min:8',
-            'Admin' => 'required|boolean',
-            'Aanmaakdatum' => 'required|date',
+            'Admin' => 'required|boolean'
         ]);
 
         $validated['UUID'] = Str::uuid()->toString();

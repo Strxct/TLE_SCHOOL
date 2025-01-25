@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kinderen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Mentoren;
 
 class KinderenController extends Controller
 {
@@ -22,7 +23,8 @@ class KinderenController extends Controller
      */
     public function create()
     {
-        return view('kinderen.create');
+        $Mentoren = Mentoren::all();
+        return view('kinderen.create', compact('Mentoren'));
     }
 
     /**
@@ -30,23 +32,32 @@ class KinderenController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'Voornaam' => 'required',
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
             'Contact' => 'required',
+            'MentorUUID' => 'required|exists:mentoren,UUID',
         ]);
 
-        $Kind = new Kinderen();
-        $Kind->Voornaam = $request->Voornaam;
-        $Kind->Achternaam = $request->Achternaam;
-        $Kind->Geboortedatum = $request->Geboortedatum;
-        $Kind->Contact = $request->Contact;
-        $Kind->MentorUUID = $request->MentorUUID; // Assuming MentorUUID is provided
-        $Kind->UUID = Str::uuid()->toString(); // Populate the UUID
-        $Kind->save();
+        // $Kind = new Kinderen();
+        // $Kind->Voornaam = $request->Voornaam;
+        // $Kind->Achternaam = $request->Achternaam;
+        // $Kind->Geboortedatum = $request->Geboortedatum;
+        // $Kind->Contact = $request->Contact;
+        // $Kind->MentorUUID = $request->MentorUUID; // Assuming MentorUUID is provided
+        $validated['UUID'] = Str::uuid()->toString(); // Populate the UUID
+
+        // print_r($request);
+        // die();
+
+        // echo "aspdio]kjas]opfik[dfopgkjpoadsfkjg[oijadsf[guij[z]sdfpoigijkasdfE[]gio";
+        // $Kind->save();
+
+        Kinderen::create($validated);
 
         return redirect('/kinderen')->with('msg', 'Kind created successfully');
+        // return response()->json($request);
     }
 
     /**

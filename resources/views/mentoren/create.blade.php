@@ -8,19 +8,19 @@
         @csrf
         <!-- firstname -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">Firstname</label>
-            <input type="text" name="firstname" id="firstname" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('firstname')
+            <label for="noun" class="block font-medium text-gray-700">Voornaam</label>
+            <input type="text" name="Voornaam" id="Voornaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Voornaam')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
 
-        <!-- lastname -->
+        <!-- Achternaam -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">lastname</label>
-            <input type="text" name="lastname" id="lastname" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('lastname')
+            <label for="noun" class="block font-medium text-gray-700">Achternaam</label>
+            <input type="text" name="Achternaam" id="Achternaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Achternaam')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
@@ -30,26 +30,29 @@
 
         <div class="mb-4">
             <label for="quantity" class="block font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('email')
+            <input type="email" name="Email" id="Email" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Email')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
 
-         <!-- address -->
+         <!-- Wachtwoord -->
         <div class="mb-4">
-            <label for="price" class="block font-medium text-gray-700">Address</label>
-            <input type="text" name="address" id="address" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-            @error('address')
+            <label for="price" class="block font-medium text-gray-700">Wachtwoord</label>
+            <input type="text" name="Wachtwoord" id="Wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            @error('Wachtwoord')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
 
-        <!-- phone -->
+        <!-- Admin -->
         <div class="mb-4">
-            <label for="phone" class="block font-medium text-gray-700">Phone</label>
-            <input type="tel" name="phone" id="phone" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            <label for="Admin" class="block font-medium text-gray-700">Admin</label>
+            {{-- <input type="tel" name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"> --}}
+            <select name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
             @error('phone')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
