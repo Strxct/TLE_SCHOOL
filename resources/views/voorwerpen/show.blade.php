@@ -1,39 +1,55 @@
 @extends('layout.base')
 @section('content')
 
-<div class="mt-6 flex w-96 mx-auto flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-  <div class="p-6">
+<div class="w-1/2 mx-auto mt-5">
+    <h1 class="text-center">Voorwerp Details</h1>
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <!-- Naam -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Naam:</h2>
+            <p>{{ $voorwerp->Naam }}</p>
+        </div>
 
-    <!-- label -->
+        <!-- Beschrijving -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Beschrijving:</h2>
+            <p>{{ $voorwerp->Beschrijving }}</p>
+        </div>
 
-    <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      <strong>Voorwerpen Label: </strong>
-      {{ $Voorwerpen['noun'] }}
-    </h5>
+        <!-- Notities -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Notities:</h2>
+            <p>{{ $voorwerp->Notities }}</p>
+        </div>
 
-    <!-- quantity -->
+        <!-- QR -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">QR:</h2>
+            <p>{{ $voorwerp->QR }}</p>
+        </div>
 
+        <!-- Foto -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Foto:</h2>
+            <p>{{ $voorwerp->Foto }}</p>
+        </div>
 
+        <!-- Actief -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Actief:</h2>
+            <p>{{ $voorwerp->Actief ? 'Yes' : 'No' }}</p>
+        </div>
 
-    <h4 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      <strong>Quantity: </strong>
-      {{ $Voorwerpen->quantity }}
-    </h4>
+        <!-- Aanmaakdatum -->
+        <div class="mb-4">
+            <h2 class="font-medium text-gray-700">Aanmaakdatum:</h2>
+            <p>{{ $voorwerp->created_at }}</p>
+        </div>
 
-
-    <!-- price -->
-
-
-    <h5 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      <strong>Price: </strong>
-      {{ $Voorwerpen->price }}
-    </h5>
-  </div>
-
-  
-  <div class="p-6 pt-0">
-    <a href="{{ url('/voorwerpen') }}" class="bg-red-400 p-3 border-rounded w-full">Back</a>
-  </div>
+        <div class="mt-4">
+            <a href="{{ url('/voorwerpen') }}" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700">Back</a>
+        </div>
+    </div>
 </div>
 
 @endsection

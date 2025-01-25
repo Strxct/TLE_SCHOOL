@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Voorwerpen;  // Import the Voorwerpen model
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\Categories;
 
 
 class VoorwerpenController extends Controller
@@ -19,7 +20,16 @@ class VoorwerpenController extends Controller
 
     public function create()
     {
-        return view('voorwerpen.create');
+        $Categories = Categories::all();
+        return view('voorwerpen.create', compact('Categories'));
+        // return view('voorwerpen.create');
+    }
+
+    public function edit($id)
+    {
+        $voorwerp = Voorwerpen::findOrFail($id);
+        $Categories = Categories::all();
+        return view('voorwerpen.edit', compact('voorwerp', 'Categories'));
     }
 
     // Sla een nieuw voorwerp op in de database
@@ -28,12 +38,11 @@ class VoorwerpenController extends Controller
         $validated = $request->validate([
             'CategorieUUID' => 'required|exists:categories,UUID',
             'Naam' => 'required|string|max:100',
-            'Beschrijving' => 'required|string',
-            'Notities' => 'required|string',
+            'Beschrijving' => 'nullable|string',
+            'Notities' => 'nullable|string',
             'QR' => 'required|string|max:255',
             'Foto' => 'required|string|max:255',
             'Actief' => 'required|boolean',
-            'Aanmaakdatum' => 'required|date',
         ]);
     
         $validated['UUID'] = Str::uuid()->toString();
@@ -61,7 +70,6 @@ class VoorwerpenController extends Controller
             'QR' => 'required|string|max:255',
             'Foto' => 'required|string|max:255',
             'Actief' => 'required|boolean',
-            'Aanmaakdatum' => 'required|date',
         ]);
     
         $voorwerp = Voorwerpen::findOrFail($id);

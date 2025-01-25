@@ -75,7 +75,8 @@ class KinderenController extends Controller
     public function edit(string $id)
     {
         $Kind = Kinderen::findOrFail($id);
-        return view('kinderen.edit', compact('Kind'));
+        $Mentoren = Mentoren::all();
+        return view('kinderen.edit', compact('Kind', 'Mentoren'));
     }
 
     /**
@@ -88,6 +89,7 @@ class KinderenController extends Controller
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
             'Contact' => 'required',
+            'MentorUUID' => 'required|exists:mentoren,UUID',
         ]);
 
         $Kind = Kinderen::findOrFail($id);
