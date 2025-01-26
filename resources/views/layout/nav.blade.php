@@ -38,6 +38,18 @@
         <li>
           <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:text-blue-700">Items</a>
         </li>
+        @auth
+          <li>
+            <form action="{{ route('logout') }}" method="POST">
+              @csrf
+              <button type="submit" class="block py-2 text-gray-900 hover:text-blue-700">Logout</button>
+            </form>
+          </li>
+        @else
+          <li>
+            <a href="{{ route('login') }}" class="block py-2 text-gray-900 hover:text-blue-700">Login</a>
+          </li>
+        @endauth
       </ul>
     </div>
 
@@ -53,6 +65,18 @@
         <li>
           <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Items</a>
         </li>
+        @auth
+        <li>
+          <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Logout</button>
+          </form>
+        </li>
+      @else
+        <li>
+          <a href="{{ route('login') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Login</a>
+        </li>
+      @endauth
       </ul>
     </div>
   </div>
