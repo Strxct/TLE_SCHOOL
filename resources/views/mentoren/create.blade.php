@@ -51,8 +51,9 @@
             <label for="Admin" class="block font-medium text-gray-700">Admin</label>
             {{-- <input type="tel" name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"> --}}
             <select name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-                <option value="1">Yes</option>
                 <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
             @error('phone')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
@@ -60,10 +61,10 @@
 
 
         <!-- image -->
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <label for="image" class="block font-medium text-gray-700">Image</label>
             <input type="file" name="image" id="image" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-        </div>
+        </div> --}}
 
 
         <div class="mb-4">

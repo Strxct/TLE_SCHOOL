@@ -1,18 +1,49 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Mentoren;  // Import the Mentoren model
+use App\Models\Mentoren;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class MentorenController extends Controller
 {
-    // Toon een lijst van alle Mentorenen
+    public function showLoginForm()
+    {
+        return view('login.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt(['Email' => $credentials['email'], 'password' => $credentials['password']])) {
+            $request->session()->regenerate();
+            return redirect()->intended('/voorwerpen'); // Change this to your intended route
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+        // return view('login.login');
+    }
+
+    // Existing methods for managing mentoren
     public function index()
     {
         $Mentoren = Mentoren::latest()->paginate(5);
-        // return response()->json($Mentoren);
         return view('mentoren.index', compact('Mentoren'));
     }
 
@@ -21,56 +52,56 @@ class MentorenController extends Controller
         return view('mentoren.create');
     }
 
-    // Sla een nieuwe Mentoren op in de database
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'Voornaam' => 'required|string|max:50',
-            'Achternaam' => 'required|string|max:50',
-            'Email' => 'required|email|max:50',
+            'Voornaam' => 'required|string|max:255',
+            'Achternaam' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:mentoren',
             'Wachtwoord' => 'required|string|min:8',
-            'Admin' => 'required|boolean'
+            'Admin' => 'required|boolean',
         ]);
 
+        $validated['Wachtwoord'] = Hash::make($validated['Wachtwoord']);
         $validated['UUID'] = Str::uuid()->toString();
-
         Mentoren::create($validated);
 
-        // return response()->json($Mentor, 201);  // Retourneer de nieuw gemaakte Mentoren met HTTP-status 201
-        return redirect('/mentoren')->with('msg', 'Mentor created successfully');
+        return redirect()->route('mentoren.index')->with('success', 'Mentor created successfully.');
     }
 
-    // Toon de specifieke Mentoren
-    public function show($id)
+    public function edit($id)
     {
-        $Mentor = Mentoren::findOrFail($id);
-        return view('mentoren.show', compact('mentor'));
+        $Mentoren = Mentoren::findOrFail($id);
+        return view('mentoren.edit', compact('Mentoren'));
     }
 
-    // Werk de gegevens van een specifieke Mentoren bij
     public function update(Request $request, $id)
     {
+        $mentor = Mentoren::findOrFail($id);
+
         $validated = $request->validate([
-            'Voornaam' => 'required|string|max:50',
-            'Achternaam' => 'required|string|max:50',
-            'Email' => 'required|email|max:50',
-            'Wachtwoord' => 'nullable|string|min:8',  // Wachtwoord kan optioneel zijn bij update
-            'Admin' => 'required|boolean',
-            'Aanmaakdatum' => 'required|date',
+            'Voornaam' => 'required|string|max:255',
+            'Achternaam' => 'required|string|max:255',
+            'Email' => 'required|string|email|max:255|unique:mentoren,Email,' . $mentor->id,
+            'Wachtwoord' => 'nullable|string|min:8|confirmed',
         ]);
 
-        $Mentor = Mentoren::findOrFail($id);
-        $Mentor->update($validated);
-    
-        return redirect('/mentoren')->with('msg', 'Mentor updated successfully');
+        if ($request->filled('Wachtwoord')) {
+            $validated['Wachtwoord'] = Hash::make($validated['Wachtwoord']);
+        } else {
+            unset($validated['Wachtwoord']);
+        }
+
+        $mentor->update($validated);
+
+        return redirect()->route('mentoren.index')->with('success', 'Mentor updated successfully.');
     }
 
-    // Verwijder een Mentoren
     public function destroy($id)
     {
-        $Mentor = Mentoren::findOrFail($id);
-        $Mentor->delete();
-    
-        return back()->with('msg', 'Mentor deleted successfully');
+        $mentor = Mentoren::findOrFail($id);
+        $mentor->delete();
+
+        return redirect()->route('mentoren.index')->with('success', 'Mentor deleted successfully.');
     }
 }

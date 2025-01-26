@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Mentoren extends Model
+class Mentoren extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
     /**
      * The table associated with the model.
@@ -52,6 +54,11 @@ class Mentoren extends Model
         'Aanmaakdatum',
     ];
 
+    protected $hidden = [
+        'Wachtwoord',
+        'remember_token',
+    ];
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -77,5 +84,11 @@ class Mentoren extends Model
     public function reserveringen()
     {
         return $this->hasMany(Reserveringen::class, 'MentorUUID', 'UUID');
+    }
+
+    // Override the getAuthPassword method
+    public function getAuthPassword()
+    {
+        return $this->Wachtwoord;
     }
 }

@@ -41,6 +41,9 @@ Route::resource('categories', CategoriesController::class);
 
 // Routes for Mentoren
 Route::resource('mentoren', MentorenController::class);
+Route::get('/login', [MentorenController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [MentorenController::class, 'login']);
+Route::post('/logout', [MentorenController::class, 'logout'])->name('logout');
 
 // Routes for Reserveringen
 Route::resource('reserveringen', ReserveringenController::class);
@@ -53,3 +56,9 @@ Route::resource('voorwerpen', VoorwerpenController::class);
 
 // Route for the kinderen
 Route::resource('kinderen', KinderenController::class);
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
+    Route::resource('voorwerpen', VoorwerpenController::class);
+});
