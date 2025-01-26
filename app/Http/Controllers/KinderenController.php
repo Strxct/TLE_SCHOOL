@@ -36,7 +36,7 @@ class KinderenController extends Controller
             'Voornaam' => 'required',
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
-            'Contact' => 'required',
+            'Contact' => 'nullable',
             'MentorUUID' => 'required|exists:mentoren,UUID',
         ]);
 
@@ -88,8 +88,8 @@ class KinderenController extends Controller
             'Voornaam' => 'required',
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
-            'Contact' => 'required',
-            'MentorUUID' => 'required|exists:mentoren,UUID',
+            'Contact' => 'nullable',
+            'MentorUUID' => 'nullable|exists:mentoren,UUID',
         ]);
 
         $Kind = Kinderen::findOrFail($id);

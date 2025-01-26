@@ -85,6 +85,16 @@ class Mentoren extends Authenticatable
     {
         return $this->hasMany(Reserveringen::class, 'MentorUUID', 'UUID');
     }
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($mentor) {
+            // Set MentorUUID to null for all kinderen that reference this mentor
+            $mentor->kinderen()->update(['MentorUUID' => null]);
+        });
+    }
 
     // Override the getAuthPassword method
     public function getAuthPassword()

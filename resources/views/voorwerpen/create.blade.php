@@ -4,6 +4,7 @@
         action="{{ route('voorwerpen.store') }}"
         method="POST"
         class="max-w-md mx-auto"
+        enctype="multipart/form-data"
     >
         @csrf
 
@@ -67,13 +68,13 @@
 
         <!-- leeftijd begin -->
         <div class="mb-4">
-            <label for="QR" class="block font-medium text-gray-700 mb-2"
+            <label for="leeftijd_van" class="block font-medium text-gray-700 mb-2"
                 >Leeftijd</label
             >
             <input
-                type="text"
-                name="leeftijd"
-                id="leeftijd"
+                type="number"
+                name="leeftijd_van"
+                id="leeftijd_van"
                 placeholder="Leeftijd"
                 class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"
             />
@@ -84,17 +85,17 @@
 
         <!-- leeftijd eind -->
         <div class="mb-4">
-            <label for="QR" class="block font-medium text-gray-700 mb-2"
+            <label for="leeftijd_tot" class="block font-medium text-gray-700 mb-2"
                 >tot</label
             >
             <input
-                type="text"
-                name="leeftijdtot"
-                id="leeftijdtot"
+                type="number"
+                name="leeftijd_tot"
+                id="leeftijd_tot"
                 placeholder="Leeftijd"
                 class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"
             />
-            @error('QR')
+            @error('leeftijd_tot')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
@@ -109,13 +110,13 @@
         </div> -->
 
         <!-- QR -->
-        <!-- <div class="mb-4">
+        <div class="mb-4">
             <label for="QR" class="block font-medium text-gray-700">QR</label>
             <input type="text" name="QR" id="QR" placeholder="QR" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
             @error('QR')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
-        </div> -->
+        </div> 
 
         <!-- Foto -->
 
@@ -140,7 +141,7 @@
 
             <!-- Button to Upload Photo -->
             <label
-                for="foto-input"
+                for="Foto"
                 class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600"
             >
                 Zoek Foto
@@ -155,7 +156,7 @@
         </div>
 
         <!-- Actief -->
-        <!-- <div class="mb-4">
+        <div class="mb-4">
             <label for="Actief" class="block font-medium text-gray-700">Actief</label>
             <select name="Actief" id="Actief" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
                 <option value="1">Yes</option>
@@ -164,7 +165,7 @@
             @error('Actief')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
-        </div> -->
+        </div> 
 
         <!-- Aanmaakdatum -->
         {{--

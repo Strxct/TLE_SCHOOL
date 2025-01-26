@@ -44,14 +44,21 @@ class VoorwerpenController extends Controller
             'Beschrijving' => 'nullable|string',
             'Notities' => 'nullable|string',
             'QR' => 'required|string|max:255',
-            'Foto' => 'required|string|max:255',
+            'Foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'leeftijd_van' => 'nullable|integer',
+            'leeftijd_tot' => 'nullable|integer',
             'Actief' => 'required|boolean',
         ]);
-    
+
+        if ($request->hasFile('Foto')) {
+            $filePath = $request->file('Foto')->store('voorwerpen', 'public');
+            $validated['Foto'] = $filePath;
+        }
+
         $validated['UUID'] = Str::uuid()->toString();
-    
+
         Voorwerpen::create($validated);
-    
+
         return redirect('/voorwerpen')->with('msg', 'Voorwerp created successfully');
     }
 
@@ -70,12 +77,16 @@ class VoorwerpenController extends Controller
         $validated = $request->validate([
             'CategorieUUID' => 'required|exists:categories,UUID',
             'Naam' => 'required|string|max:100',
-            'Beschrijving' => 'required|string',
-            'Notities' => 'required|string',
+            'Beschrijving' => 'nullable|string',
+            'Notities' => 'nullable|string',
             'QR' => 'required|string|max:255',
-            'Foto' => 'required|string|max:255',
+            'Foto' => 'nullable|string|max:255',
+            'leeftijd_van' => 'nullable|integer',
+            'leeftijd_tot' => 'nullable|integer',
             'Actief' => 'required|boolean',
         ]);
+
+        dd($validated);
     
         $voorwerp = Voorwerpen::findOrFail($id);
         $voorwerp->update($validated);

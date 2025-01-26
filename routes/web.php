@@ -61,4 +61,8 @@ Route::resource('kinderen', KinderenController::class);
 Route::middleware(['auth'])->group(function () {
     Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
     Route::resource('voorwerpen', VoorwerpenController::class);
+    Route::get('/kinderen', [KinderenController::class, 'index'])->name('kinderen');
+    Route::resource('kinderen', KinderenController::class);
+    Route::get('/mentoren', [MentorenController::class, 'index'])->name('mentoren');
+    Route::resource('mentoren', MentorenController::class);
 });
