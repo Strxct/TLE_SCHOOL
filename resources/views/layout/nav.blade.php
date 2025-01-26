@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<nav class="relative h-[300px]">
+<nav class="relative h-[150px] md:h-[300px]">
   <img class="w-full absolute top-0 left-0 z-10" src="{{ asset('assets/header.png') }}" alt="Logo">
   <div class="flex flex-wrap items-center justify-between mx-auto p-4 relative z-40">
 
