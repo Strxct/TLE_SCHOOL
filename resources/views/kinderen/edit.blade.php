@@ -1,6 +1,6 @@
 @extends('layout.base')
 @section('content')
-<div class="w-1/2 mx-auto mt-5">
+<div class="lg:w-1/2 mx-auto mt-5">
     <h1 class="text-center">Update kinderen informatie</h1>
     <form action="{{ route('kinderen.update', $Kind->UUID) }}" method="POST" class="max-w-md mx-auto">
         @method('PUT')
@@ -47,9 +47,9 @@
             <select name="MentorUUID" id="MentorUUID" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
                 <option value="">Select Mentor</option>
                 @foreach($Mentoren as $mentor)
-                    <option value="{{ $mentor->UUID }}" {{ $mentor->UUID == $Kind->MentorUUID ? 'selected' : '' }}>
-                        {{ $mentor->Voornaam }} {{ $mentor->Achternaam }}
-                    </option>
+                <option value="{{ $mentor->UUID }}" {{ $mentor->UUID == $Kind->MentorUUID ? 'selected' : '' }}>
+                    {{ $mentor->Voornaam }} {{ $mentor->Achternaam }}
+                </option>
                 @endforeach
             </select>
             @error('MentorUUID')
@@ -59,6 +59,9 @@
 
         <div class="mb-4 w-full">
             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center">Update</button>
+        </div>
+        <div>
+            <a href="{{ url('/kinderen') }}" class="text-blue-500 p-2">Annuleren</a>
         </div>
     </form>
 </div>

@@ -2,7 +2,7 @@
 
 @extends('layout.base')
 @section('content')
-<div class="w-1/2 mx-auto mt-5">
+<div class="lg:w-1/2 mx-auto mt-5">
     <h1 class="text-center">Update Mentor</h1>
     <form action="{{ route('mentoren.update' , $Mentoren->UUID) }}" method="POST" class="max-w-md mx-auto" enctype="multipart/form-data">
         @csrf
@@ -76,7 +76,7 @@
             <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Update Mentoren</button>
         </div>
         <div>
-            <a href="{{ url('/mentoren') }}" class="text-blue-500 p-2">Back</a>
+            <a href="{{ url('/mentoren') }}" class="text-blue-500 p-2">Annuleren</a>
         </div>
     </form>
 </div>

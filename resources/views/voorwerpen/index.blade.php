@@ -34,9 +34,9 @@
 
 </div>
 
-<div class="w-3/4 mx-auto">
+<!-- <div class="w-3/4 mx-auto">
     {{ $Voorwerpen->links() }}
-</div>
+</div> -->
 
 <table class="w-3/4 mx-auto hidden md:block">
     <thead>
@@ -122,8 +122,6 @@
     @endforeach
 </div>
 
-<div class="w-3/4 mx-auto">
-    {{ $Voorwerpen->links() }}
-</div>
+
 
 @endsection
