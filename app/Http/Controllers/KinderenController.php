@@ -80,6 +80,15 @@ class KinderenController extends Controller
     }
 
     /**
+     * Show the form for scanning the specified resource.
+     */
+    public function scan(string $id)
+    {
+        $Kind = Kinderen::findOrFail($id);
+        return view('kinderen.scan', compact('Kind'));
+    }
+
+    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)

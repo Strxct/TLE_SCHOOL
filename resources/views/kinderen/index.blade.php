@@ -24,7 +24,7 @@
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <button class="bg-blue-500 w-full text-white text-sm py-1 px-2">
                     <a
-                        href="{{ route('kinderen.reserve', $Kind->UUID) }}"
+                        href="{{ route('kinderen.scan', $Kind->UUID) }}"
                         class="text-white">
                         Reserveer voor kind
                     </a>

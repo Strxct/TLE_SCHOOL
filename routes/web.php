@@ -56,6 +56,7 @@ Route::resource('voorwerpen', VoorwerpenController::class);
 
 // Route for the kinderen
 Route::resource('kinderen', KinderenController::class);
+Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
 
 
 Route::middleware(['auth'])->group(function () {
