@@ -75,15 +75,16 @@ class MentorenController extends Controller
         return view('mentoren.edit', compact('Mentoren'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $UUID)
     {
-        $mentor = Mentoren::findOrFail($id);
+        $mentor = Mentoren::findOrFail($UUID);
 
         $validated = $request->validate([
             'Voornaam' => 'required|string|max:255',
             'Achternaam' => 'required|string|max:255',
-            'Email' => 'required|string|email|max:255|unique:mentoren,Email,' . $mentor->id,
+            'Email' => 'required|string|email|max:255|unique:mentoren,Email,' . $mentor->UUID . ',UUID',
             'Wachtwoord' => 'nullable|string|min:8|confirmed',
+            'Admin' => 'required|boolean',
         ]);
 
         if ($request->filled('Wachtwoord')) {

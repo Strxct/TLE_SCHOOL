@@ -52,8 +52,8 @@
             <label for="Admin" class="block font-medium text-gray-700">Admin</label>
             {{-- <input type="tel" name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"> --}}
             <select name="Admin" id="Admin" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-                <option value="0">No</option>
-                <option value="1">Yes</option>
+                <option value="1" {{ $Mentoren->Admin == 1 ? 'selected' : '' }}>Ja</option>
+                <option value="0" {{ $Mentoren->Admin == 0 ? 'selected' : '' }} >Nee</option>
             </select>
             @error('Admin')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
