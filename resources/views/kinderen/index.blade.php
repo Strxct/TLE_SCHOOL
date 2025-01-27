@@ -24,12 +24,12 @@
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <a
                     href="{{ route('kinderen.scan', $Kind->UUID) }}"
-                    class="bg-blue-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
-                    Reserveer voor kind
+                    class="bg-green-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    Leen uit
                 </a>
                 <a
                     href="{{ route('kinderen.edit', $Kind->UUID) }}"
-                    class="bg-blue-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    class="bg-[#019AAC] w-full text-white text-center text-sm py-1 px-2 ml-2">
                     <i class="fas fa-edit"></i> Update
                 </a>
 

@@ -29,6 +29,29 @@ class VoorwerpenController extends Controller
         return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr'));
     }
 
+    public function getVoorwerp($uuid)
+    {
+
+        $response = [
+            'voorwerp' => null,
+            'foto' => null,
+        ];
+        $voorwerp = Voorwerpen::where('UUID', $uuid)->firstOrFail();
+        $response['voorwerp'] = $voorwerp;
+        if ($voorwerp->FotoUUID != null) {
+            $foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
+            $response['foto'] = $foto;
+        }
+
+        if ($voorwerp->CategorieUUID != null) {
+            $categorie = Categories::where('UUID', $voorwerp->CategorieUUID)->firstOrFail();
+            $response['categorie'] = $categorie;
+        }
+
+
+        return response()->json($response);
+    }
+
     public function create()
     {
         $Categories = Categories::all();
