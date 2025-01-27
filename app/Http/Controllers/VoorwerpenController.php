@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categories;
 use App\Models\Reserveringen;
+use App\Models\Foto;
 
 
 class VoorwerpenController extends Controller
@@ -17,8 +18,9 @@ class VoorwerpenController extends Controller
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
         $Voorwerpen = Voorwerpen::latest()->paginate(5);
+        $Foto = Foto::all();
         // return response()->json($voorwerpen);
-        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto'));
     }
 
     public function create()
@@ -44,15 +46,21 @@ class VoorwerpenController extends Controller
             'Beschrijving' => 'nullable|string',
             'Notities' => 'nullable|string',
             'QR' => 'required|string|max:255',
-            'Foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'Foto' => 'nullable|string|max:36',
             'leeftijd_van' => 'nullable|integer',
             'leeftijd_tot' => 'nullable|integer',
             'Actief' => 'required|boolean',
         ]);
 
-        if ($request->hasFile('Foto')) {
-            $filePath = $request->file('Foto')->store('voorwerpen', 'public');
-            $validated['Foto'] = $filePath;
+        if ($request->filled('Foto')) {
+            $fotoUUID = Str::uuid()->toString();
+
+            Foto::create([
+                'UUID' => $fotoUUID,
+                'Foto' => $request->input('Foto'),
+            ]);
+
+            $validated['FotoUUID'] = $fotoUUID;
         }
 
         $validated['UUID'] = Str::uuid()->toString();
@@ -68,7 +76,8 @@ class VoorwerpenController extends Controller
         $voorwerp = Voorwerpen::findOrFail($id);
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
-        return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen'));
+        $Foto = Foto::findOrFail($voorwerp->FotoUUID);
+        return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen', 'Foto'));
     }
 
     // Werk de gegevens van een specifiek voorwerp bij
@@ -80,11 +89,22 @@ class VoorwerpenController extends Controller
             'Beschrijving' => 'nullable|string',
             'Notities' => 'nullable|string',
             'QR' => 'required|string|max:255',
-            'Foto' => 'nullable|string|max:255',
+            'Foto' => 'nullable|string|max:36',
             'leeftijd_van' => 'nullable|integer',
             'leeftijd_tot' => 'nullable|integer',
             'Actief' => 'required|boolean',
         ]);
+
+        if ($request->filled('Foto')) {
+            $fotoUUID = Str::uuid()->toString();
+
+            Foto::create([
+                'UUID' => $fotoUUID,
+                'Foto' => $request->input('Foto'),
+            ]);
+
+            $validated['FotoUUID'] = $fotoUUID;
+        }
 
         dd($validated);
     

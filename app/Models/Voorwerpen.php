@@ -49,7 +49,7 @@ class Voorwerpen extends Model
         'Beschrijving',
         'Notities',
         'QR',
-        'Foto',
+        'FotoUUID',
         'Actief',
         'Aanmaakdatum',
     ];
@@ -79,5 +79,15 @@ class Voorwerpen extends Model
     public function categorie()
     {
         return $this->belongsTo(Categories::class, 'CategorieUUID', 'UUID');
+    }
+
+    /**
+     * Define the relationship with the Foto table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function foto()
+    {
+        return $this->belongsTo(Foto::class, 'FotoUUID', 'UUID');
     }
 }

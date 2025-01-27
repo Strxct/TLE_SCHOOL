@@ -141,19 +141,22 @@
 
             <!-- Button to Upload Photo -->
             <label
-                for="Foto"
+                for="ZoekFoto"
                 class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600"
             >
                 Zoek Foto
                 <input
                     type="file"
-                    name="Foto"
+                    name="ZoekFoto"
                     id="foto-input"
                     accept="image/*"
                     class="hidden"
                 />
             </label>
         </div>
+
+        <!-- Hidden input to store base64 string -->
+        <input type="hidden" name="Foto" id="foto-base64">
 
         <!-- Actief -->
         <div class="mb-4">
@@ -208,6 +211,7 @@
         const fileInput = document.getElementById("foto-input");
         const imagePreview = document.getElementById("image-preview");
         const capturePhotoButton = document.getElementById("capture-photo");
+        const fotoBase64Input = document.getElementById("foto-base64");
 
         let video = null;
         let canvas = null;
@@ -287,8 +291,27 @@
                                 );
 
                                 // Convert the image to a Data URL and update the preview
-                                const dataUrl = canvas.toDataURL();
-                                imagePreview.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
+
+                                const resizedCanvas = document.createElement("canvas");
+                                const resizedContext = resizedCanvas.getContext("2d");
+                                const maxWidth = 800; // Set the desired width
+                                const scaleSize = maxWidth / canvas.width;
+                                resizedCanvas.width = maxWidth;
+                                resizedCanvas.height = canvas.height * scaleSize;
+                                resizedContext.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+                                const compressedDataUrl = resizedCanvas.toDataURL("image/jpeg", 0.5); // 0.7 is the quality (0 to 1)
+
+                                console.log(compressedDataUrl);
+
+                                imagePreview.innerHTML = `<img src="${compressedDataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
+
+                                // Set the base64 string to the hidden input
+                                fotoBase64Input.value = compressedDataUrl;
+
+                                // const dataUrl = canvas.toDataURL();
+                                // console.log(dataUrl);
+                                // imagePreview.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
 
                                 // Stop the video stream after capture
                                 stream
