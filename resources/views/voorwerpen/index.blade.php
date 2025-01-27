@@ -5,7 +5,7 @@
     <a href="{{ route('voorwerpen.create') }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700">Voeg nieuw Voorwerp</a>
 </div>
 
-<div class=" left-0 w-full absolute bottom-0 lg:hidden block">
+<div class=" left-0 w-full fixed bottom-0  lg:hidden block">
     <div class="flex flex-row item-center justify-between">
         <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full border-r border-black text-white py-2 px-7">Voeg nieuw Voorwerp</a>
         <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retournen</a>
@@ -89,7 +89,7 @@
 
 
 <div class="w-full py-0.5 bg-[#C8304E]"></div>
-<div class=" overflow-y-scroll h-[400px]">
+<div class=" overflow-y-scroll h-[400px] block md:hidden">
     @foreach($Voorwerpen as $Voorwerp)
     <div class="  py-4 border-b border-black">
         <div class="flex flex-col ">

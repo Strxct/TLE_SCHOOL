@@ -2,7 +2,7 @@
 
 
 
-<div class="left-0 w-full absolute bottom-0 lg:hidden block">
+<div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
         <a
             href="{{ route('mentoren.create') }}"
@@ -52,7 +52,7 @@
         @endforeach
     </tbody>
 
-    <div class="">
+    <div class="lg:hidden block">
         @foreach($Mentoren as $Mentor)
         <div class="flex flex-col border-b border-black py-4 justify-between">
             <p class="px-4 py-2">{{ $Mentor["Voornaam"] }}</p>
