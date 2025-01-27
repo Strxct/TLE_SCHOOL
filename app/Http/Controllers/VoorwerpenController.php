@@ -40,8 +40,10 @@ class VoorwerpenController extends Controller
     {
         $voorwerp = Voorwerpen::findOrFail($id);
         $Categories = Categories::all();
-        $Foto = Foto::findOrFail($voorwerp->FotoUUID);
-        $QR = Qr::findOrFail($voorwerp->QRUUID);
+        // $Foto = Foto::findOrFail($voorwerp->FotoUUID);
+        // $QR = Qr::findOrFail($voorwerp->QRUUID);
+        $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
+        $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
         return view('voorwerpen.edit', compact('voorwerp', 'Categories', 'Foto', 'QR'));
     }
 
@@ -96,8 +98,9 @@ class VoorwerpenController extends Controller
         $voorwerp = Voorwerpen::findOrFail($id);
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
-        $Foto = Foto::findOrFail($voorwerp->FotoUUID);
-        return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen', 'Foto'));
+        $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
+        $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
+        return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen', 'Foto', 'QR'));
     }
 
     // Werk de gegevens van een specifiek voorwerp bij
@@ -114,7 +117,15 @@ class VoorwerpenController extends Controller
         $validated['leeftijd_van'] = intval($request->input('leeftijd_van'));
         $validated['leeftijd_tot'] = intval($request->input('leeftijd_tot'));
 
+        $voorwerp = Voorwerpen::findOrFail($id);
+
+        
+
+
         if ($request->filled('Foto')) {
+
+            Foto::where('UUID', $voorwerp->FotoUUID)->delete();
+
             $fotoUUID = Str::uuid()->toString();
 
             Foto::create([
@@ -125,7 +136,7 @@ class VoorwerpenController extends Controller
             $validated['FotoUUID'] = $fotoUUID;
         }
     
-        $voorwerp = Voorwerpen::findOrFail($id);
+
         $voorwerp->update($validated);
     
         return redirect('/voorwerpen')->with('msg', 'Voorwerp updated successfully');

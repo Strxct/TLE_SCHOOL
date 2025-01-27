@@ -158,8 +158,8 @@
         <div class="mb-4">
             <label for="Actief" class="block font-medium text-gray-700">Actief</label>
             <select name="Actief" id="Actief" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1">Ja</option>
+                <option value="0">Nee</option>
             </select>
             @error('Actief')
             <span class="text-red-500 text-sm">{{ $message }}</span>

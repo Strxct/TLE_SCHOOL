@@ -5,6 +5,7 @@
         method="POST"
         class="max-w-md mx-auto"
     >
+    @method('PUT')
         @csrf
 
         <!-- Naam -->
@@ -44,13 +45,31 @@
             @enderror
         </div>
 
+        <!-- Notitie -->
+        <div class="mb-4">
+            <label
+                for="Notities"
+                class="block font-medium text-gray-700 mb-2"
+                >Notitie</label
+            >
+            <textarea
+            {{-- {{dd($voorwerp)}} --}}
+                name="Notities"
+                id="Notities"
+                placeholder="Notitie"
+                class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"
+            >{{ $voorwerp->Notitie }}</textarea>
+            @error('Notitie')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div>
+
         <!-- CategorieUUID -->
         <div class="mb-4">
             <label for="CategorieUUID" class="block font-medium text-gray-700">Domein</label>
             <select name="CategorieUUID" id="CategorieUUID" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-                <option value="">Select Domein</option>
                 @foreach($Categories as $category)
-                    <option value="{{ $category->UUID }}" {{ $category->UUID == $voorwerp->categorieUUID ? 'selected' : '' }}>
+                    <option value="{{ $category->UUID }}" {{ $category->UUID == $voorwerp->categorie->UUID ? 'selected' : '' }}>
                         {{ $category->Naam }}
                     </option>
                 @endforeach
@@ -96,19 +115,10 @@
             @enderror
         </div>
 
-        <!-- Notities -->
-        <!-- <div class="mb-4">
-            <label for="Notities" class="block font-medium text-gray-700">Notities</label>
-            <textarea name="Notities" id="Notities" placeholder="Notities" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"></textarea>
-            @error('Notities')
-            <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div> -->
-
         <!-- QR -->
         <div class="mb-4">
             <label for="QR" class="block font-medium text-gray-700">QR</label>
-            <input type="text" name="QR" id="QR" placeholder="QR" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            <img src="{{ $voorwerp->qr->qr }}" alt="QR Code" class="h-1/10">
             @error('QR')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
@@ -121,8 +131,19 @@
             id="image-preview"
             class="mb-4 w-full h-64 bg-gray-200 flex-col flex items-center justify-center rounded-md overflow-hidden"
         >
-            <p class="text-gray-500">Geen foto geselecteerd</p>
+
+            @if (optional($voorwerp->Foto)->Foto)
+            <img
+                src="{{ optional($voorwerp->Foto)->Foto }}"
+                alt="Uploaded Image"
+                class="w-full h-full object-cover"
+            />
+            @else 
+                <p class="text-gray-500">Geen foto geselecteerd</p>
+            @endif
         </div>
+
+        <input type="hidden" name="Foto" id="foto-base64">
 
         <!-- Buttons for Actions -->
         <div class="flex gap-4 mb-4 w-full">
@@ -136,33 +157,17 @@
             </button>
 
             <!-- Button to Upload Photo -->
-            <label
-                for="foto-input"
-                class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600"
-            >
-                Zoek Foto
+
                 <input
                     type="file"
-                    name="Foto"
-                    id="Foto"
-                    {{-- value="{{ $voorwerp->Foto }}" --}}
+                    name="ZoekFoto"
+                    id="foto-input"
                     accept="image/*"
                     class="hidden"
                 />
-            </label>
+                <button type="button" id="select-photo" class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600" >Zoek Foto</button>
         </div>
 
-        <!-- Actief -->
-        <!-- <div class="mb-4">
-            <label for="Actief" class="block font-medium text-gray-700">Actief</label>
-            <select name="Actief" id="Actief" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
-            </select>
-            @error('Actief')
-            <span class="text-red-500 text-sm">{{ $message }}</span>
-            @enderror
-        </div> -->
 
         <!-- Aanmaakdatum -->
         {{--
@@ -183,12 +188,24 @@
         </div>
         --}}
 
+        <!-- Actief -->
+        <div class="mb-4">
+            <label for="Actief" class="block font-medium text-gray-700">Actief</label>
+            <select name="Actief" id="Actief" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+                <option value="1" {{ $voorwerp->Actief == 1 ? 'selected' : '' }}>Ja</option>
+                <option value="0" {{ $voorwerp->Actief == 0 ? 'selected' : '' }} >Nee</option>
+            </select>
+            @error('Actief')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
+        </div> 
+
         <div class="mb-4 w-full">
             <button
                 type="submit"
                 class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center"
             >
-                Maak aan
+                Update
             </button>
         </div>
         <a
@@ -205,6 +222,8 @@
         const fileInput = document.getElementById("foto-input");
         const imagePreview = document.getElementById("image-preview");
         const capturePhotoButton = document.getElementById("capture-photo");
+        const fotoBase64Input = document.getElementById("foto-base64");
+        const selectPhotoButton = document.getElementById("select-photo");
 
         let video = null;
         let canvas = null;
@@ -212,19 +231,52 @@
 
         if (fileInput && imagePreview && capturePhotoButton) {
             // Display selected image
+            // fileInput.addEventListener("change", (event) => {
+            //     const file = event.target.files[0];
+            //     if (file) {
+            //         const reader = new FileReader();
+            //         reader.onload = (e) => {
+            //             imagePreview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Selected Image">`;
+            //         };
+            //         reader.readAsDataURL(file);
+            //     }
+            // });
+
             fileInput.addEventListener("change", (event) => {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        imagePreview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Selected Image">`;
+                        canvas = document.createElement("canvas");
+                        context = canvas.getContext("2d");
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = () => {
+                            // Set canvas dimensions to the image dimensions
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            // Draw the image on the canvas
+                            context.drawImage(img, 0, 0, img.width, img.height);
+                            // Compress the image and get the Base64 string
+                            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5); // Adjust the quality as needed
+                            // Set the Base64 string to the hidden input
+                            fotoBase64Input.value = compressedBase64;
+                            // Display the compressed image
+                            imagePreview.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover" alt="Selected Image">`;
+                            fileInput.value = null; // Clear the input to allow selecting the same file again
+                        };
                     };
                     reader.readAsDataURL(file);
                 }
             });
 
+            selectPhotoButton.addEventListener("click", () => {
+            fileInput.click();
+        });
+
             // Open camera for capturing photo
-            capturePhotoButton.addEventListener("click", () => {
+            capturePhotoButton.addEventListener("click", (event) => {
+                event.preventDefault();
                 // Check if getUserMedia is supported (for desktop browsers)
                 if (
                     navigator.mediaDevices &&
@@ -269,7 +321,8 @@
                             imagePreview.appendChild(captureButton);
 
                             // Capture the photo when "Capture" button is clicked
-                            captureButton.addEventListener("click", () => {
+                            captureButton.addEventListener("click", (event) =>  {
+                                event.preventDefault()
                                 // Set canvas size to match video size
                                 canvas.width = video.videoWidth;
                                 canvas.height = video.videoHeight;
@@ -284,8 +337,25 @@
                                 );
 
                                 // Convert the image to a Data URL and update the preview
-                                const dataUrl = canvas.toDataURL();
-                                imagePreview.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
+
+                                const resizedCanvas = document.createElement("canvas");
+                                const resizedContext = resizedCanvas.getContext("2d");
+                                const maxWidth = 800; // Set the desired width
+                                const scaleSize = maxWidth / canvas.width;
+                                resizedCanvas.width = maxWidth;
+                                resizedCanvas.height = canvas.height * scaleSize;
+                                resizedContext.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+
+                                const compressedDataUrl = resizedCanvas.toDataURL("image/jpeg", 0.5); // 0.7 is the quality (0 to 1)
+
+                                imagePreview.innerHTML = `<img src="${compressedDataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
+
+                                // Set the base64 string to the hidden input
+                                fotoBase64Input.value = compressedDataUrl;
+
+                                // const dataUrl = canvas.toDataURL();
+                                // console.log(dataUrl);
+                                // imagePreview.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
 
                                 // Stop the video stream after capture
                                 stream
