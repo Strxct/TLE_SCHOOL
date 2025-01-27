@@ -22,20 +22,16 @@
         <tr class=" flex  flex-col justify-between ">
             <div class=" px-4 py-2">{{ $Kind['Voornaam'] }}</div>
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
-                <button class="bg-blue-500 w-full text-white text-sm py-1 px-2">
-                    <a
-                        href="{{ route('kinderen.scan', $Kind->UUID) }}"
-                        class="text-white">
-                        Reserveer voor kind
-                    </a>
-                </button>
-                <button class="bg-blue-500 w-full text-white text-sm py-1 px-2">
-                    <a
-                        href="{{ route('kinderen.edit', $Kind->UUID) }}"
-                        class="text-white">
-                        <i class="fas fa-edit"></i> Update
-                    </a>
-                </button>
+                <a
+                    href="{{ route('kinderen.scan', $Kind->UUID) }}"
+                    class="bg-blue-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    Reserveer voor kind
+                </a>
+                <a
+                    href="{{ route('kinderen.edit', $Kind->UUID) }}"
+                    class="bg-blue-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    <i class="fas fa-edit"></i> Update
+                </a>
 
                 <form
                     action="{{ url('/kinderen/' . $Kind->UUID) }}"
@@ -43,7 +39,7 @@
                     class="inline">
                     @csrf @method('DELETE')
                     <button
-                        class="bg-red-500 w-full text-white text-sm py-1 px-2"
+                        class="bg-red-500 w-full text-white text-sm py-1 px-2 ml-2"	
                         type="submit">
                         <i class="fas fa-trash"></i> verwijderen
                     </button>

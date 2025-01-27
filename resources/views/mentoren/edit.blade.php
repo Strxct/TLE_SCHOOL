@@ -41,7 +41,7 @@
          <!-- wachtwoord -->
         <div class="mb-4">
             <label for="price" class="block font-medium text-gray-700">Wachtwoord</label>
-            <input type="text" name="wachtwoord" id="wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
+            <input type="text" name="Wachtwoord" id="Wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
             @error('wachtwoord')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror

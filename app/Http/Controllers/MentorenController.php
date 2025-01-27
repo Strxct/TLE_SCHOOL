@@ -83,7 +83,7 @@ class MentorenController extends Controller
             'Voornaam' => 'required|string|max:255',
             'Achternaam' => 'required|string|max:255',
             'Email' => 'required|string|email|max:255|unique:mentoren,Email,' . $mentor->UUID . ',UUID',
-            'Wachtwoord' => 'nullable|string|min:8|confirmed',
+            'Wachtwoord' => 'nullable|string|min:8',
             'Admin' => 'required|boolean',
         ]);
 
