@@ -78,7 +78,7 @@
                 placeholder="Leeftijd"
                 class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2"
             />
-            @error('QR')
+            @error('leeftijd_van')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
@@ -110,13 +110,13 @@
         </div> -->
 
         <!-- QR -->
-        <div class="mb-4">
+        {{-- <div class="mb-4">
             <label for="QR" class="block font-medium text-gray-700">QR</label>
             <input type="text" name="QR" id="QR" placeholder="QR" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
             @error('QR')
             <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
-        </div> 
+        </div>  --}}
 
         <!-- Foto -->
 
@@ -140,11 +140,7 @@
             </button>
 
             <!-- Button to Upload Photo -->
-            <label
-                for="ZoekFoto"
-                class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600"
-            >
-                Zoek Foto
+
                 <input
                     type="file"
                     name="ZoekFoto"
@@ -152,7 +148,7 @@
                     accept="image/*"
                     class="hidden"
                 />
-            </label>
+                <button type="button" id="select-photo" class="bg-[#019AAC] text-white px-4 w-full text-center py-2 rounded shadow cursor-pointer hover:bg-gray-600" >Zoek Foto</button>
         </div>
 
         <!-- Hidden input to store base64 string -->
@@ -212,6 +208,7 @@
         const imagePreview = document.getElementById("image-preview");
         const capturePhotoButton = document.getElementById("capture-photo");
         const fotoBase64Input = document.getElementById("foto-base64");
+        const selectPhotoButton = document.getElementById("select-photo");
 
         let video = null;
         let canvas = null;
@@ -219,19 +216,52 @@
 
         if (fileInput && imagePreview && capturePhotoButton) {
             // Display selected image
+            // fileInput.addEventListener("change", (event) => {
+            //     const file = event.target.files[0];
+            //     if (file) {
+            //         const reader = new FileReader();
+            //         reader.onload = (e) => {
+            //             imagePreview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Selected Image">`;
+            //         };
+            //         reader.readAsDataURL(file);
+            //     }
+            // });
+
             fileInput.addEventListener("change", (event) => {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = (e) => {
-                        imagePreview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover" alt="Selected Image">`;
+                        canvas = document.createElement("canvas");
+                        context = canvas.getContext("2d");
+                        const img = new Image();
+                        img.src = e.target.result;
+                        img.onload = () => {
+                            // Set canvas dimensions to the image dimensions
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            // Draw the image on the canvas
+                            context.drawImage(img, 0, 0, img.width, img.height);
+                            // Compress the image and get the Base64 string
+                            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5); // Adjust the quality as needed
+                            // Set the Base64 string to the hidden input
+                            fotoBase64Input.value = compressedBase64;
+                            // Display the compressed image
+                            imagePreview.innerHTML = `<img src="${compressedBase64}" class="w-full h-full object-cover" alt="Selected Image">`;
+                            fileInput.value = null; // Clear the input to allow selecting the same file again
+                        };
                     };
                     reader.readAsDataURL(file);
                 }
             });
 
+            selectPhotoButton.addEventListener("click", () => {
+            fileInput.click();
+        });
+
             // Open camera for capturing photo
-            capturePhotoButton.addEventListener("click", () => {
+            capturePhotoButton.addEventListener("click", (event) => {
+                event.preventDefault();
                 // Check if getUserMedia is supported (for desktop browsers)
                 if (
                     navigator.mediaDevices &&
@@ -276,7 +306,8 @@
                             imagePreview.appendChild(captureButton);
 
                             // Capture the photo when "Capture" button is clicked
-                            captureButton.addEventListener("click", () => {
+                            captureButton.addEventListener("click", (event) =>  {
+                                event.preventDefault()
                                 // Set canvas size to match video size
                                 canvas.width = video.videoWidth;
                                 canvas.height = video.videoHeight;
@@ -301,8 +332,6 @@
                                 resizedContext.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
 
                                 const compressedDataUrl = resizedCanvas.toDataURL("image/jpeg", 0.5); // 0.7 is the quality (0 to 1)
-
-                                console.log(compressedDataUrl);
 
                                 imagePreview.innerHTML = `<img src="${compressedDataUrl}" class="w-full h-full object-cover" alt="Captured Image">`;
 

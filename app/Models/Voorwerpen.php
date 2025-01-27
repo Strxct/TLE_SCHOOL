@@ -48,10 +48,12 @@ class Voorwerpen extends Model
         'Naam',
         'Beschrijving',
         'Notities',
-        'QR',
+        'QRUUID',
         'FotoUUID',
         'Actief',
         'Aanmaakdatum',
+        'leeftijd_van',
+        'leeftijd_tot'
     ];
 
     /**
@@ -89,5 +91,15 @@ class Voorwerpen extends Model
     public function foto()
     {
         return $this->belongsTo(Foto::class, 'FotoUUID', 'UUID');
+    }
+
+    /**
+     * Define the relationship with the QR table.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function qr()
+    {
+        return $this->belongsTo(QR::class, 'QRUUID', 'UUID');
     }
 }

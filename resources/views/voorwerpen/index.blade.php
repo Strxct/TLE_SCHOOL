@@ -59,7 +59,7 @@
             <td class="border px-4 py-2">{{ optional($Voorwerp->categorie)->Naam }}</td>
             <td class="border px-4 py-2">{{ $Voorwerp->Beschrijving }}</td>
             <td class="border px-4 py-2">{{ $Voorwerp->Notities }}</td>
-            <td class="border px-4 py-2">{{ $Voorwerp->QR }}</td>
+            <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->qr)->qr }}" alt="qrcode"></td>
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto"></td>
             <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Yes' : 'No' }}</td>
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
