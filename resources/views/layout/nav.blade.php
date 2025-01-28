@@ -38,7 +38,7 @@
             <a href="{{ route('mentoren.index') }}" class="block py-2 text-gray-900 hover:text-blue-700">Mentor</a>
           </li>
           <li>
-            <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:text-blue-700">Items</a>
+            <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:text-blue-700">Voorwerpen</a>
           </li>
           @auth
           <li>
@@ -65,7 +65,7 @@
             <a href="{{ route('mentoren.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Mentor</a>
           </li>
           <li>
-            <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Items</a>
+            <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Voorwerpen</a>
           </li>
           @auth
           <li>

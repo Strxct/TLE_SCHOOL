@@ -24,7 +24,7 @@
 </div>
 
 <!-- Modal -->
-{{-- <div id="reserveer-modal" class="fixed z-40  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
+{{-- <div id="reserveer-modal" class="fixed z-50  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
     <div class="relative p-5 border w-1/3 shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">
             <p><strong>Naam:</strong> <span id="modal-voorwerp-naam"></span></p>
