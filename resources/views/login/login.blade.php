@@ -1,6 +1,6 @@
 @extends('layout.base')
 @section('content')
-<div class="w-1/3 mx-auto mt-5">
+<div class="lg:w-1/3 mx-auto mt-5">
     <h1 class="text-center">Mentor Login</h1>
     <form action="{{ route('login') }}" method="POST" class="max-w-md mx-auto">
         @csrf

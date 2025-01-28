@@ -1,6 +1,6 @@
 @extends('layout.base')
 @section('content')
-<div class="w-1/2 mx-auto mt-5">
+<div class="lg:w-1/2 mx-auto mt-5">
     <h1 class="text-center">Voeg en nieuw kind toe</h1>
     <form action="{{ route('kinderen.store') }}" method="POST" class="max-w-md mx-auto">
         @csrf
