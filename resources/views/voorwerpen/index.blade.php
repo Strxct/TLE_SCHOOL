@@ -34,6 +34,18 @@
 
 </div>
 
+<!-- Modal -->
+{{-- <div id="reserveer-modal" class="fixed z-40  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
+    <div class="relative p-5 border w-1/3 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <p><strong>Naam:</strong> <span id="modal-voorwerp-naam"></span></p>
+            <img id="modal-voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover mx-auto rounded-lg">
+            <a id="reserveer-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4">Reserveer</a>
+            <button id="close-modal-btn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 mt-4">Close</button>
+        </div>
+    </div>
+</div> --}}
+
 <!-- <div class="w-3/4 mx-auto">
     {{ $Voorwerpen->links() }}
 </div> -->
@@ -72,6 +84,9 @@
                             <i class="fas fa-edit"></i> Update
                         </a>
                     </button>
+                    {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
+                        <i class="fas fa-edit"></i> Reserveer
+                    </button> --}}
 
                     <form action="{{ route('voorwerpen.destroy', $Voorwerp->UUID) }}" method="post" class="inline">
                         @csrf
@@ -122,6 +137,21 @@
     @endforeach
 </div>
 
+{{-- <script>
+    function showReserveerModal(uuid, naam, foto) {
+        document.getElementById('modal-voorwerp-naam').innerText = naam;
+        document.getElementById('modal-voorwerp-foto').src = foto;
+        document.getElementById('reserveer-modal').style.display = 'flex';
+        console.log({{ $Session->mentor_uuid }});
+        let mentorUUID = "{{ $Session->mentor_uuid }}";
+        let reserveerBtn = document.getElementById('reserveer-btn');
+        reserveerBtn.href = "{{ route('reserveringen.store', ['MentorUUID' => '" + mentorUUID + "', 'VoorwerpUUID' => '" + uuid + "']) }}"
+    }
+
+    document.getElementById('close-modal-btn').addEventListener('click', function() {
+        document.getElementById('reserveer-modal').style.display = 'none';
+    });
+</script> --}}
 
 
 @endsection

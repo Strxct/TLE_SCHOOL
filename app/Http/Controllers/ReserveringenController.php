@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reserveringen;  // Import the Reserveringen model
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class ReserveringenController extends Controller
 {

@@ -23,6 +23,10 @@ class MentorenController extends Controller
 
         if (Auth::attempt(['Email' => $credentials['email'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
+            $mentor = Auth::user();
+            $request->session()->put('mentor_uuid', $mentor->UUID);
+            $request->session()->put('mentor_name', $mentor->Voornaam);
+            $request->session()->put('mentor_admin', $mentor->Admin);
             return redirect()->intended('/voorwerpen'); // Change this to your intended route
         }
 
@@ -44,7 +48,8 @@ class MentorenController extends Controller
     public function index()
     {
         $Mentoren = Mentoren::latest()->paginate(5);
-        return view('mentoren.index', compact('Mentoren'));
+        $Session = auth()->user();
+        return view('mentoren.index', compact('Mentoren', 'Session'));
     }
 
     public function create()
