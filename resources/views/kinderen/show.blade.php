@@ -75,7 +75,7 @@
     </table>
 
     <div class="  pt-10">
-      <a href="{{ url('/kinderen') }}" class="bg-blue-400  p-3 border-rounded w-full">Ga terug</a>
+      <a href="{{ url('/kinderen') }}" class="bg-blue-400  p-3 border-rounded-lg text-white w-full">Ga terug</a>
     </div>
   </div>
 
