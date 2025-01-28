@@ -66,7 +66,8 @@ class KinderenController extends Controller
     public function show(string $id)
     {
         $Kind = Kinderen::findOrFail($id);
-        $Uitgeleend = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->all();
+        $Uitgeleend = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->get();
+
         return view('kinderen.show', compact('Kind', 'Uitgeleend'));
     }
 
