@@ -52,6 +52,12 @@ class VoorwerpenController extends Controller
         return response()->json($response);
     }
 
+    public function scan()
+    {
+        
+        return view('voorwerpen.scan');
+    }
+
     public function create()
     {
         $Categories = Categories::all();

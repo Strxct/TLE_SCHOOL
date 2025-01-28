@@ -53,6 +53,7 @@ Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
 Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
 
 // Routes for Voorwerpen
+Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
 Route::resource('voorwerpen', VoorwerpenController::class);
 
 // Route for the kinderen

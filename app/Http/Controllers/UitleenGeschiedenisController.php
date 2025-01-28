@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Uitleengeschiedenis;  // Import the Uitleengeschiedenis model
+use App\Models\Voorwerpen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,35 @@ class UitleengeschiedenisController extends Controller
     {
         $uitleengeschiedenissen = Uitleengeschiedenis::all();
         return response()->json($uitleengeschiedenissen);
+    }
+
+    // stuur een voorwerp dat is uitgeleend
+    public function getUitgeleend($uuid)
+    {
+        $uitleengeschiedenissen = Uitleengeschiedenis::where('VoorwerpUUID', $uuid)->where('Uitgeleend', 1)->first();
+        return response()->json($uitleengeschiedenissen);
+    }
+    // retourneer een voorwerp dat is uitgeleend
+    public function retourUitgeleend(Request $request)
+    {
+        $validated = $request->validate([
+            'VoorwerpUUID' => 'required|exists:voorwerpen,UUID',
+            'Notitie' => 'nullable|string',
+        ]);
+
+        if ($validated['Notitie'] !== null) {
+            $Voorwerp = Voorwerpen::where('UUID', $validated['VoorwerpUUID'])->first();
+            $Voorwerp->update(['Notitie' => $validated['Notitie']]);
+        }
+
+        $uitleengeschiedenissen = Uitleengeschiedenis::where('VoorwerpUUID', $validated['VoorwerpUUID'])->where('Uitgeleend', 1)->first();
+        if (!$uitleengeschiedenissen) {
+            return redirect('/voorwerpen')->with('msg', 'Voorwerp is niet uitgeleend');
+        }
+
+        $uitleengeschiedenissen->update(['Uitgeleend' => 0]);
+        // return response()->json($uitleengeschiedenissen);
+        return redirect('/voorwerpen')->with('msg', 'Voorwerp is teruggebracht');
     }
 
     // Sla een nieuwe uitleengeschiedenis op in de database

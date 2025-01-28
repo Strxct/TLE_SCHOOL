@@ -6,9 +6,6 @@ use App\Models\Categories;  // Import the Categories model
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-
-require 'UUID.php';
-
 class CategoriesController extends Controller
 {
     // Toon een lijst van alle categorieën
