@@ -32,7 +32,7 @@
     </div>
 </div> --}}
 <div class="flex flex-row gap-x-4 items-center">
-    <button class="bg-[#019AAC] text-white py-1 px-2 rounded">
+    <button class="bg-[#019AAC] lg:block hidden text-white py-1 px-2 rounded">
         <a href="{{ route('voorwerpen.scan') }}" class="text-white">
             <i class="fas fa-edit"></i> Retourneren
         </a>
@@ -65,17 +65,17 @@
             <td class="border px-4 py-2">{{ $Voorwerp->Notities }}</td>
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->qr)->qr }}" alt="qrcode"></td>
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto"></td>
-            <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Yes' : 'No' }}</td>
+            <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Ja' : 'Nee' }}</td>
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
-                    <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white bg-green-500 text-white py-1 px-2 rounded" >
+                    <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white bg-green-500 text-white py-1 px-2 rounded">
                         <i class="fas fa-edit"></i> Details
                     </a>
                     @if (session('mentor_admin') == 1)
-                        <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white bg-[#019AAC] text-white py-1 px-2 rounded" >
-                            <i class="fas fa-edit"></i> Update
-                        </a>
+                    <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white bg-[#019AAC] text-white py-1 px-2 rounded">
+                        <i class="fas fa-edit"></i> Update
+                    </a>
 
                     {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
                     <i class="fas fa-edit"></i> Reserveer
@@ -105,10 +105,10 @@
         </div>
         @if (session('mentor_admin') == 1)
         <div class="border">
-            <div class="flex w-full flex-row gap-y-4 lg:gap-y-0">
-                    <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white text-center bg-blue-500 w-full text-white py-1 px-2" >
-                        <i class="fas fa-edit"></i> Update
-                    </a>
+            <div class="flex w-full flex-row gap-y-4 gap-x-4 lg:gap-y-0">
+                <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white text-center bg-[#019AAC] w-full text-white py-1 px-2">
+                    <i class="fas fa-edit"></i> Update
+                </a>
                 <button
                     class="bg-red-500 text-white w-full py-1 px-2 open-modal"
                     data-voorwerp-name="{{ $Voorwerp->Naam }}"
