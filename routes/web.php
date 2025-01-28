@@ -37,7 +37,7 @@ Route::get('/', function () {
 
 
 // Routes for Categories
-Route::resource('categories', CategoriesController::class);
+// Route::resource('categories', CategoriesController::class);
 
 // Routes for Mentoren
 Route::resource('mentoren', MentorenController::class);
@@ -46,27 +46,34 @@ Route::post('/login', [MentorenController::class, 'login']);
 Route::post('/logout', [MentorenController::class, 'logout'])->name('logout');
 
 // Routes for Reserveringen
-Route::resource('reserveringen', ReserveringenController::class);
+// Route::resource('reserveringen', ReserveringenController::class);
 
 // Routes for Uitleengeschiedenis
-Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
-Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
-Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
+// Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
+// Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
+// Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
 
 // Routes for Voorwerpen
-Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
-Route::resource('voorwerpen', VoorwerpenController::class);
+// Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
+// Route::resource('voorwerpen', VoorwerpenController::class);
 
 // Route for the kinderen
-Route::resource('kinderen', KinderenController::class);
-Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
+// Route::resource('kinderen', KinderenController::class);
+// Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
 
 
 Route::middleware(['auth'])->group(function () {
-    // Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
-    // Route::resource('voorwerpen', VoorwerpenController::class);
-    // Route::get('/kinderen', [KinderenController::class, 'index'])->name('kinderen');
-    // Route::resource('kinderen', KinderenController::class);
-    // Route::get('/mentoren', [MentorenController::class, 'index'])->name('mentoren');
-    // Route::resource('mentoren', MentorenController::class);
+    Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
+    Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
+    Route::resource('voorwerpen', VoorwerpenController::class);
+    Route::resource('reserveringen', ReserveringenController::class);
+    Route::get('/kinderen', [KinderenController::class, 'index'])->name('kinderen');
+    Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
+    Route::resource('kinderen', KinderenController::class);
+    Route::get('/mentoren', [MentorenController::class, 'index'])->name('mentoren');
+    Route::resource('mentoren', MentorenController::class);
+    Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
+    Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
+    Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
+    Route::resource('reserveringen', ReserveringenController::class);
 });

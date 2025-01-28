@@ -52,12 +52,22 @@
             <a href="{{ route('login') }}" class="block py-2 text-gray-900 hover:text-blue-700">Login</a>
           </li>
           @endauth
+          @if(session('mentor_name'))
+          <li>
+            <span class="block py-2 text-gray-900">{{ session('mentor_name') }}</span>
+          </li>
+          @endif
         </ul>
       </div>
 
       <!-- Mobile Navbar -->
       <div id="mobile-navbar" class="hidden md:hidden w-full bg-gray-50 absolute top-16 left-0">
         <ul class="flex flex-col font-medium p-4 space-y-2 text-black">
+          @if(session('mentor_name'))
+          <li>
+            <span class="block py-2 text-gray-900">Welcome, {{ session('mentor_name') }}</span>
+          </li>
+          @endif
           <li>
             <a href="{{ route('kinderen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Kinderen</a>
           </li>
@@ -71,7 +81,7 @@
           <li>
             <form action="{{ route('logout') }}" method="POST">
               @csrf
-              <button type="submit" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Logout</button>
+              <button type="submit" class="block py-2 text-gray-900 hover:bg-gray-200 rounded w-full text-left">Logout</button>
             </form>
           </li>
           @else

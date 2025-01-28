@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use App\Models\Categories;
 use App\Models\Reserveringen;
 use App\Models\Foto;
-// use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use chillerlan\QRCode\{QRCode, QROptions};  
 use chillerlan\QRCode\Output\{QROutputInterface};
 use App\Models\Qr;
@@ -25,7 +24,6 @@ class VoorwerpenController extends Controller
         $Voorwerpen = Voorwerpen::latest()->paginate(5);
         $Qr = Qr::all();
         $Foto = Foto::all();
-        // return response()->json($voorwerpen);
         return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr'));
     }
 
