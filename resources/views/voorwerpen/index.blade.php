@@ -8,7 +8,7 @@
 <div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
         <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full border-r border-black text-white py-2 px-7">Nieuw Voorwerp</a>
-        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retournen</a>
+        <a href="{{ route('voorwerpen.scan') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retournen</a>
     </div>
 </div>
 
