@@ -24,7 +24,7 @@
         <div class="mb-2">
             <img id="voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover rounded-lg">
         </div>
-        <div class="flex flex-row justify-center">
+        <div class="flex flex-row gap-x-4 justify-center">
         <button id="scan-again-btn" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-blue-700 mt-4 ml-5" style="display: none;">Scan opnieuw</button>
         <form id="leen-uit-form" action="{{ route('uitleengeschiedenis.store') }}" method="POST">
             @method('POST')
