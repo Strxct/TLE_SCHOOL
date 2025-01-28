@@ -1,5 +1,6 @@
 @extends('layout.base') @section('content')
 
+@if (session('mentor_admin') == 1)
 <div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
         <a
@@ -10,8 +11,10 @@
         </a>
     </div>
 </div>
+@endif
 
 
+@if (session('mentor_admin') == 1)
 <div class="left-0 w-full fixed bottom-0 lg:block hidden">
     <div class="flex flex-row item-center justify-between">
         <a
@@ -22,6 +25,7 @@
         </a>
     </div>
 </div>
+@endif
 
 <table class="w-3/4 mx-auto">
     <div class="w-3/4 mx-auto">

@@ -65,7 +65,7 @@
         <ul class="flex flex-col font-medium p-4 space-y-2 text-black">
           @if(session('mentor_name'))
           <li>
-            <span class="block py-2 text-gray-900">Welcome, {{ session('mentor_name') }}</span>
+            <span class="block py-2 text-gray-900">Welkom, {{ session('mentor_name') }}</span>
           </li>
           @endif
           <li>

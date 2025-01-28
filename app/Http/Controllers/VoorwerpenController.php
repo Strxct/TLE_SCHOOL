@@ -189,6 +189,7 @@ class VoorwerpenController extends Controller
     {
         if(session('mentor_admin') == 1) {
             $voorwerp = Voorwerpen::findOrFail($id);
+            Uitleengeschiedenis::where('VoorwerpUUID', $id)->delete();
             $voorwerp->delete();
         
             return back()->with('msg', 'Voorwerp deleted successfully');
