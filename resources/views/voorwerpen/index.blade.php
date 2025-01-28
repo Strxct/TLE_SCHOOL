@@ -52,6 +52,7 @@
             <th class="px-4 py-2">QR</th>
             <th class="px-4 py-2">Foto</th>
             <th class="px-4 py-2">Actief</th>
+            <th class="px-4 py-2">Uitleendatum</th> <!-- New Column -->
             <th class="px-4 py-2">Aanmaakdatum</th>
             <th class="px-4 py-2">Actions</th>
         </tr>
@@ -66,6 +67,13 @@
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->qr)->qr }}" alt="qrcode"></td>
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto"></td>
             <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Ja' : 'Nee' }}</td>
+            <td class="border px-4 py-2">
+                @if($Voorwerp->Uitgeleend)
+                {{ $Voorwerp->Uitleendatum }}
+                @else
+                -
+                @endif
+            </td>
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
@@ -76,10 +84,6 @@
                     <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white bg-[#019AAC] text-white py-1 px-2 rounded">
                         <i class="fas fa-edit"></i> Update
                     </a>
-
-                    {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
-                    <i class="fas fa-edit"></i> Reserveer
-                    </button> --}}
                     <button
                         class="bg-red-500 text-white py-1 px-2 rounded open-modal"
                         data-voorwerp-name="{{ $Voorwerp->Naam }}"
@@ -93,6 +97,7 @@
         @endforeach
     </tbody>
 </table>
+
 
 <div class="w-full py-0.5 bg-[#C8304E]"></div>
 <div class="overflow-y-scroll h-[400px] block md:hidden">
