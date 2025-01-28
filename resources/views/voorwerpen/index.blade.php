@@ -35,7 +35,7 @@
     </div>
 </div> --}}
 
-<table class="w-3/4 mx-auto hidden md:block">
+<table class="lg:w-3/4 overflow-x-auto mx-auto hidden md:block">
     <thead>
         <tr>
             <th class="px-4 py-2">Naam</th>
@@ -65,6 +65,11 @@
                     <button class="bg-blue-500 text-white py-1 px-2 rounded">
                         <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white">
                             <i class="fas fa-edit"></i> Update
+                        </a>
+                    </button>
+                    <button class="bg-blue-500 text-white py-1 px-2 rounded">
+                        <a href="{{ route('voorwerpen.scan', $Voorwerp->UUID) }}" class="text-white">
+                            <i class="fas fa-edit"></i> Retourneren
                         </a>
                     </button>
                     {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
