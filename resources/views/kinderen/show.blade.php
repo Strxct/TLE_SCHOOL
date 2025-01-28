@@ -68,14 +68,14 @@
           <td class="px-4 py-2">{{ $voorwerp->Beschrijving }}</td>
           <td class="px-4 py-2">{{ $voorwerp->leeftijd_van }} - {{ $voorwerp->leeftijd_tot }}</td>
           <td class="px-4 py-2">{{ $uitgeleendStatus }}</td>
-          <td class="px-4 py-2">{{ $uitgeleendItem ? $uitgeleendItem->Uitleendatum : '-' }}</td>
+          <td class="px-4 py-2">{{ $uitgeleendItem && $uitgeleendItem->Uitgeleend === 1 ? $uitgeleendItem->Uitleendatum : '-' }}</td>
         </tr>
         @endforeach
       </tbody>
     </table>
 
     <div class="  pt-10">
-      <a href="{{ url('/kinderen') }}" class="bg-blue-400  p-3 border-rounded-lg text-white w-full">Ga terug</a>
+      <a href="{{ url('/kinderen') }}" class="bg-red-400 p-3 border-rounded-lg text-white w-full">Ga terug</a>
     </div>
   </div>
 
