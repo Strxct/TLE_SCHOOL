@@ -6,6 +6,7 @@ use App\Models\Kinderen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Mentoren;
+use App\Models\Voorwerpen;
 
 class KinderenController extends Controller
 {
@@ -67,8 +68,12 @@ class KinderenController extends Controller
     {
         $Kind = Kinderen::findOrFail($id);
         $Uitgeleend = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->get();
+        $Voorwerpen = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->with('voorwerp')->get()->pluck('voorwerp');
+        // $Voorwerpen = Voorwerpen::all();
 
-        return view('kinderen.show', compact('Kind', 'Uitgeleend'));
+        // dd($Uitgeleend);
+
+        return view('kinderen.show', compact('Kind', 'Uitgeleend', 'Voorwerpen'));
     }
 
     /**
