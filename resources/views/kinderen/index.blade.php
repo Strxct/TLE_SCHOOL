@@ -17,8 +17,9 @@
     <tbody>
         @foreach($Kinderen as $Kind)
         <tr class="flex flex-col justify-between">
-            <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white">
+            <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white flex flex-row gap-x-2">
                 <div class="px-4 py-2 text-black">{{ $Kind['Voornaam'] }}</div>
+                <div class="px-4 py-2 text-black">{{ $Kind['Achternaam'] }}</div>
             </a>
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <a
@@ -69,7 +70,7 @@
             button.addEventListener('click', () => {
                 const kindName = button.getAttribute('data-kind-name');
                 const kindId = button.getAttribute('data-kind-id');
-                
+
                 modalMessage.textContent = `Weet je zeker dat je ${kindName} wilt verwijderen?`;
                 deleteForm.action = `/kinderen/${kindId}`;
                 modal.classList.remove('hidden');
