@@ -68,7 +68,7 @@
           <td class="px-4 py-2">{{ $voorwerp->Beschrijving }}</td>
           <td class="px-4 py-2">{{ $voorwerp->leeftijd_van }} - {{ $voorwerp->leeftijd_tot }}</td>
           <td class="px-4 py-2">{{ $uitgeleendStatus }}</td>
-          <td class="px-4 py-2">{{ $uitgeleendItem && $uitgeleendItem->Uitgeleend === 1 ? $uitgeleendItem->Uitleendatum : '-' }}</td>
+          <td class="px-4 py-2">{{ $uitgeleendItem ? $uitgeleendItem->Uitleendatum : '-' }}</td>
         </tr>
         @endforeach
       </tbody>
