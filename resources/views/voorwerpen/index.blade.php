@@ -52,13 +52,21 @@
             <th class="px-4 py-2">QR</th>
             <th class="px-4 py-2">Foto</th>
             <th class="px-4 py-2">Actief</th>
-            <th class="px-4 py-2">Uitleendatum</th> <!-- New Column -->
+            <th class="px-4 py-2">Uitleendatum</th>
+            <th class="px-4 py-2">Uitgeleend Aan</th> <!-- New Column -->
             <th class="px-4 py-2">Aanmaakdatum</th>
             <th class="px-4 py-2">Actions</th>
         </tr>
     </thead>
     <tbody>
         @foreach($Voorwerpen as $Voorwerp)
+        @php
+        // Match $Voorwerp with $Uitgeleend using VoorwerpUUID
+        $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+
+        // Match $Kinderen using KindUUID from $Uitgeleend
+        $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
+        @endphp
         <tr>
             <td class="border px-4 py-2">{{ $Voorwerp->Naam }}</td>
             <td class="border px-4 py-2">{{ optional($Voorwerp->categorie)->Naam }}</td>
@@ -68,12 +76,20 @@
             <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto"></td>
             <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Ja' : 'Nee' }}</td>
             <td class="border px-4 py-2">
-                @if($Voorwerp->Uitgeleend)
-                {{ $Voorwerp->Uitleendatum }}
+                @if($uitgeleendItem)
+                {{ $uitgeleendItem['Uitleendatum'] }}
                 @else
                 -
                 @endif
             </td>
+            <td class="border px-4 py-2">
+                @if($kind)
+                {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
+                @else
+                -
+                @endif
+            </td>
+    
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
@@ -97,6 +113,7 @@
         @endforeach
     </tbody>
 </table>
+
 
 
 <div class="w-full py-0.5 bg-[#C8304E]"></div>
