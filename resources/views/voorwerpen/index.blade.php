@@ -4,7 +4,7 @@
 
 <div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
-        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full border-r border-black text-white py-2 px-7">Nieuw Voorwerp</a>
+        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full border-r border-black text-white py-2 text-center px-7">Nieuw Voorwerp</a>
         <a href="{{ route('voorwerpen.scan') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retournen</a>
     </div>
 </div>
@@ -38,7 +38,7 @@
         </a>
     </button>
     <div class=" lg:block hidden">
-        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] text-white py-1 px-2 rounded hover:bg-yellow-700">Voeg nieuw Voorwerp</a>
+        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] text-white py-1 px-2 rounded text-center">Voeg nieuw Voorwerp</a>
     </div>
 </div>
 
