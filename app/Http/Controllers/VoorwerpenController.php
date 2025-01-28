@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Categories;
 use App\Models\Reserveringen;
+use App\Models\Uitleengeschiedenis;
 use App\Models\Foto;
 use chillerlan\QRCode\{QRCode, QROptions};  
 use chillerlan\QRCode\Output\{QROutputInterface};
@@ -21,10 +22,11 @@ class VoorwerpenController extends Controller
     {
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
+        $Uitgeleend = Uitleengeschiedenis::where('Uitgeleend', 1)->get();
         $Voorwerpen = Voorwerpen::latest()->paginate(5);
         $Qr = Qr::all();
         $Foto = Foto::all();
-        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend'));
     }
 
     public function getVoorwerp($uuid)
