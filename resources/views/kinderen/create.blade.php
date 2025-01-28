@@ -1,5 +1,6 @@
 @extends('layout.base')
 @section('content')
+@if (session('mentor_admin') == 1)
 <div class="lg:w-1/2 mx-auto mt-5">
     <h1 class="text-center">Voeg en nieuw kind toe</h1>
     <form action="{{ route('kinderen.store') }}" method="POST" class="max-w-md mx-auto">
@@ -87,4 +88,5 @@
         </div>
     </form>
 </div>
+@endif
 @endsection

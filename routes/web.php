@@ -40,7 +40,7 @@ Route::get('/', function () {
 // Route::resource('categories', CategoriesController::class);
 
 // Routes for Mentoren
-Route::resource('mentoren', MentorenController::class);
+// Route::resource('mentoren', MentorenController::class);
 Route::get('/login', [MentorenController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [MentorenController::class, 'login']);
 Route::post('/logout', [MentorenController::class, 'logout'])->name('logout');
@@ -76,4 +76,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
     Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
     Route::resource('reserveringen', ReserveringenController::class);
-});
+    Route::resource('categories', CategoriesController::class);
+}); 

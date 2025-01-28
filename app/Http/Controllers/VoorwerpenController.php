@@ -58,20 +58,28 @@ class VoorwerpenController extends Controller
 
     public function create()
     {
-        $Categories = Categories::all();
-        return view('voorwerpen.create', compact('Categories'));
+        if(session('mentor_admin') == 1) {
+            $Categories = Categories::all();
+            return view('voorwerpen.create', compact('Categories'));
         // return view('voorwerpen.create');
+        } else {
+            return redirect('/voorwerpen')->with('msg', 'You are not authorized to create a new voorwerp');
+        }
     }
 
     public function edit($id)
     {
-        $voorwerp = Voorwerpen::findOrFail($id);
-        $Categories = Categories::all();
-        // $Foto = Foto::findOrFail($voorwerp->FotoUUID);
-        // $QR = Qr::findOrFail($voorwerp->QRUUID);
-        $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
-        $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
-        return view('voorwerpen.edit', compact('voorwerp', 'Categories', 'Foto', 'QR'));
+        if(session('mentor_admin') == 1) {
+            $voorwerp = Voorwerpen::findOrFail($id);
+            $Categories = Categories::all();
+            // $Foto = Foto::findOrFail($voorwerp->FotoUUID);
+            // $QR = Qr::findOrFail($voorwerp->QRUUID);
+            $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
+            $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
+            return view('voorwerpen.edit', compact('voorwerp', 'Categories', 'Foto', 'QR'));
+        } else {
+            return redirect('/voorwerpen')->with('msg', 'You are not authorized to edit this voorwerp');
+        }
     }
 
     // Sla een nieuw voorwerp op in de database
@@ -172,9 +180,13 @@ class VoorwerpenController extends Controller
     // Verwijder een voorwerp
     public function destroy($id)
     {
-        $voorwerp = Voorwerpen::findOrFail($id);
-        $voorwerp->delete();
-    
-        return back()->with('msg', 'Voorwerp deleted successfully');
+        if(session('mentor_admin') == 1) {
+            $voorwerp = Voorwerpen::findOrFail($id);
+            $voorwerp->delete();
+        
+            return back()->with('msg', 'Voorwerp deleted successfully');
+        } else {
+            return redirect('/voorwerpen')->with('msg', 'You are not authorized to delete this voorwerp');
+        }
     }
 }

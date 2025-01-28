@@ -26,6 +26,7 @@
                     class="bg-green-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
                     Leen uit
                 </a>
+                @if (session('mentor_admin') == 1)
                 <a
                     href="{{ route('kinderen.edit', $Kind->UUID) }}"
                     class="bg-[#019AAC] w-full text-white text-center text-sm py-1 px-2 ml-2">
@@ -38,6 +39,8 @@
                     data-kind-id="{{ $Kind->UUID }}">
                     <i class="fas fa-trash"></i> verwijderen
                 </button>
+
+                @endif
             </div>
         </tr>
         @endforeach

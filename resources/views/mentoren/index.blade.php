@@ -22,6 +22,7 @@
             <td class="px-4 py-2">{{ $Mentor["Voornaam"] }}</td>
             <td class="px-4 py-2">{{ $Mentor["Achternaam"] }}</td>
             <td class="px-4 py-2">{{ $Mentor["Email"] }}</td>
+            @if (session('mentor_admin') == 1)
             <td class="px-4 py-2">
                 <button class="bg-[#019AAC] text-white py-1 px-2 rounded">
                     <a
@@ -38,6 +39,7 @@
                     <i class="fas fa-trash"></i> verwijderen
                 </button>
             </td>
+            @endif
         </tr>
         @endforeach
     </tbody>
@@ -47,6 +49,7 @@
         <div class="flex flex-col border-b border-black py-4 justify-between">
             <p class="px-4 py-2">{{ $Mentor["Voornaam"] }}</p>
 
+            @if (session('mentor_admin') == 1)
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <a
                     href="{{ route('mentoren.edit', $Mentor->UUID) }}"
@@ -61,6 +64,7 @@
                     <i class="fas fa-trash"></i> verwijderen
                 </button>
             </div>
+            @endif
         </div>
         @endforeach
     </div>
@@ -72,10 +76,12 @@
         <p id="modalMessage" class="text-lg mb-4">Weet je zeker dat je deze mentor wilt verwijderen?</p>
         <div class="flex justify-end gap-4">
             <button id="cancelButton" class="bg-gray-300 text-black px-4 py-2 rounded">Annuleren</button>
+            @if (session('mentor_admin') == 1)
             <form id="deleteForm" method="post" action="">
                 @csrf @method('DELETE')
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Ga door</button>
             </form>
+            @endif
         </div>
     </div>
 </div>

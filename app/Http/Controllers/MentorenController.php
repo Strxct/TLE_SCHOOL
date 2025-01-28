@@ -55,7 +55,11 @@ class MentorenController extends Controller
 
     public function create()
     {
-        return view('mentoren.create');
+        if(session('mentor_admin') == 1) {
+            return view('mentoren.create');
+        } else {
+            return redirect('/mentoren')->with('msg', 'You are not authorized to create a new mentor');
+        }
     }
 
     public function store(Request $request)
@@ -77,8 +81,12 @@ class MentorenController extends Controller
 
     public function edit($id)
     {
-        $Mentoren = Mentoren::findOrFail($id);
-        return view('mentoren.edit', compact('Mentoren'));
+        if(session('mentor_admin') == 1) {
+            $Mentoren = Mentoren::findOrFail($id);
+            return view('mentoren.edit', compact('Mentoren'));
+        } else {
+            return redirect('/mentoren')->with('msg', 'You are not authorized to edit a mentor');
+        }
     }
 
     public function update(Request $request, $UUID)
@@ -106,9 +114,13 @@ class MentorenController extends Controller
 
     public function destroy($id)
     {
-        $mentor = Mentoren::findOrFail($id);
-        $mentor->delete();
+        if(session('mentor_admin') == 1) {
+            $mentor = Mentoren::findOrFail($id);
+            $mentor->delete();
 
-        return redirect()->route('mentoren.index')->with('success', 'Mentor deleted successfully.');
+            return redirect()->route('mentoren.index')->with('success', 'Mentor deleted successfully.');
+        } else {
+            return redirect('/mentoren')->with('msg', 'You are not authorized to delete a mentor');
+        }
     }
 }

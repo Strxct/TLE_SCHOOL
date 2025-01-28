@@ -24,8 +24,12 @@ class KinderenController extends Controller
      */
     public function create()
     {
-        $Mentoren = Mentoren::all();
-        return view('kinderen.create', compact('Mentoren'));
+        if(session('mentor_admin') == 1) {
+            $Mentoren = Mentoren::all();
+            return view('kinderen.create', compact('Mentoren'));
+        } else {
+            return redirect('/kinderen')->with('msg', 'You are not authorized to create a new kind');
+        }
     }
 
     /**
@@ -81,9 +85,13 @@ class KinderenController extends Controller
      */
     public function edit(string $id)
     {
-        $Kind = Kinderen::findOrFail($id);
-        $Mentoren = Mentoren::all();
-        return view('kinderen.edit', compact('Kind', 'Mentoren'));
+        if(session('mentor_admin') == 1) {
+            $Kind = Kinderen::findOrFail($id);
+            $Mentoren = Mentoren::all();
+            return view('kinderen.edit', compact('Kind', 'Mentoren'));
+        } else {
+            return redirect('/kinderen')->with('msg', 'You are not authorized to edit this kind');
+        }
     }
 
     /**
