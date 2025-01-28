@@ -24,7 +24,7 @@
         </div>
 
         <div class="mb-4 w-full">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center">Login</button>
+            <button type="submit" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center">Login</button>
         </div>
     </form>
 </div>

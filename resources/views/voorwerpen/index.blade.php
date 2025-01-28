@@ -5,7 +5,7 @@
 <div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
         <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] w-full border-r border-black text-white py-2 text-center px-7">Nieuw Voorwerp</a>
-        <a href="{{ route('voorwerpen.scan') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retournen</a>
+        <a href="{{ route('voorwerpen.scan') }}" class="bg-[#019AAC] w-full text-white py-2 text-center px-7">Retourneren</a>
     </div>
 </div>
 
@@ -69,11 +69,13 @@
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
-                    <button class="bg-[#019AAC] text-white py-1 px-2 rounded">
-                        <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white">
+                    <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white bg-green-500 text-white py-1 px-2 rounded" >
+                        <i class="fas fa-edit"></i> Details
+                    </a>
+                    @if (session('mentor_admin') == 1)
+                        <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white bg-[#019AAC] text-white py-1 px-2 rounded" >
                             <i class="fas fa-edit"></i> Update
                         </a>
-                    </button>
 
                     {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
                     <i class="fas fa-edit"></i> Reserveer
@@ -84,6 +86,7 @@
                         data-voorwerp-id="{{ $Voorwerp->UUID }}">
                         <i class="fas fa-trash"></i> verwijderen
                     </button>
+                    @endif
                 </div>
             </td>
         </tr>
@@ -100,13 +103,12 @@
                 <p class="px-4 text-black">{{ $Voorwerp->Naam }}</p>
             </a>
         </div>
+        @if (session('mentor_admin') == 1)
         <div class="border">
             <div class="flex w-full flex-row gap-y-4 lg:gap-y-0">
-                <button class="bg-blue-500 w-full text-white py-1 px-2">
-                    <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white">
+                    <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white text-center bg-blue-500 w-full text-white py-1 px-2" >
                         <i class="fas fa-edit"></i> Update
                     </a>
-                </button>
                 <button
                     class="bg-red-500 text-white w-full py-1 px-2 open-modal"
                     data-voorwerp-name="{{ $Voorwerp->Naam }}"
@@ -115,6 +117,7 @@
                 </button>
             </div>
         </div>
+        @endif
     </div>
     @endforeach
 </div>

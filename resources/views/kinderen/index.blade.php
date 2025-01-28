@@ -16,25 +16,26 @@
 
     <tbody>
         @foreach($Kinderen as $Kind)
-        <tr class="flex flex-col justify-between">
-            <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white">
+        <tr class="flex flex-col justify-between border-black">
+            <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white flex flex-row gap-x-2">
                 <div class="px-4 py-2 text-black">{{ $Kind['Voornaam'] }}</div>
+                <div class="px-4 py-2 text-black">{{ $Kind['Achternaam'] }}</div>
             </a>
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <a
                     href="{{ route('kinderen.scan', $Kind->UUID) }}"
-                    class="bg-green-500 w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    class="bg-green-500 w-full text-white text-center text-sm py-1 px-2 ml-2 mr-2 ">
                     Leen uit
                 </a>
                 @if (session('mentor_admin') == 1)
                 <a
                     href="{{ route('kinderen.edit', $Kind->UUID) }}"
-                    class="bg-[#019AAC] w-full text-white text-center text-sm py-1 px-2 ml-2">
+                    class="bg-[#019AAC] w-full text-white text-center text-sm py-1 px-2 ml-2 mr-2 ">
                     <i class="fas fa-edit"></i> Update
                 </a>
 
                 <button
-                    class="bg-red-500 w-full text-white text-sm py-1 px-2 ml-2 open-modal"
+                    class="bg-red-500 w-full text-white text-sm py-1 px-2 ml-2 mr-2 open-modal"
                     data-kind-name="{{ $Kind['Voornaam'] }}"
                     data-kind-id="{{ $Kind->UUID }}">
                     <i class="fas fa-trash"></i> verwijderen
@@ -42,6 +43,7 @@
 
                 @endif
             </div>
+            <div class="border-b border-black mt-2 "></div>
         </tr>
         @endforeach
     </tbody>
@@ -72,7 +74,7 @@
             button.addEventListener('click', () => {
                 const kindName = button.getAttribute('data-kind-name');
                 const kindId = button.getAttribute('data-kind-id');
-                
+
                 modalMessage.textContent = `Weet je zeker dat je ${kindName} wilt verwijderen?`;
                 deleteForm.action = `/kinderen/${kindId}`;
                 modal.classList.remove('hidden');
