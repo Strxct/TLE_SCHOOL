@@ -23,10 +23,15 @@ class VoorwerpenController extends Controller
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
         $Uitgeleend = Uitleengeschiedenis::where('Uitgeleend', 1)->get();
+        // $Kinderen = Uitleengeschiedenis::where('Uitgeleend', 1)->pluck('KindUUID');
+        $Kinderen = Uitleengeschiedenis::where('Uitgeleend', 1)->with('kind')->get()->pluck('kind');
         $Voorwerpen = Voorwerpen::latest()->paginate(5);
+
+        // dd($Kinderen);
+
         $Qr = Qr::all();
         $Foto = Foto::all();
-        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen'));
     }
 
     public function getVoorwerp($uuid)
