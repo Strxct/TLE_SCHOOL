@@ -1,7 +1,7 @@
 @extends('layout.base')
 @section('content')
 
-<div class="mt-6 flex lg:w-96 mx-auto flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+<div class="mt-6 flex lg:w-6/12 mx-auto flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
   <div class="p-6">
 
     <!-- firstname -->
@@ -14,7 +14,7 @@
     <!-- email -->
 
     <h4 class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-      <strong>Email: </strong>
+      <strong>Ouder email: </strong>
       {{ $Kind->Contact }}
     </h4>
 
