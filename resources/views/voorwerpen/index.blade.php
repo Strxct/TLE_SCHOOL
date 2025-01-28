@@ -1,9 +1,6 @@
 @extends('layout.base')
 @section('content')
 
-<div class="p-4 lg:block hidden">
-    <a href="{{ route('voorwerpen.create') }}" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-700">Voeg nieuw Voorwerp</a>
-</div>
 
 <div class="left-0 w-full fixed bottom-0 lg:hidden block">
     <div class="flex flex-row item-center justify-between">
@@ -34,6 +31,16 @@
         </div>
     </div>
 </div> --}}
+<div class="flex flex-row gap-x-4 items-center">
+    <button class="bg-[#019AAC] text-white py-1 px-2 rounded">
+        <a href="{{ route('voorwerpen.scan') }}" class="text-white">
+            <i class="fas fa-edit"></i> Retourneren
+        </a>
+    </button>
+    <div class=" lg:block hidden">
+        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] text-white py-1 px-2 rounded hover:bg-yellow-700">Voeg nieuw Voorwerp</a>
+    </div>
+</div>
 
 <table class="lg:w-3/4 overflow-x-auto mx-auto hidden md:block">
     <thead>
@@ -62,18 +69,14 @@
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
-                    <button class="bg-blue-500 text-white py-1 px-2 rounded">
+                    <button class="bg-[#019AAC] text-white py-1 px-2 rounded">
                         <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white">
                             <i class="fas fa-edit"></i> Update
                         </a>
                     </button>
-                    <button class="bg-blue-500 text-white py-1 px-2 rounded">
-                        <a href="{{ route('voorwerpen.scan', $Voorwerp->UUID) }}" class="text-white">
-                            <i class="fas fa-edit"></i> Retourneren
-                        </a>
-                    </button>
+
                     {{-- <button class="bg-blue-500 w-full text-white text-sm py-1 px-2" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{ $Voorwerp->Naam }}', '{{ $Voorwerp->FotoUUID ? $Voorwerp->Foto->Foto : 'Geen foto geselecteerd' }}')">
-                        <i class="fas fa-edit"></i> Reserveer
+                    <i class="fas fa-edit"></i> Reserveer
                     </button> --}}
                     <button
                         class="bg-red-500 text-white py-1 px-2 rounded open-modal"
@@ -164,14 +167,14 @@
         document.getElementById('modal-voorwerp-foto').src = foto;
         document.getElementById('reserveer-modal').style.display = 'flex';
         console.log({{ $Session->mentor_uuid }});
-        let mentorUUID = "{{ $Session->mentor_uuid }}";
-        let reserveerBtn = document.getElementById('reserveer-btn');
-        reserveerBtn.href = "{{ route('reserveringen.store', ['MentorUUID' => '" + mentorUUID + "', 'VoorwerpUUID' => '" + uuid + "']) }}"
-    }
+let mentorUUID = "{{ $Session->mentor_uuid }}";
+let reserveerBtn = document.getElementById('reserveer-btn');
+reserveerBtn.href = "{{ route('reserveringen.store', ['MentorUUID' => '" + mentorUUID + "', 'VoorwerpUUID' => '" + uuid + "']) }}"
+}
 
-    document.getElementById('close-modal-btn').addEventListener('click', function() {
-        document.getElementById('reserveer-modal').style.display = 'none';
-    });
+document.getElementById('close-modal-btn').addEventListener('click', function() {
+document.getElementById('reserveer-modal').style.display = 'none';
+});
 </script> --}}
 
 
