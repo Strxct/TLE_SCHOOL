@@ -61,7 +61,7 @@
             <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center">Update</button>
         </div>
         <div>
-            <a href="{{ url('/kinderen') }}" class="text-blue-500 p-2">Annuleren</a>
+            <a href="{{ url('/kinderen') }}" class="block text-white w-full bg-[#C8304E] text-center py-2 rounded">Annuleren</a>
         </div>
     </form>
 </div>
