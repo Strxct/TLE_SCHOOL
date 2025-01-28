@@ -25,14 +25,20 @@
             <img id="voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover rounded-lg">
         </div>
         <div class="flex flex-row justify-center">
-        <button id="leen-uit-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4 mr-5">Leen Uit</button>
         <button id="scan-again-btn" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-blue-700 mt-4 ml-5" style="display: none;">Scan opnieuw</button>
-        </div>
+        <form id="leen-uit-form" action="{{ route('uitleengeschiedenis.store') }}" method="POST">
+            @method('POST')
+            @csrf
+            <input type="hidden" name="VoorwerpUUID" id="voorwerp-uuid">
+            <input type="hidden" name="KindUUID" value="{{ $Kind->UUID }}">
+            <input type="hidden" name="Uitgeleend" value="1">
+            <button type="submit" id="leen-uit-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4 mr-5" style="display: none;">Leen Uit</button>
+        </form>
+    </div>
     </div>
     <a href="{{ url('/kinderen')}}" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700">Terug</a>
-</div>
 
-<script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+</div>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let scannedCode = null;
@@ -52,7 +58,9 @@
                     document.getElementById('voorwerp-leeftijd').innerText = `${data.voorwerp.leeftijd_van} - ${data.voorwerp.leeftijd_tot}`;
                     document.getElementById('voorwerp-notities').innerText = data.voorwerp.Notities;
                     document.getElementById('voorwerp-foto').src = data.foto ? data.foto.Foto : 'Geen foto geselecteerd';
+                    document.getElementById('voorwerp-uuid').value = data.voorwerp.UUID;
                     document.getElementById('voorwerp-details').style.display = 'block';
+                    document.getElementById('leen-uit-btn').style.display = 'block'; 
                 } else {
                     alert('Voorwerp is niet actief');
                 }
@@ -102,11 +110,6 @@
             ).catch(err => {
                 console.error("Failed to start QR Code scanner.", err);
             });
-        });
-
-        document.getElementById('leen-uit-btn').addEventListener('click', function() {
-            alert('Leen Uit button clicked');
-            // Add your "Leen Uit" functionality here
         });
     });
 </script>

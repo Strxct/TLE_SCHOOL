@@ -50,6 +50,7 @@ Route::resource('reserveringen', ReserveringenController::class);
 
 // Routes for Uitleengeschiedenis
 Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
+Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
 
 // Routes for Voorwerpen
 Route::resource('voorwerpen', VoorwerpenController::class);

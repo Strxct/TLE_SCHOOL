@@ -22,15 +22,24 @@ class UitleengeschiedenisController extends Controller
         $validated = $request->validate([
             'VoorwerpUUID' => 'required|exists:voorwerpen,UUID',
             'KindUUID' => 'required|exists:kinderen,UUID',
-            'Uitleendatum' => 'required|date',
-            'Aanmaakdatum' => 'required|date',
+            'Uitleendatum' => 'nullable|date',
+            'Aanmaakdatum' => 'nullable|date',
+            'Uitgeleend' => 'nullable|boolean',
         ]);
         
         $validated['UUID'] = Str::uuid()->toString();
 
-        $uitleengeschiedenis = Uitleengeschiedenis::create($validated);
+        $uitgeleend = Uitleengeschiedenis::where('VoorwerpUUID', $validated['VoorwerpUUID'])->where('Uitgeleend', 1)->first();
+        // dd($uitgeleend->toArray());
+        if ($uitgeleend) {
+            
+            $uitgeleend->update(['Uitgeleend' => 0]);
+        }
+        Uitleengeschiedenis::create($validated);
 
-        return response()->json($uitleengeschiedenis, 201);  // Retourneer de nieuw gemaakte uitleengeschiedenis met HTTP-status 201
+        return redirect('/kinderen/' . $validated['KindUUID'])->with('msg', 'Voorwerp is uitgeleend');
+
+        // return response()->json($uitleengeschiedenis, 201);  // Retourneer de nieuw gemaakte uitleengeschiedenis met HTTP-status 201
     }
 
     // Toon de specifieke uitleengeschiedenis
