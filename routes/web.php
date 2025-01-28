@@ -51,6 +51,7 @@ Route::resource('reserveringen', ReserveringenController::class);
 // Routes for Uitleengeschiedenis
 Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
 Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
+Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
 
 // Routes for Voorwerpen
 Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');

@@ -33,7 +33,7 @@ class UitleengeschiedenisController extends Controller
 
         if ($validated['Notitie'] !== null) {
             $Voorwerp = Voorwerpen::where('UUID', $validated['VoorwerpUUID'])->first();
-            $Voorwerp->update(['Notitie' => $validated['Notitie']]);
+            $Voorwerp->update(['Notities' => $validated['Notitie']]);
         }
 
         $uitleengeschiedenissen = Uitleengeschiedenis::where('VoorwerpUUID', $validated['VoorwerpUUID'])->where('Uitgeleend', 1)->first();

@@ -22,7 +22,7 @@
                 <strong>Leeftijd:</strong> <span id="voorwerp-leeftijd"></span>
             </div>
             <div class="mb-2">
-                <strong>Notities:</strong> <span id="voorwerp-notities"></span>
+                <strong>Notities:</strong> <input type="text" name="Notitie" id="voorwerp-notities">
             </div>
             <div class="mb-2">
                 <img id="voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover rounded-lg">
@@ -30,7 +30,6 @@
             <div class="flex flex-row justify-center">
             <button id="scan-again-btn" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-blue-700 mt-4 ml-5" style="display: none;">Scan opnieuw</button>
                 <input type="hidden" name="VoorwerpUUID" id="voorwerp-uuid">
-                <input type="text" name="Notitie" id="Notitie">
                 <button type="submit" id="retour-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4 mr-5" style="display: none;">Retour voorwerp</button>
             </div>
         </div>
@@ -54,7 +53,7 @@
                     document.getElementById('voorwerp-categorie').innerText = data.categorie.Naam;
                     document.getElementById('voorwerp-beschrijving').innerText = data.voorwerp.Beschrijving;
                     document.getElementById('voorwerp-leeftijd').innerText = `${data.voorwerp.leeftijd_van} - ${data.voorwerp.leeftijd_tot}`;
-                    document.getElementById('voorwerp-notities').innerText = data.voorwerp.Notities;
+                    document.getElementById('voorwerp-notities').value = data.voorwerp.Notities;
                     document.getElementById('voorwerp-foto').src = data.foto ? data.foto.Foto : 'Geen foto geselecteerd';
                     document.getElementById('voorwerp-uuid').value = data.voorwerp.UUID;
                     document.getElementById('voorwerp-details').style.display = 'block';
@@ -89,7 +88,8 @@
             onScanError
         );
 
-        document.getElementById('scan-again-btn').addEventListener('click', function() {
+        document.getElementById('scan-again-btn').addEventListener('click', function(event) {
+            event.preventDefault();
             document.getElementById('voorwerp-details').style.display = 'none';
             document.getElementById('scan-again-btn').style.display = 'none';
             document.getElementById('qr-reader').style.display = 'block';
