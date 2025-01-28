@@ -89,7 +89,7 @@
                 -
                 @endif
             </td>
-    
+
             <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
             <td class="border px-4 py-2">
                 <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
@@ -119,11 +119,24 @@
 <div class="w-full py-0.5 bg-[#C8304E]"></div>
 <div class="overflow-y-scroll h-[400px] block md:hidden">
     @foreach($Voorwerpen as $Voorwerp)
+    @php
+    // Match $Voorwerp with $Uitgeleend using VoorwerpUUID
+    $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+
+    // Match $Kinderen using KindUUID from $Uitgeleend
+    $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
+    @endphp
     <div class="py-4 border-b border-black">
         <div class="flex flex-col">
             <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white">
                 <p class="px-4 text-black">{{ $Voorwerp->Naam }}</p>
             </a>
+            @if($uitgeleendItem)
+            <p class="px-4 text-black text-sm">
+                <strong>Uitleendatum:</strong> {{ $uitgeleendItem['Uitleendatum'] }}<br>
+                <strong>Uitgeleend Aan:</strong> {{ $kind ? $kind['Voornaam'] . ' ' . $kind['Achternaam'] : '-' }}
+            </p>
+            @endif
         </div>
         @if (session('mentor_admin') == 1)
         <div class="border">
@@ -143,7 +156,6 @@
     </div>
     @endforeach
 </div>
-
 <!-- Modal -->
 <div id="deleteModal" class="hidden fixed inset-0  z-50 bg-gray-600 bg-opacity-50 flex items-center justify-center">
     <div class="bg-white p-5 rounded-lg shadow-lg lg:w-1/3">
