@@ -39,9 +39,11 @@
             <i class="fas fa-edit"></i> Retourneren
         </a>
     </button>
+    @if (session('mentor_admin') == 1)
     <div class=" lg:block hidden">
-        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] text-white py-1 px-2 rounded text-center">Voeg nieuw Voorwerp</a>
+        <a href="{{ route('voorwerpen.create') }}" class="bg-[#019AAC] text-white py-1 px-2 rounded text-center">Nieuw Voorwerp</a>
     </div>
+    @endif
 </div>
 
 <table class="lg:w-3/4 overflow-x-auto mx-auto hidden md:block">

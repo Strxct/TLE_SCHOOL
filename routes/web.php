@@ -16,7 +16,7 @@ use App\Http\Controllers\KinderenController;
 
 
 Route::get('/', function () {
-    return view('layout.index');
+    return view('login.login');
 })->name('home');
 
 // // student routes
