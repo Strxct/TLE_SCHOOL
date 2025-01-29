@@ -45,15 +45,15 @@
         @endif
     </div>
 
-    <div class="w-full py-0.5 bg-[#C8304E]"></div>
+    <div class="w-full py-0.5 bg-[#C8304E] mb-2"></div>
 
-    <tbody>
+    <tbody class="mt-4">
         @foreach($Kinderen as $Kind)
         <tr class="flex flex-col justify-between border-black">
-            <div class="bg-gray-100">
-                <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white flex flex-row gap-x-2">
-                    <div class="px-4 py-2 text-black">{{ $Kind['Voornaam'] }}</div>
-                    <div class="px-4 py-2 text-black">{{ $Kind['Achternaam'] }}</div>
+            <div class="">
+                <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white flex flex-row">
+                    <div class="px-2 py-2 text-black">{{ $Kind['Voornaam'] }}</div>
+                    <div class="px-2 py-2 text-black">{{ $Kind['Achternaam'] }}</div>
                 </a>
                 <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                     <a

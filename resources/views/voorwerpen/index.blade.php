@@ -46,82 +46,67 @@
     @endif
 </div>
 
-<table class="lg:w-3/4 overflow-x-auto mx-auto hidden md:block">
-    <thead>
-        <tr>
-            <th class="px-4 py-2">Naam</th>
-            <th class="px-4 py-2">Categorie</th>
-            <th class="px-4 py-2">Beschrijving</th>
-            <th class="px-4 py-2">Notities</th>
-            <th class="px-4 py-2">QR</th>
-            <th class="px-4 py-2">Foto</th>
-            <th class="px-4 py-2">Actief</th>
-            <th class="px-4 py-2">Uitleendatum</th>
-            <th class="px-4 py-2">Uitgeleend Aan</th> <!-- New Column -->
-            <th class="px-4 py-2">Aanmaakdatum</th>
-            <th class="px-4 py-2">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($Voorwerpen as $Voorwerp)
-        @php
-        // Match $Voorwerp with $Uitgeleend using VoorwerpUUID
-        $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+<div class="w-full py-0.5 bg-[#C8304E] mt-2"></div>
 
-        // Match $Kinderen using KindUUID from $Uitgeleend
-        $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
-        @endphp
-        <tr>
-            <td class="border px-4 py-2">{{ $Voorwerp->Naam }}</td>
-            <td class="border px-4 py-2">{{ optional($Voorwerp->categorie)->Naam }}</td>
-            <td class="border px-4 py-2">{{ $Voorwerp->Beschrijving }}</td>
-            <td class="border px-4 py-2">{{ $Voorwerp->Notities }}</td>
-            <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->qr)->qr }}" alt="qrcode"></td>
-            <td class="border px-4 py-2"><img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto"></td>
-            <td class="border px-4 py-2">{{ $Voorwerp->Actief ? 'Ja' : 'Nee' }}</td>
-            <td class="border px-4 py-2">
-                @if($uitgeleendItem)
-                {{ $uitgeleendItem['Uitleendatum'] }}
-                @else
-                -
-                @endif
-            </td>
-            <td class="border px-4 py-2">
-                @if($kind)
-                {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
-                @else
-                -
-                @endif
-            </td>
-
-            <td class="border px-4 py-2">{{ $Voorwerp->created_at }}</td>
-            <td class="border px-4 py-2">
-                <div class="flex lg:flex-row flex-col gap-y-4 lg:gap-y-0">
-                    <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white bg-green-500 text-white py-1 px-2 rounded">
-                        <i class="fas fa-edit"></i> Details
-                    </a>
-                    @if (session('mentor_admin') == 1)
-                    <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white bg-[#019AAC] text-white py-1 px-2 rounded">
-                        <i class="fas fa-edit"></i> Update
-                    </a>
-                    <button
-                        class="bg-red-500 text-white py-1 px-2 rounded open-modal"
-                        data-voorwerp-name="{{ $Voorwerp->Naam }}"
-                        data-voorwerp-id="{{ $Voorwerp->UUID }}">
-                        <i class="fas fa-trash"></i> verwijderen
-                    </button>
-                    @endif
-                </div>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+<div class="mt-4 flex lg:block hidden">
+    @foreach($Voorwerpen as $Voorwerp)
+    @php
+    // Check if the item is borrowed by this user
+    $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+    $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
+    @endphp
+    <div class="flex flex-row justify-between">
+        <div class="px-2 py-2 text-black flex-1">
+            <h5 class="font-medium">Naam:</h5>
+            {{ $Voorwerp->Naam }}
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            <h5 class="font-medium">Categorie:</h5>
+            {{ optional($Voorwerp->categorie)->Naam }}
+        </div>
+        <div class="px-2 py-2 flex-1">
+            <h5 class="font-medium">Foto:</h5>
+            <img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto" class="h-20 w-20 object-cover">
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            @if($Voorwerp->Notities)
+            <h5 class="font-medium">Notities:</h5>
+            <span class="text-red-500">Heeft notitie</span>
+            @endif
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            @if($uitgeleendItem)
+            <h5 class="font-medium">Uitleendatum:</h5>
+            {{ \Carbon\Carbon::parse($uitgeleendItem['Uitleendatum'])->format('d-m-Y') }}
+            @endif
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            @if($kind)
+            <h5 class="font-medium">Uitgeleend Aan:</h5>
+            {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
+            @endif
+        </div>
+    </div>
+    <div class="flex flex-row w-full gap-y-4 lg:gap-y-0 mt-2">
+        <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="bg-green-500 w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
+            <i class="fas fa-edit"></i> Details
+        </a>
+        @if (session('mentor_admin') == 1)
+        <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="bg-[#019AAC] w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
+            <i class="fas fa-edit"></i> Update
+        </a>
+        <button class="bg-red-500 w-full text-white rounded text-sm py-1 px-2 ml-2 mr-2 open-modal" data-voorwerp-name="{{ $Voorwerp->Naam }}" data-voorwerp-id="{{ $Voorwerp->UUID }}">
+            <i class="fas fa-trash"></i> verwijderen
+        </button>
+        @endif
+    </div>
+    <div class="border-b border-black mt-2"></div>
+    @endforeach
+</div>
 
 
 
-<div class="w-full py-0.5 bg-[#C8304E]"></div>
-<div class="overflow-y-scroll h-[400px] block md:hidden">
+<div class="overflow-y-scroll h-[400px] block lg:hidden block">
     @foreach($Voorwerpen as $Voorwerp)
     @php
     // Match $Voorwerp with $Uitgeleend using VoorwerpUUID
