@@ -18,20 +18,53 @@ class VoorwerpenController extends Controller
 {  
 
     // Toon een lijst van alle voorwerpen
-    public function index()
+    public function index(Request $request)
     {
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
         $Uitgeleend = Uitleengeschiedenis::where('Uitgeleend', 1)->get();
-        // $Kinderen = Uitleengeschiedenis::where('Uitgeleend', 1)->pluck('KindUUID');
         $Kinderen = Uitleengeschiedenis::where('Uitgeleend', 1)->with('kind')->get()->pluck('kind');
-        $Voorwerpen = Voorwerpen::latest()->paginate(5);
 
-        // dd($Kinderen);
+        // Sorting logic
+        $sort = $request->input('sort', 'recent');
+        $categorie = null;
+        $query = Voorwerpen::query();
+
+        switch ($sort) {
+            case 'naam_asc':
+                $query->orderBy('Naam', 'asc');
+                break;
+            case 'naam_desc':
+                $query->orderBy('Naam', 'desc');
+                break;
+            case 'Uitgeleend_desc':
+                $query->leftJoin('uitleengeschiedenis', function($join) {
+                    $join->on('voorwerpen.UUID', '=', 'uitleengeschiedenis.VoorwerpUUID')
+                         ->where('uitleengeschiedenis.Uitgeleend', '=', 1);
+                })->orderByRaw('uitleengeschiedenis.Uitgeleend DESC, uitleengeschiedenis.Uitleendatum DESC');
+                break;
+            case 'Uitgeleend_asc':
+                $query->leftJoin('uitleengeschiedenis', function($join) {
+                    $join->on('voorwerpen.UUID', '=', 'uitleengeschiedenis.VoorwerpUUID')
+                         ->where('uitleengeschiedenis.Uitgeleend', '=', 1);
+                })->orderByRaw('uitleengeschiedenis.Uitgeleend DESC, uitleengeschiedenis.Uitleendatum ASC');
+                break;
+            case 'Categorie':
+                $categorie = $request->input('categorie');
+                if ($categorie) {
+                    $query->where('CategorieUUID', $categorie);
+                }
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+
+        $Voorwerpen = $query->select('voorwerpen.*')->paginate(5);
 
         $Qr = Qr::all();
         $Foto = Foto::all();
-        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen', 'sort', 'categorie'));
     }
 
     public function getVoorwerp($uuid)

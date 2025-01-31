@@ -73,11 +73,12 @@ class KinderenController extends Controller
         $Kind = Kinderen::findOrFail($id);
         $Uitgeleend = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->get();
         $Voorwerpen = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->with('voorwerp')->get()->pluck('voorwerp');
+        $Mentor = Mentoren::where('UUID', $Kind->MentorUUID)->first();
         // $Voorwerpen = Voorwerpen::all();
 
         // dd($Uitgeleend);
 
-        return view('kinderen.show', compact('Kind', 'Uitgeleend', 'Voorwerpen'));
+        return view('kinderen.show', compact('Kind', 'Uitgeleend', 'Voorwerpen', 'Mentor'));
     }
 
     /**

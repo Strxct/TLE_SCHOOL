@@ -1,5 +1,6 @@
-@extends('layout.base') @section('content')
-<div class="lg:w-1/2 px-2 lg:px-0 mx-auto mt-5">
+@extends('layout.base') 
+@section('content')
+<div class="w-1/2 mx-auto mt-5">
     <form
         action="{{ route('voorwerpen.store') }}"
         method="POST"
@@ -188,7 +189,7 @@
         <div class="mb-4 w-full">
             <button
                 type="submit"
-                class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center"
+                class="bg-[#019AAC] text-white py-2 px-4 rounded w-full text-center"
             >
                 Maak aan
             </button>
@@ -201,7 +202,6 @@
         </a>
     </form>
 </div>
-@endsection
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const fileInput = document.getElementById("foto-input");
@@ -365,3 +365,5 @@
         }
     });
 </script>
+
+@stop

@@ -11,19 +11,21 @@
 
 <body>
 
-  <nav class="relative h-[250px] lg:h-[250px] md:h-[300px] 2xl:h-[400px]">
-    <img class="w-full absolute top-0 left-0 z-10" src="{{ asset('assets/header.png') }}" alt="Logo">
-    <div class="flex flex-wrap items-center justify-between mx-auto p-4 relative z-40">
+  <nav class="relative">
+    <div class="flex justify-center items-center w-full h-full">
+      <img class="w-40" src="{{ asset('images/LOVKlogo.jpg') }}" alt="Logo">
+    </div>
+    <div class="flex flex-wrap items-center justify-between mx-auto pb-4">
 
       <!-- Mobile Navbar Toggle -->
       <button
         id="navbar-toggle"
         type="button"
-        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        class="absolute top-4 left-0 items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="mobile-navbar"
         aria-expanded="false">
         <span class="sr-only">Open main menu</span>
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+        <svg class="w-6 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
         </svg>
       </button>
@@ -54,18 +56,18 @@
           @endauth
           @if(session('mentor_name'))
           <li>
-            <span class="block py-2 text-gray-900">{{ session('mentor_name') }}</span>
+            <a href="{{ route('mentoren.profile')}}" class="block py-2 text-gray-900">{{ session('mentor_name') }}</a>
           </li>
           @endif
         </ul>
       </div>
 
       <!-- Mobile Navbar -->
-      <div id="mobile-navbar" class="hidden md:hidden w-full bg-gray-50 absolute top-16 left-0">
+      <div id="mobile-navbar" class="hidden md:hidden w-full bg-gray-50 absolute top-16 left-0 mt-4">
         <ul class="flex flex-col font-medium p-4 space-y-2 text-black">
           @if(session('mentor_name'))
           <li>
-            <span class="block py-2 text-gray-900">Welkom, {{ session('mentor_name') }}</span>
+            <a href="{{ route('mentoren.profile')}}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">{{ session('mentor_name') }}</a>
           </li>
           @endif
           <li>
@@ -94,17 +96,15 @@
     </div>
   </nav>
 
-  <script>
-    const toggleButton = document.getElementById("navbar-toggle");
-    const mobileNavbar = document.getElementById("mobile-navbar");
-
-    toggleButton.addEventListener("click", () => {
-      const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
-      toggleButton.setAttribute("aria-expanded", !isExpanded);
-      mobileNavbar.classList.toggle("hidden");
-    });
-  </script>
-
 </body>
-
 </html>
+<script>
+  const toggleButton = document.getElementById("navbar-toggle");
+  const mobileNavbar = document.getElementById("mobile-navbar");
+
+  toggleButton.addEventListener("click", () => {
+    const isExpanded = toggleButton.getAttribute("aria-expanded") === "true";
+    toggleButton.setAttribute("aria-expanded", !isExpanded);
+    mobileNavbar.classList.toggle("hidden");
+  });
+</script>

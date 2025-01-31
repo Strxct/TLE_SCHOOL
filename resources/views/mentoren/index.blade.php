@@ -14,7 +14,7 @@
 @endif
 
 
-@if (session('mentor_admin') == 1)
+{{-- @if (session('mentor_admin') == 1)
 <div class="left-0 w-full fixed bottom-0 lg:block hidden">
     <div class="flex flex-row item-center justify-between">
         <a
@@ -25,57 +25,79 @@
         </a>
     </div>
 </div>
-@endif
+@endif --}}
+<div class="mb-10">
+    <p class="px-2">Sorteer</p>
+    <select class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="naam_asc">Naam (A-Z)</option>
+        <option value="naam_desc">Naam (Z-A)</option>
+        <option value="email_asc">Email (A-Z)</option>
+        <option value="email_desc">Email (Z-A)</option>
+        <option value="recent">Recent toegevoegd</option>
+    </select>
+</div>
 
-<table class="w-3/4 mx-auto">
-    <div class="w-3/4 mx-auto">
-        {{ $Mentoren->links() }}
+<div class="flex flex-row gap-x-4 items-center ml-2 mb-2">
+    @if (session('mentor_admin') == 1)
+        <a href="{{ route('mentoren.create') }}" class="bg-[#019AAC] lg:block hidden text-white py-1 px-2 rounded text-center">Voeg mentor toe</a>
+    @endif
+</div>
+
+<div class="w-full py-0.5 bg-[#C8304E] mb-2"></div>
+
+
+<div class="mt-4 flex lg:block hidden">
+    @foreach($Mentoren as $Mentor)
+    <div class="flex flex-row justify-between">
+        <div class="px-2 py-2 text-black flex-1">
+            <h5 class="font-medium">Voornaam:</h5>
+            {{ $Mentor->Voornaam }}
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            <h5 class="font-medium">Achternaam:</h5>
+            {{ $Mentor->Achternaam }}
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            <h5 class="font-medium">Email:</h5>
+            {{ $Mentor->Email }}
+        </div>
     </div>
+    <div class="flex flex-row w-full gap-y-4 lg:gap-y-0 mt-2">
+        <a href="{{ route('mentoren.show', $Mentor->UUID) }}" class="bg-green-500 w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
+            <i class="fas fa-edit"></i> Details
+        </a>
+        @if (session('mentor_admin') == 1)
+        <a href="{{ route('mentoren.edit', $Mentor->UUID) }}" class="bg-[#019AAC] w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
+            <i class="fas fa-edit"></i> Update
+        </a>
+        <button class="bg-red-500 w-full text-white rounded text-sm py-1 px-2 ml-2 mr-2 open-modal" data-mentor-name="{{ $Mentor->Voornaam }}" data-mentor-id="{{ $Mentor->UUID }}">
+            <i class="fas fa-trash"></i> Verwijderen
+        </button>
+        @endif
+    </div>
+    <div class="border-b border-black mt-2"></div>
+    @endforeach
+</div>
 
-    <tbody class="lg:block hidden">
-        @foreach($Mentoren as $Mentor)
-        <tr class="border-b border-black flex flex-row justify-between">
-            <td class="px-4 py-2">{{ $Mentor["Voornaam"] }}</td>
-            <td class="px-4 py-2">{{ $Mentor["Achternaam"] }}</td>
-            <td class="px-4 py-2">{{ $Mentor["Email"] }}</td>
-            @if (session('mentor_admin') == 1)
-            <td class="px-4 py-2">
-                <a
-                    href="{{ route('mentoren.edit', $Mentor->UUID) }}"
-                    class="text-white bg-[#019AAC] py-1 px-2 rounded bg-[#019AAC] text-white py-1 px-2 rounded text-center"
-                >
-                    <i class="fas fa-edit"></i> Update
-                </a>
 
-                <button
-                    class="bg-red-500 text-white py-1 px-2 rounded open-modal"
-                    data-mentor-name="{{ $Mentor['Voornaam'] }}"
-                    data-mentor-id="{{ $Mentor->UUID }}"
-                >
-                    <i class="fas fa-trash"></i> verwijderen
-                </button>
-            </td>
-            @endif
-        </tr>
-        @endforeach
-    </tbody>
-
-    <div class="lg:hidden block">
+    <div class="lg:hidden block mt-4 w-full"> 
         @foreach($Mentoren as $Mentor)
         <div class="flex flex-col border-b border-black py-4 justify-between">
+            <a class="flex flex-row" href="{{ route('mentoren.show', $Mentor->UUID) }}">
             <p class="px-4 py-2">{{ $Mentor["Voornaam"] }}</p>
-
+            <p class="px-4 py-2">{{ $Mentor["Achternaam"] }}</p>
+            </a>
             @if (session('mentor_admin') == 1)
             <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                 <a
                     href="{{ route('mentoren.edit', $Mentor->UUID) }}"
-                    class="bg-[#019AAC] w-full mr-4 text-center text-white py-1 px-2"
+                    class="bg-[#019AAC] w-full mr-4 text-center text-white rounded py-1 px-2"
                 >
                     <i class="fas fa-edit"></i> Update
                 </a>
 
                 <button
-                    class="bg-red-500 w-full ml-4 text-white py-1 px-2 open-modal"
+                    class="bg-red-500 w-full ml-4 text-white rounded py-1 px-2 open-modal"
                     data-mentor-name="{{ $Mentor['Voornaam'] }}"
                     data-mentor-id="{{ $Mentor->UUID }}"
                 >
@@ -86,7 +108,6 @@
         </div>
         @endforeach
     </div>
-</table>
 
 <!-- Modal -->
 <div

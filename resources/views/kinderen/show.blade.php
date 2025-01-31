@@ -25,12 +25,21 @@
 
     <div class="mb-4">
         <h3 class="text-lg font-semibold">Geboortedatum:</h3>
-        <p>{{ $formattedBirthDate }}</p>
+        <p>{{ $formattedBirthDate }} ({{ $age }} jaar)</p>
     </div>
 
-    <div class="mb-4">
+    {{-- <div class="mb-4">
         <h3 class="text-lg font-semibold">Leeftijd:</h3>
         <p>{{ $age }} jaar</p>
+    </div> --}}
+
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold">Mentor:</h3>
+        <p>
+            <a href="{{ route('mentoren.show', $Kind->mentor->UUID) }}" class="text-blue-500 underline">
+                {{ $Kind->mentor->Voornaam }} {{ $Kind->mentor->Achternaam }}
+            </a>
+        </p>
     </div>
 
     <div class="w-full py-0.5 bg-[#C8304E] mb-2"></div>
@@ -46,27 +55,27 @@
             </tr> --}}
         </thead>
         <tbody>
-            @foreach ($Voorwerpen as $voorwerp)
+            @foreach ($Uitgeleend as $uitgeleendItem)
             @php
-            // Check if the item is borrowed by this user
-            $uitgeleendItem = $Uitgeleend->firstWhere(function ($u) use ($voorwerp, $Kind) {
-                return $u->VoorwerpUUID === $voorwerp->UUID && $u->KindUUID === $Kind->UUID;
-            });
-            $uitgeleendStatus = $uitgeleendItem && $uitgeleendItem->Uitgeleend === 1 ? 'Ja' : 'Nee';
+            // Find the corresponding item
+            $voorwerp = $Voorwerpen->firstWhere('UUID', $uitgeleendItem->VoorwerpUUID);
+            $uitgeleendStatus = $uitgeleendItem->Uitgeleend === 1 ? 'Ja' : 'Nee';
             @endphp
-    
-            @if ($uitgeleendItem)
+        
+            @if ($voorwerp)
             <tr class="border-t hover:bg-gray-50">
-                <td class="px-4 py-2">
-                    <div class="font-medium">{{ $voorwerp->Naam }}</div>
-                    <div class="text-sm text-gray-500">Uitleendatum: {{ \Carbon\Carbon::parse($uitgeleendItem->Uitleendatum)->format('d-m-Y') }}</div>
-                </td>
-                <td class="px-4 py-2">
-                    @if ($uitgeleendStatus === 'Ja')
-                    <span class="text-green-500">Uitgeleend</span>
-                    @else
-                    @endif
-                </td>
+            <td class="px-4 py-2">
+                <a href="{{ route('voorwerpen.show', $voorwerp->UUID) }}" class="text-blue-500 underline">
+                {{ $voorwerp->Naam }}
+                </a>
+                <div class="text-sm text-gray-500">Uitleendatum: {{ \Carbon\Carbon::parse($uitgeleendItem->Uitleendatum)->format('d-m-Y') }}</div>
+            </td>
+            <td class="px-4 py-2">
+                @if ($uitgeleendStatus === 'Ja')
+                <span class="text-green-500">Uitgeleend</span>
+                @else
+                @endif
+            </td>
             </tr>
             @endif
             @endforeach

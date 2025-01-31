@@ -71,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
     Route::resource('kinderen', KinderenController::class);
     Route::get('/mentoren', [MentorenController::class, 'index'])->name('mentoren');
+    Route::get('/mentoren/profile', [MentorenController::class, 'profile'])->name('mentoren.profile');
+    Route::put('/mentoren/updateProfile', [MentorenController::class, 'updateProfile'])->name('Mentoren.updateProfile');
     Route::resource('mentoren', MentorenController::class);
     Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
     Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');

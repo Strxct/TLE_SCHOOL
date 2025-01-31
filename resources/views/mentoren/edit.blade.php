@@ -41,7 +41,7 @@
          <!-- wachtwoord -->
         <div class="mb-4">
             <label for="price" class="block font-medium text-gray-700">Wachtwoord</label>
-            <input type="text" name="Wachtwoord" id="Wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
+            <input type="password" name="Wachtwoord" id="Wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
             @error('wachtwoord')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
@@ -73,7 +73,7 @@
 
 
         <div class="mb-4">
-            <button type="submit" class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Update Mentoren</button>
+            <button type="submit" class="bg-[#019AAC] w-full text-white py-2 px-4 rounded ">Update</button>
         </div>
         <div>
             <a href="{{ url('/mentoren') }}" class="block text-white w-full bg-[#C8304E] text-center py-2 rounded">Annuleren</a>

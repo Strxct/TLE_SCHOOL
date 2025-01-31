@@ -81,10 +81,16 @@
 
 
         <div class="mb-4 w-full">
-            <button type="submit" class="bg-[#019AAC] text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center ">Register</button>
+            <button type="submit" class="bg-[#019AAC] text-white py-2 px-4 rounded w-full text-center ">Registreer</button>
         </div>
         <div>
-            <a href="{{ url('/kinderen') }}" class="text-blue-500">Terug</a>
+            {{-- <a href="{{ url('/kinderen') }}" class="text-blue-500">Terug</a> --}}
+            <a
+            href="{{ url('/kinderen') }}"
+            class="block text-white w-full bg-[#C8304E] text-center py-2 rounded"
+        >
+            Annuleren
+        </a>
         </div>
     </form>
 </div>

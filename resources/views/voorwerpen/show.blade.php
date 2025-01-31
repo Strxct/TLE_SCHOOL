@@ -14,7 +14,7 @@
 
     <!-- Categorie -->
     <div class="mb-4">
-        <h2 class="font-medium text-gray-700">Categorie:</h2>
+        <h2 class="font-medium text-gray-700">Domein:</h2>
         <p>{{ optional($voorwerp->categorie)->Naam }}</p>
     </div>
 

@@ -58,7 +58,7 @@
         </div>
 
         <div class="mb-4 w-full">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-indigo-600 w-full text-center">Update</button>
+            <button type="submit" class="bg-[#019AAC] text-white py-2 px-4 rounded w-full text-center">Update</button>
         </div>
         <div>
             <a href="{{ url('/kinderen') }}" class="block text-white w-full bg-[#C8304E] text-center py-2 rounded">Annuleren</a>

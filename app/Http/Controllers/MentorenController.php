@@ -36,6 +36,44 @@ class MentorenController extends Controller
         ]);
     }
 
+    public function profile()
+    {
+        if (session('mentor_uuid') == null) {
+            return redirect('/login');
+        } else {
+            $Mentor = Mentoren::where('UUID', session('mentor_uuid'))->first();
+            return view('mentoren.profile', compact('Mentor'));
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $mentor = Mentoren::where('UUID', session('mentor_uuid'))->first();
+
+        $validated = $request->validate([
+            'Wachtwoord' => 'nullable|string|min:8',
+            'Newwachtwoord' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if ($request->filled('Wachtwoord')) {
+            if (Hash::check($validated['Wachtwoord'], $mentor->Wachtwoord)) {
+                $validated['Wachtwoord'] = Hash::make($validated['Newwachtwoord']);
+            } else {
+                return back()->withErrors([
+                    'Wachtwoord' => 'Wachtwoord is incorrect.',
+                ]);
+            }
+        } else {
+            return back()->withErrors([
+                'Wachtwoord' => 'Wachtwoord is verplicht.',
+            ]);
+        }
+
+        $mentor->update($validated);
+
+        return redirect()->route('mentoren.profile')->with('success', 'Wachtwoord succesvol bijgewerkt.');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -60,6 +98,13 @@ class MentorenController extends Controller
         } else {
             return redirect('/mentoren')->with('msg', 'You are not authorized to create a new mentor');
         }
+    }
+
+    public function show($id)
+    {
+        $Mentor = Mentoren::findOrFail($id);
+        $Kinderen = $Mentor->kinderen;
+        return view('mentoren.show', compact('Mentor', 'Kinderen'));
     }
 
     public function store(Request $request)

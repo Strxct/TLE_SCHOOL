@@ -39,9 +39,7 @@
             <i class="fas fa-edit"></i> Retourneren
         </a>
         @if (session('mentor_admin') == 1)
-        {{-- <div class=" lg:block hidden"> --}}
             <a href="{{ route('kinderen.create') }}" class="bg-[#019AAC] lg:block hidden text-white py-1 px-2 rounded text-center">Nieuw Kind</a>
-        {{-- </div> --}}
         @endif
     </div>
 
@@ -58,7 +56,7 @@
                 <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                     <a
                         href="{{ route('kinderen.scan', $Kind->UUID) }}"
-                        class="bg-green-500 w-full max-w-xs text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2 ">
+                        class="bg-green-500 w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2 ">
                         Leen uit
                     </a>
                     @if (session('mentor_admin') == 1)

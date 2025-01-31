@@ -13,14 +13,27 @@
 
 <div class="mb-10">
     <p class="px-2">Sorteer</p>
-    <select class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <option value="naam_asc">Naam (A-Z)</option>
-        <option value="naam_desc">Naam (Z-A)</option>
-        <option value="email_asc">Email (A-Z)</option>
-        <option value="email_desc">Email (Z-A)</option>
-        <option value="recent">Recent toegevoegd</option>
+    <select id="sort-select" class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="recent" {{ $sort == 'recent' ? 'selected' : '' }}>Recent toegevoegd</option>
+        <option value="naam_asc" {{ $sort == 'naam_asc' ? 'selected' : '' }}>Naam (A-Z)</option>
+        <option value="naam_desc" {{ $sort == 'naam_desc' ? 'selected' : '' }}>Naam (Z-A)</option>
+        <option value="Uitgeleend_desc" {{ $sort == 'Uitgeleend_desc' ? 'selected' : '' }}>Uitgeleend (nieuw-oud)</option>
+        <option value="Uitgeleend_asc" {{ $sort == 'Uitgeleend_asc' ? 'selected' : '' }}>Uitgeleend (oud-nieuw)</option>
+        <option value="Categorie" {{ $sort == 'Categorie' ? 'selected' : '' }}>Domein</option>
     </select>
+    <div id="categorie-select-container" class="mt-2 {{ $sort == 'Categorie' ? '' : 'hidden' }}">
+        <p class="px-2">Selecteer Domein</p>
+        <select id="categorie-select" class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            @foreach($Categories as $category)
+            <option value="{{ $category->UUID }}" {{ $categorie == $category->UUID ? 'selected' : '' }}>{{ $category->Naam }}</option>
+            @endforeach
+        </select>
+    </div>
 </div>
+
+
+
+<!-- when domein is selected in the dropdown show another to select what domein to filter bij -->
 
 <!-- Modal -->
 {{-- <div id="reserveer-modal" class="fixed z-50  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
@@ -61,7 +74,7 @@
             {{ $Voorwerp->Naam }}
         </div>
         <div class="px-2 py-2 text-black flex-1">
-            <h5 class="font-medium">Categorie:</h5>
+            <h5 class="font-medium">Domein:</h5>
             {{ optional($Voorwerp->categorie)->Naam }}
         </div>
         <div class="px-2 py-2 flex-1">
@@ -83,7 +96,9 @@
         <div class="px-2 py-2 text-black flex-1">
             @if($kind)
             <h5 class="font-medium">Uitgeleend Aan:</h5>
-            {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
+            <a href="{{ route('kinderen.show', $kind['UUID']) }}" class="text-blue-500 underline">
+                {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
+            </a>
             @endif
         </div>
     </div>
@@ -96,7 +111,7 @@
             <i class="fas fa-edit"></i> Update
         </a>
         <button class="bg-red-500 w-full text-white rounded text-sm py-1 px-2 ml-2 mr-2 open-modal" data-voorwerp-name="{{ $Voorwerp->Naam }}" data-voorwerp-id="{{ $Voorwerp->UUID }}">
-            <i class="fas fa-trash"></i> verwijderen
+            <i class="fas fa-trash"></i> Verwijderen
         </button>
         @endif
     </div>
@@ -123,7 +138,14 @@
             @if($uitgeleendItem)
             <p class="px-4 text-black text-sm">
                 <strong>Uitleendatum:</strong> {{ $uitgeleendItem['Uitleendatum'] }}<br>
-                <strong>Uitgeleend Aan:</strong> {{ $kind ? $kind['Voornaam'] . ' ' . $kind['Achternaam'] : '-' }}
+                <strong>Uitgeleend Aan:</strong> 
+                @if($kind)
+                    <a href="{{ route('kinderen.show', $kind['UUID']) }}" class="text-blue-500 underline">
+                        {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
+                    </a>
+                @else
+                    -
+                @endif
             </p>
             @endif
         </div>
@@ -176,6 +198,21 @@
                 modal.classList.remove('hidden');
             });
         });
+
+        document.getElementById('sort-select').addEventListener('change', function() {
+        var categorieSelectContainer = document.getElementById('categorie-select-container');
+        if (this.value === 'Categorie') {
+            categorieSelectContainer.classList.remove('hidden');
+        } else {
+            categorieSelectContainer.classList.add('hidden');
+            window.location.href = '/voorwerpen?sort=' + this.value;
+        }
+    });
+
+    document.getElementById('categorie-select').addEventListener('change', function() {
+        var sortValue = document.getElementById('sort-select').value;
+        window.location.href = '/voorwerpen?sort=' + sortValue + '&categorie=' + this.value;
+    });
 
         cancelButton.addEventListener('click', () => {
             modal.classList.add('hidden');
