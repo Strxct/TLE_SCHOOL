@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Uitleengeschiedenis;  // Import the Uitleengeschiedenis model
+use App\models\Reserveringen;
 use App\Models\Voorwerpen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -65,6 +66,14 @@ class UitleengeschiedenisController extends Controller
             
             $uitgeleend->update(['Uitgeleend' => 0]);
         }
+
+        $currentMentorUUID = session('mentor_uuid');
+        $reservation = Reserveringen::where('VoorwerpUUID', $validated['VoorwerpUUID'])->where('MentorUUID', $currentMentorUUID)->first();
+        if ($reservation) {
+            $reservation->delete();
+        }
+
+
         Uitleengeschiedenis::create($validated);
 
         return redirect('/kinderen/' . $validated['KindUUID'])->with('msg', 'Voorwerp is uitgeleend');

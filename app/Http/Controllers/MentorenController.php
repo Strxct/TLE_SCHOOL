@@ -84,11 +84,27 @@ class MentorenController extends Controller
     }
 
     // Existing methods for managing mentoren
-    public function index()
+    public function index(Request $request)
     {
-        $Mentoren = Mentoren::latest()->paginate(5);
+        // Sorting logic
+        $sort = $request->input('sort', 'recent');
+        $query = Mentoren::query();
+    
+        switch ($sort) {
+            case 'naam_asc':
+                $query->orderBy('Voornaam', 'asc');
+                break;
+            case 'naam_desc':
+                $query->orderBy('Voornaam', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+    
+        $Mentoren = $query->paginate(5);
         $Session = auth()->user();
-        return view('mentoren.index', compact('Mentoren', 'Session'));
+        return view('mentoren.index', compact('Mentoren', 'Session', 'sort'));
     }
 
     public function create()

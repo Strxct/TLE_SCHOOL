@@ -21,7 +21,7 @@
       <button
         id="navbar-toggle"
         type="button"
-        class="absolute top-4 left-0 items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+        class="absolute top-4 left-0 items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="mobile-navbar"
         aria-expanded="false">
         <span class="sr-only">Open main menu</span>
@@ -56,14 +56,14 @@
           @endauth
           @if(session('mentor_name'))
           <li>
-            <a href="{{ route('mentoren.profile')}}" class="block py-2 text-gray-900">{{ session('mentor_name') }}</a>
+            <a href="{{ route('mentoren.profile')}}" class="block py-2 text-gray-900 hover:text-blue-700">{{ session('mentor_name') }}</a>
           </li>
           @endif
         </ul>
       </div>
 
       <!-- Mobile Navbar -->
-      <div id="mobile-navbar" class="hidden md:hidden w-full bg-gray-50 absolute top-16 left-0 mt-4">
+      <div id="mobile-navbar" class="hidden lg:hidden w-full bg-gray-50 absolute top-16 left-0 mt-4">
         <ul class="flex flex-col font-medium p-4 space-y-2 text-black">
           @if(session('mentor_name'))
           <li>

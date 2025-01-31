@@ -79,7 +79,7 @@
         }
 
         function onScanError(error) {
-            console.error(error);
+            // console.error(error);
         }
 
         const html5QrCode = new Html5Qrcode("qr-reader");

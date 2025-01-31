@@ -13,10 +13,27 @@ class KinderenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $Kinderen = Kinderen::latest()->paginate(5);
-        return view('kinderen.index', compact('Kinderen'));
+        // Sorting logic
+        $sort = $request->input('sort', 'recent');
+        $query = Kinderen::query();
+    
+        switch ($sort) {
+            case 'naam_asc':
+                $query->orderBy('Voornaam', 'asc');
+                break;
+            case 'naam_desc':
+                $query->orderBy('Voornaam', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+    
+        $Kinderen = $query->paginate(5);
+        // $Kinderen = $query->select('kinderen.*')->paginate(5);
+        return view('kinderen.index', compact('Kinderen', 'sort'));
     }
 
     /**

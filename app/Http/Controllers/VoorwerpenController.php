@@ -10,6 +10,7 @@ use App\Models\Categories;
 use App\Models\Reserveringen;
 use App\Models\Uitleengeschiedenis;
 use App\Models\Foto;
+use App\Models\Mentoren;
 use chillerlan\QRCode\{QRCode, QROptions};  
 use chillerlan\QRCode\Output\{QROutputInterface};
 use App\Models\Qr;
@@ -24,12 +25,13 @@ class VoorwerpenController extends Controller
         $Reserveringen = Reserveringen::all();
         $Uitgeleend = Uitleengeschiedenis::where('Uitgeleend', 1)->get();
         $Kinderen = Uitleengeschiedenis::where('Uitgeleend', 1)->with('kind')->get()->pluck('kind');
-
+        $Mentoren = Mentoren::all();
+    
         // Sorting logic
         $sort = $request->input('sort', 'recent');
         $categorie = null;
         $query = Voorwerpen::query();
-
+    
         switch ($sort) {
             case 'naam_asc':
                 $query->orderBy('Naam', 'asc');
@@ -55,16 +57,22 @@ class VoorwerpenController extends Controller
                     $query->where('CategorieUUID', $categorie);
                 }
                 break;
+            case 'Actief_1':
+                $query->where('Actief', 1);
+                break;
+            case 'Actief_0':
+                $query->where('Actief', 0);
+                break;
             default:
                 $query->latest();
                 break;
         }
-
+    
         $Voorwerpen = $query->select('voorwerpen.*')->paginate(5);
-
+    
         $Qr = Qr::all();
         $Foto = Foto::all();
-        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen', 'sort', 'categorie'));
+        return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen', 'sort', 'categorie', 'Mentoren'));
     }
 
     public function getVoorwerp($uuid)
@@ -96,6 +104,40 @@ class VoorwerpenController extends Controller
         return view('voorwerpen.scan');
     }
 
+    public function reserveren($UUID)
+    {
+
+        if (session('mentor_uuid') == null) {
+            return redirect()->route('login')->with('msg', 'You need to be logged in to reserve a voorwerp');
+        }
+
+        $voorwerp = Voorwerpen::where('UUID', $UUID)->first();
+        if (!$voorwerp) {
+            return redirect()->route('voorwerpen.index')->with('msg', 'Voorwerp not found');
+        }
+
+        $existingReservation = Reserveringen::where('VoorwerpUUID', $UUID)->first();
+        if ($existingReservation) {
+            return redirect()->route('voorwerpen.index')->with('msg', 'Voorwerp is already reserved');
+        }
+
+        $reservering = new Reserveringen();
+        $reservering->UUID = Str::uuid()->toString();
+        $reservering->VoorwerpUUID = $UUID;
+        $reservering->MentorUUID = session('mentor_uuid');
+        $reservering->save();
+
+        return redirect()->route('voorwerpen.index')->with('msg', 'Voorwerp successfully reserved');
+    }
+
+    public function removereservatie($uuid)
+    {
+        $reservering = Reserveringen::where('UUID', $uuid)->firstOrFail();
+        $reservering->delete();
+
+        return redirect()->route('voorwerpen.index')->with('msg', 'Reservation successfully removed');
+    }
+
     public function create()
     {
         if(session('mentor_admin') == 1) {
@@ -115,7 +157,11 @@ class VoorwerpenController extends Controller
             // $Foto = Foto::findOrFail($voorwerp->FotoUUID);
             // $QR = Qr::findOrFail($voorwerp->QRUUID);
             $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
-            $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
+            $Foto = null;
+
+            if ($voorwerp->FotoUUID) {
+                $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->first();
+            }
             return view('voorwerpen.edit', compact('voorwerp', 'Categories', 'Foto', 'QR'));
         } else {
             return redirect('/voorwerpen')->with('msg', 'You are not authorized to edit this voorwerp');

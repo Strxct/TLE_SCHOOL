@@ -28,12 +28,10 @@
 @endif --}}
 <div class="mb-10">
     <p class="px-2">Sorteer</p>
-    <select class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-        <option value="naam_asc">Naam (A-Z)</option>
-        <option value="naam_desc">Naam (Z-A)</option>
-        <option value="email_asc">Email (A-Z)</option>
-        <option value="email_desc">Email (Z-A)</option>
-        <option value="recent">Recent toegevoegd</option>
+    <select id="sort-select" class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        <option value="recent" {{ $sort == 'recent' ? 'selected' : '' }}>Recent toegevoegd</option>
+        <option value="naam_asc" {{ $sort == 'naam_asc' ? 'selected' : '' }}>Naam (A-Z)</option>
+        <option value="naam_desc" {{ $sort == 'naam_desc' ? 'selected' : '' }}>Naam (Z-A)</option>
     </select>
 </div>
 
@@ -43,6 +41,7 @@
     @endif
 </div>
 
+{{ $Mentoren->links() }}
 <div class="w-full py-0.5 bg-[#C8304E] mb-2"></div>
 
 
@@ -157,6 +156,13 @@
                 modal.classList.remove("hidden");
             });
         });
+
+        document.getElementById('sort-select').addEventListener('change', function() {
+        // var categorieSelectContainer = document.getElementById('categorie-select-container');
+        //     categorieSelectContainer.classList.add('hidden');
+            window.location.href = '/mentoren?sort=' + this.value;
+        });
+
 
         cancelButton.addEventListener("click", () => {
             modal.classList.add("hidden");

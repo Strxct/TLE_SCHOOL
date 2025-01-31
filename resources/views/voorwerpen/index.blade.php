@@ -20,6 +20,10 @@
         <option value="Uitgeleend_desc" {{ $sort == 'Uitgeleend_desc' ? 'selected' : '' }}>Uitgeleend (nieuw-oud)</option>
         <option value="Uitgeleend_asc" {{ $sort == 'Uitgeleend_asc' ? 'selected' : '' }}>Uitgeleend (oud-nieuw)</option>
         <option value="Categorie" {{ $sort == 'Categorie' ? 'selected' : '' }}>Domein</option>
+        @if (session('mentor_admin') == 1)
+        <option value="Actief_1" {{ $sort == 'Actief_1' ? 'selected' : '' }}>Actief</option>
+        <option value="Actief_0" {{ $sort == 'Actief_0' ? 'selected' : '' }}>Niet Actief</option>
+        @endif
     </select>
     <div id="categorie-select-container" class="mt-2 {{ $sort == 'Categorie' ? '' : 'hidden' }}">
         <p class="px-2">Selecteer Domein</p>
@@ -36,16 +40,26 @@
 <!-- when domein is selected in the dropdown show another to select what domein to filter bij -->
 
 <!-- Modal -->
-{{-- <div id="reserveer-modal" class="fixed z-50  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
+<div id="reserveer-modal" class="fixed z-50  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
     <div class="relative p-5 border w-1/3 shadow-lg rounded-md bg-white">
-        <div class="mt-3 text-center">
-            <p><strong>Naam:</strong> <span id="modal-voorwerp-naam"></span></p>
+        <div class="">
+            <form id="reserveForm" method="post" action="">
+            <h5><strong>Voorwerp Reserveren</strong></h5>
+            <p>Wilt u <strong><span id="modal-voorwerp-naam"></span></strong> Reserveren?<p>
             <img id="modal-voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover mx-auto rounded-lg">
-            <a id="reserveer-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4">Reserveer</a>
-            <button id="close-modal-btn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 mt-4">Close</button>
+            <div class="flex justify-between mt-4">
+            @csrf 
+            @method('POST')
+            {{-- <button id="reserveer-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4">Bevestigen</button> --}}
+            <button type="submit" id="reserveer-btn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-700 mt-4">Bevestigen</button>
+            <button id="close-modal-btn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-700 mt-4">Annuleren</button>
+            </form>
+            </div>
         </div>
     </div>
-</div> --}}
+</div>
+
+
 <div class="flex flex-row gap-x-4 items-center">
     <button class="bg-[#019AAC] lg:block hidden text-white py-1 px-2 rounded">
         <a href="{{ route('voorwerpen.scan') }}" class="text-white">
@@ -58,7 +72,9 @@
     </div>
     @endif
 </div>
-
+<div class="mt-4">
+    {{ $Voorwerpen->links() }}
+</div>
 <div class="w-full py-0.5 bg-[#C8304E] mt-2"></div>
 
 <div class="mt-4 flex lg:block hidden">
@@ -67,7 +83,15 @@
     // Check if the item is borrowed by this user
     $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
     $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
+
+    $Reservering = $Reserveringen->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+    $Mentor = '';
+
+    if ($Reservering) {
+        $Mentor = $Mentoren->where('UUID', $Reservering->MentorUUID)->first();
+    }
     @endphp
+    @if ($Voorwerp->Actief == 1 || session('mentor_admin') == 1)
     <div class="flex flex-row justify-between">
         <div class="px-2 py-2 text-black flex-1">
             <h5 class="font-medium">Naam:</h5>
@@ -80,12 +104,6 @@
         <div class="px-2 py-2 flex-1">
             <h5 class="font-medium">Foto:</h5>
             <img src="{{ optional($Voorwerp->Foto)->Foto }}" alt="Voorwerp Foto" class="h-20 w-20 object-cover">
-        </div>
-        <div class="px-2 py-2 text-black flex-1">
-            @if($Voorwerp->Notities)
-            <h5 class="font-medium">Notities:</h5>
-            <span class="text-red-500">Heeft notitie</span>
-            @endif
         </div>
         <div class="px-2 py-2 text-black flex-1">
             @if($uitgeleendItem)
@@ -101,11 +119,30 @@
             </a>
             @endif
         </div>
+        <div class="px-2 py-2 text-black flex-1">
+            @if($Voorwerp->Notities)
+            <h5 class="font-medium">Notities:</h5>
+            <span class="text-red-500">Heeft notitie</span>
+            @endif
+        </div>
+        <div class="px-2 py-2 text-black flex-1">
+            @if($Voorwerp->Actief == 0)
+            <h5 class="font-medium">Actief:</h5>
+            <span class="text-red-500">Niet Actief</span>
+            @endif
+        </div>
     </div>
     <div class="flex flex-row w-full gap-y-4 lg:gap-y-0 mt-2">
         <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="bg-green-500 w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
             <i class="fas fa-edit"></i> Details
         </a>
+        @if(!$Reservering)
+        <button class="bg-blue-500 text-white py-1 px-2 w-full rounded" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Reserveer</button>
+        @elseif($Reservering->MentorUUID == session('mentor_uuid'))
+        <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}'">Annuleer Reservering</button>
+        @else 
+        <a href="{{ route('mentoren.show', $Mentor->UUID)}}" class="text-red-500 bg-gray-300 rounded py-1 text-center px-2 w-full">Gerserveerd: {{$Mentor->Voornaam}} {{$Mentor->Achternaam}}</a> 
+        @endif
         @if (session('mentor_admin') == 1)
         <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="bg-[#019AAC] w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
             <i class="fas fa-edit"></i> Update
@@ -116,20 +153,29 @@
         @endif
     </div>
     <div class="border-b border-black mt-2"></div>
+    @endif
+
     @endforeach
 </div>
 
 
 
-<div class="overflow-y-scroll h-[400px] block lg:hidden block">
+<div class="block lg:hidden block">
     @foreach($Voorwerpen as $Voorwerp)
     @php
     // Match $Voorwerp with $Uitgeleend using VoorwerpUUID
     $uitgeleendItem = $Uitgeleend->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+    $Reservering = $Reserveringen->firstWhere('VoorwerpUUID', $Voorwerp->UUID);
+    $Mentor = '';
+
+    if ($Reservering) {
+        $Mentor = $Mentoren->where('UUID', $Reservering->MentorUUID)->first();
+    }
 
     // Match $Kinderen using KindUUID from $Uitgeleend
     $kind = $uitgeleendItem ? $Kinderen->firstWhere('UUID', $uitgeleendItem['KindUUID']) : null;
     @endphp
+    @if ($Voorwerp->Actief == 1 || session('mentor_admin') == 1)
     <div class="py-4 border-b border-black">
         <div class="flex flex-col">
             <a href="{{ route('voorwerpen.show', $Voorwerp->UUID) }}" class="text-white">
@@ -142,29 +188,41 @@
                 @if($kind)
                     <a href="{{ route('kinderen.show', $kind['UUID']) }}" class="text-blue-500 underline">
                         {{ $kind['Voornaam'] }} {{ $kind['Achternaam'] }}
-                    </a>
+                    </a><br>
                 @else
-                    -
+                    - <br>
                 @endif
+                {{-- @if($Reservering)
+                    <strong>Gerserveerd: {{$Mentor->Voornaam}} {{$Mentor->Achternaam}}</strong> 
+                @endif --}}
             </p>
             @endif
         </div>
-        @if (session('mentor_admin') == 1)
         <div>
             <div class="flex w-full flex-row gap-y-4 gap-x-4 lg:gap-y-0 mt-2">
-                <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white text-center bg-[#019AAC] w-full text-white py-1 px-2">
+                @if(!$Reservering)
+                <button class="bg-blue-500 text-white py-1 px-2 w-full rounded" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Reserveer</button>
+                @elseif($Reservering->MentorUUID == session('mentor_uuid'))
+                <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}'">Annuleer Reservering</button>
+                @else 
+                <a href="{{ route('mentoren.show', $Mentor->UUID)}}" class="text-red-500 bg-gray-300 rounded py-1 text-center px-2 w-full">Gerserveerd: {{$Mentor->Voornaam}} {{$Mentor->Achternaam}}</a> 
+                @endif
+                {{-- <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" onclick="showReserveerModal('{{ $Voorwerp->UUID }}')">Reserveer</button> --}}
+                @if (session('mentor_admin') == 1)
+                <a href="{{ route('voorwerpen.edit', $Voorwerp->UUID) }}" class="text-white text-center bg-[#019AAC] w-full text-white py-2 px-2 rounded flex items-center justify-center">
                     <i class="fas fa-edit"></i> Update
                 </a>
                 <button
-                    class="bg-red-500 text-white w-full py-1 px-2 open-modal"
+                    class="bg-red-500 text-white w-full py-1 px-2 open-modal rounded"
                     data-voorwerp-name="{{ $Voorwerp->Naam }}"
                     data-voorwerp-id="{{ $Voorwerp->UUID }}">
-                    <i class="fas fa-trash"></i> verwijderen
+                    <i class="fas fa-trash"></i> Verwijderen
                 </button>
+                @endif
             </div>
         </div>
-        @endif
     </div>
+    @endif
     @endforeach
 </div>
 <!-- Modal -->
@@ -224,21 +282,22 @@
             }
         });
     });
-</script>{{-- <script>
-    function showReserveerModal(uuid, naam, foto) {
-        document.getElementById('modal-voorwerp-naam').innerText = naam;
-        document.getElementById('modal-voorwerp-foto').src = foto;
-        document.getElementById('reserveer-modal').style.display = 'flex';
-        console.log({{ $Session->mentor_uuid }});
-let mentorUUID = "{{ $Session->mentor_uuid }}";
-let reserveerBtn = document.getElementById('reserveer-btn');
-reserveerBtn.href = "{{ route('reserveringen.store', ['MentorUUID' => '" + mentorUUID + "', 'VoorwerpUUID' => '" + uuid + "']) }}"
-}
+        let voorwerpUUID = '';
+        const reserveForm = document.getElementById('reserveForm');
+            function showReserveerModal(uuid, naam, foto) {
+                voorwerpUUID = uuid;
+                document.getElementById('modal-voorwerp-naam').innerText = naam;
+                document.getElementById('modal-voorwerp-foto').src = foto;
+                document.getElementById('reserveer-modal').style.display = 'flex';
+                reserveForm.action = '/voorwerpen/reserveren/' + voorwerpUUID;
+                }
+                
 
-document.getElementById('close-modal-btn').addEventListener('click', function() {
-document.getElementById('reserveer-modal').style.display = 'none';
-});
-</script> --}}
+                document.getElementById('close-modal-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById('reserveer-modal').style.display = 'none';
+            });
+</script>
 
 
 @endsection

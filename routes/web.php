@@ -65,8 +65,8 @@ Route::post('/logout', [MentorenController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
     Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
+    Route::post('/voorwerpen/reserveren/{uuid}', [VoorwerpenController::class, 'reserveren'])->name('voorwerpen.reserveren');
     Route::resource('voorwerpen', VoorwerpenController::class);
-    Route::resource('reserveringen', ReserveringenController::class);
     Route::get('/kinderen', [KinderenController::class, 'index'])->name('kinderen');
     Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
     Route::resource('kinderen', KinderenController::class);

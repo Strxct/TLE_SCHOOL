@@ -19,20 +19,16 @@
 </div>
 
 <table class="w-3/4 mx-auto">
-    <div class="w-3/4 mx-auto">
-        {{ $Kinderen->links() }}
-    </div>
 
     <div class="mb-10">
         <p class="px-2">Sorteer</p>
-        <select class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-            <option value="naam_asc">Naam (A-Z)</option>
-            <option value="naam_desc">Naam (Z-A)</option>
-            <option value="email_asc">Email (A-Z)</option>
-            <option value="email_desc">Email (Z-A)</option>
-            <option value="recent">Recent toegevoegd</option>
+        <select id="sort-select" class="mt-2 block w-full bg-white border border-gray-300 rounded py-2 px-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="recent" {{ $sort == 'recent' ? 'selected' : '' }}>Recent toegevoegd</option>
+            <option value="naam_asc" {{ $sort == 'naam_asc' ? 'selected' : '' }}>Naam (A-Z)</option>
+            <option value="naam_desc" {{ $sort == 'naam_desc' ? 'selected' : '' }}>Naam (Z-A)</option>
         </select>
     </div>
+    
 
     <div class="flex flex-row gap-x-4 items-center ml-2 mb-2">
         <a href="{{ route('voorwerpen.scan') }}" class="bg-[#019AAC] lg:block hidden text-white py-1 px-2 rounded">
@@ -43,6 +39,7 @@
         @endif
     </div>
 
+    {{ $Kinderen->links() }}
     <div class="w-full py-0.5 bg-[#C8304E] mb-2"></div>
 
     <tbody class="mt-4">
@@ -50,8 +47,20 @@
         <tr class="flex flex-col justify-between border-black">
             <div class="">
                 <a href="{{ route('kinderen.show', $Kind->UUID) }}" class="text-white flex flex-row">
-                    <div class="px-2 py-2 text-black">{{ $Kind['Voornaam'] }}</div>
-                    <div class="px-2 py-2 text-black">{{ $Kind['Achternaam'] }}</div>
+                    <div class="flex flex-row justify-between">
+                        <div class="px-2 py-2 text-black flex-1">
+                            <h5 class="font-medium">Voornaam:</h5>
+                            {{ $Kind->Voornaam }}
+                        </div>
+                        <div class="px-2 py-2 text-black flex-1">
+                            <h5 class="font-medium">Achternaam:</h5>
+                            {{ $Kind->Achternaam }}
+                        </div>
+                        <div class="lg:block hidden px-2 py-2 text-black flex-1">
+                            <h5 class="font-medium">Ouder Email:</h5>
+                            {{ $Kind->Contact }}
+                        </div>
+                    </div>
                 </a>
                 <div class="flex flex-row w-full gap-y-4 lg:gap-y-0">
                     <a
@@ -113,6 +122,11 @@
                 deleteForm.action = `/kinderen/${kindId}`;
                 modal.classList.remove('hidden');
             });
+        });
+        document.getElementById('sort-select').addEventListener('change', function() {
+        // var categorieSelectContainer = document.getElementById('categorie-select-container');
+        //     categorieSelectContainer.classList.add('hidden');
+            window.location.href = '/kinderen?sort=' + this.value;
         });
 
         cancelButton.addEventListener('click', () => {
