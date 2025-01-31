@@ -48,6 +48,7 @@ class Uitleengeschiedenis extends Model
         'KindUUID',
         'Uitleendatum',
         'Aanmaakdatum',
+        'Uitgeleend'
     ];
 
     /**

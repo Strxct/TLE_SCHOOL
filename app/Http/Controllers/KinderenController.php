@@ -4,16 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Kinderen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Mentoren;
+use App\Models\Voorwerpen;
 
 class KinderenController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $Kinderen = Kinderen::latest()->paginate(5);
-        return view('kinderen.index', compact('Kinderen'));
+        // Sorting logic
+        $sort = $request->input('sort', 'recent');
+        $query = Kinderen::query();
+    
+        switch ($sort) {
+            case 'naam_asc':
+                $query->orderBy('Voornaam', 'asc');
+                break;
+            case 'naam_desc':
+                $query->orderBy('Voornaam', 'desc');
+                break;
+            default:
+                $query->latest();
+                break;
+        }
+    
+        $Kinderen = $query->paginate(5);
+        // $Kinderen = $query->select('kinderen.*')->paginate(5);
+        return view('kinderen.index', compact('Kinderen', 'sort'));
     }
 
     /**
@@ -21,7 +41,12 @@ class KinderenController extends Controller
      */
     public function create()
     {
-        return view('kinderen.create');
+        if(session('mentor_admin') == 1) {
+            $Mentoren = Mentoren::all();
+            return view('kinderen.create', compact('Mentoren'));
+        } else {
+            return redirect('/kinderen')->with('msg', 'You are not authorized to create a new kind');
+        }
     }
 
     /**
@@ -29,22 +54,32 @@ class KinderenController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'Voornaam' => 'required',
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
-            'Contact' => 'required',
+            'Contact' => 'nullable',
+            'MentorUUID' => 'required|exists:mentoren,UUID',
         ]);
 
-        $Kind = new Kinderen();
-        $Kind->Voornaam = $request->Voornaam;
-        $Kind->Achternaam = $request->Achternaam;
-        $Kind->Geboortedatum = $request->Geboortedatum;
-        $Kind->Contact = $request->Contact;
-        $Kind->MentorUUID = $request->MentorUUID; // Assuming MentorUUID is provided
-        $Kind->save();
+        // $Kind = new Kinderen();
+        // $Kind->Voornaam = $request->Voornaam;
+        // $Kind->Achternaam = $request->Achternaam;
+        // $Kind->Geboortedatum = $request->Geboortedatum;
+        // $Kind->Contact = $request->Contact;
+        // $Kind->MentorUUID = $request->MentorUUID; // Assuming MentorUUID is provided
+        $validated['UUID'] = Str::uuid()->toString(); // Populate the UUID
+
+        // print_r($request);
+        // die();
+
+        // echo "aspdio]kjas]opfik[dfopgkjpoadsfkjg[oijadsf[guij[z]sdfpoigijkasdfE[]gio";
+        // $Kind->save();
+
+        Kinderen::create($validated);
 
         return redirect('/kinderen')->with('msg', 'Kind created successfully');
+        // return response()->json($request);
     }
 
     /**
@@ -53,7 +88,14 @@ class KinderenController extends Controller
     public function show(string $id)
     {
         $Kind = Kinderen::findOrFail($id);
-        return view('kinderen.show', compact('Kind'));
+        $Uitgeleend = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->get();
+        $Voorwerpen = $Kind->uitleengeschiedenis()->where('KindUUID', $Kind->UUID)->with('voorwerp')->get()->pluck('voorwerp');
+        $Mentor = Mentoren::where('UUID', $Kind->MentorUUID)->first();
+        // $Voorwerpen = Voorwerpen::all();
+
+        // dd($Uitgeleend);
+
+        return view('kinderen.show', compact('Kind', 'Uitgeleend', 'Voorwerpen', 'Mentor'));
     }
 
     /**
@@ -61,8 +103,22 @@ class KinderenController extends Controller
      */
     public function edit(string $id)
     {
+        if(session('mentor_admin') == 1) {
+            $Kind = Kinderen::findOrFail($id);
+            $Mentoren = Mentoren::all();
+            return view('kinderen.edit', compact('Kind', 'Mentoren'));
+        } else {
+            return redirect('/kinderen')->with('msg', 'You are not authorized to edit this kind');
+        }
+    }
+
+    /**
+     * Show the form for scanning the specified resource.
+     */
+    public function scan(string $id)
+    {
         $Kind = Kinderen::findOrFail($id);
-        return view('kinderen.edit', compact('Kind'));
+        return view('kinderen.scan', compact('Kind'));
     }
 
     /**
@@ -74,7 +130,8 @@ class KinderenController extends Controller
             'Voornaam' => 'required',
             'Achternaam' => 'required',
             'Geboortedatum' => 'required|date',
-            'Contact' => 'required',
+            'Contact' => 'nullable',
+            'MentorUUID' => 'nullable|exists:mentoren,UUID',
         ]);
 
         $Kind = Kinderen::findOrFail($id);

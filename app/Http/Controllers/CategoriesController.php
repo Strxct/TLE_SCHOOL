@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;  // Import the Categories model
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
 {
@@ -17,21 +18,23 @@ class CategoriesController extends Controller
     // Sla een nieuwe categorie op in de database
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'UUID' => 'required|unique:categories,UUID',
+        $request->validate([
             'Naam' => 'required|string|max:50',
-            'Aanmaakdatum' => 'required|date',
         ]);
 
-        $Categorie = Categories::create($validated);
+        $Categorie = new Categories();
+        $Categorie->UUID = Str::uuid()->toString();
+        $Categorie->Naam = $request->Naam;
 
-        return response()->json($Categorie, 201);  // Retourneer de nieuw gemaakte categorie met HTTP-status 201
+        $newCategorie = Categories::create($Categorie);
+
+        return response()->json($newCategorie, 201);  // Retourneer de nieuw gemaakte categorie met HTTP-status 201
     }
 
     // Toon de specifieke categorie
-    public function show($id)
+    public function show($UUID)
     {
-        $Categorie = Categories::find($id);
+        $Categorie = Categories::find($UUID);
 
         if (!$Categorie) {
             return response()->json(['message' => 'Categorie niet gevonden'], 404);
@@ -41,14 +44,14 @@ class CategoriesController extends Controller
     }
 
     // Werk de gegevens van een specifieke categorie bij
-    public function update(Request $request, $id)
+    public function update(Request $request, $UUID)
     {
         $validated = $request->validate([
             'Naam' => 'required|string|max:50',
             'Aanmaakdatum' => 'required|date',
         ]);
 
-        $Categorie = Categories::find($id);
+        $Categorie = Categories::find($UUID);
 
         if (!$Categorie) {
             return response()->json(['message' => 'Categorie niet gevonden'], 404);
@@ -60,9 +63,9 @@ class CategoriesController extends Controller
     }
 
     // Verwijder een categorie
-    public function destroy($id)
+    public function destroy($UUID)
     {
-        $Categorie = Categories::find($id);
+        $Categorie = Categories::find($UUID);
 
         if (!$Categorie) {
             return response()->json(['message' => 'Categorie niet gevonden'], 404);

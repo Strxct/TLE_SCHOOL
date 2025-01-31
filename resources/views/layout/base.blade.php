@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gray-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +11,10 @@
 
 
 </head>
-<body>
-    @include('layout.nav')
-    @yield('content')
+<body class="flex justify-center bg-gray-100">
+    <div class="w-full md:w-3/4 bg-white p-4 md:p-8 rounded-lg lg:my-10">
+        @include('layout.nav')
+        @yield('content')
+    </div>
 </body>
 </html>

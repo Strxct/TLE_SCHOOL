@@ -18,6 +18,20 @@ class Reserveringen extends Model
     // Disable timestamps (because there are no `created_at` and `updated_at` columns)
     public $timestamps = false;
 
+        /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     // Define fillable fields to protect against mass-assignment vulnerabilities
     protected $fillable = [
         'UUID',
