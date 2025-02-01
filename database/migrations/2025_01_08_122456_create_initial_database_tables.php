@@ -12,7 +12,7 @@ class CreateInitialDatabaseTables extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->uuid('UUID')->primary();
             $table->string('Naam', 50);
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('mentoren', function (Blueprint $table) {
@@ -22,7 +22,7 @@ class CreateInitialDatabaseTables extends Migration
             $table->string('Email', 50)->unique();
             $table->string('Wachtwoord', 255);
             $table->boolean('Admin');
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
 
         Schema::create('kinderen', function (Blueprint $table) {
@@ -32,7 +32,7 @@ class CreateInitialDatabaseTables extends Migration
             $table->string('Achternaam', 50);
             $table->date('Geboortedatum');
             $table->string('Contact', 50);
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('MentorUUID')->references('UUID')->on('mentoren')->onUpdate('cascade')->onDelete('restrict');
         });
@@ -46,7 +46,7 @@ class CreateInitialDatabaseTables extends Migration
             $table->string('QR', 255);
             $table->string('Foto', 255);
             $table->boolean('Actief');
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('CategorieUUID')->references('UUID')->on('categories')->onUpdate('cascade')->onDelete('restrict');
         });
@@ -55,7 +55,7 @@ class CreateInitialDatabaseTables extends Migration
             $table->uuid('UUID')->primary();
             $table->uuid('MentorUUID');
             $table->uuid('VoorwerpUUID');
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('MentorUUID')->references('UUID')->on('mentoren')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('VoorwerpUUID')->references('UUID')->on('voorwerpen')->onUpdate('cascade')->onDelete('restrict');
@@ -65,8 +65,8 @@ class CreateInitialDatabaseTables extends Migration
             $table->uuid('UUID')->primary();
             $table->uuid('VoorwerpUUID');
             $table->uuid('KindUUID');
-            $table->date('Uitleendatum');
-            $table->date('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('Uitleendatum');
+            $table->timestamp('Aanmaakdatum')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('VoorwerpUUID')->references('UUID')->on('voorwerpen')->onUpdate('cascade')->onDelete('restrict');
             $table->foreign('KindUUID')->references('UUID')->on('kinderen')->onUpdate('cascade')->onDelete('restrict');
