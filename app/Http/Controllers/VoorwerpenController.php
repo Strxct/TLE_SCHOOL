@@ -130,9 +130,17 @@ class VoorwerpenController extends Controller
         return redirect()->route('voorwerpen.index')->with('msg', 'Voorwerp successfully reserved');
     }
 
-    public function removereservatie($uuid)
+    public function removereservatie($voorwerpuuid)
     {
-        $reservering = Reserveringen::where('UUID', $uuid)->firstOrFail();
+        if (session('mentor_uuid') == null) {
+            return redirect()->route('login')->with('msg', 'You need to be logged in to remove a reservation');
+        }
+        $reservering = Reserveringen::where('VoorwerpUUID', $voorwerpuuid)
+                        ->where('MentorUUID', session('mentor_uuid'))
+                        ->firstOrFail();
+        if (!$reservering) {
+            return redirect()->route('voorwerpen.index')->with('msg', 'Reservation not found');
+        }
         $reservering->delete();
 
         return redirect()->route('voorwerpen.index')->with('msg', 'Reservation successfully removed');

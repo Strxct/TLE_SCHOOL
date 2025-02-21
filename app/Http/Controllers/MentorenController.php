@@ -175,7 +175,9 @@ class MentorenController extends Controller
 
     public function destroy($id)
     {
-        if(session('mentor_admin') == 1) {
+        if (session('mentor_uuid') == $id) {
+            return redirect()->route('mentoren.index')->with('msg', 'Je kan jezelf niet verwijderen.');
+        } else if (session('mentor_admin') == 1) {
             $mentor = Mentoren::findOrFail($id);
             $mentor->delete();
 

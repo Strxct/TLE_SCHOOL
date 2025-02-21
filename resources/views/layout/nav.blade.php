@@ -63,27 +63,27 @@
       </div>
 
       <!-- Mobile Navbar -->
-      <div id="mobile-navbar" class="hidden lg:hidden w-full bg-gray-50 absolute top-16 left-0 mt-4">
+      <div id="mobile-navbar" class="hidden lg:hidden w-full bg-gray-50 absolute z-20 top-16 left-0 mt-4">
         <ul class="flex flex-col font-medium p-4 space-y-2 text-black">
           @if(session('mentor_name'))
           <li>
-            <a href="{{ route('mentoren.profile')}}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">{{ session('mentor_name') }}</a>
+            <a href="{{ route('mentoren.profile')}}" class="block py-2 pl-2 text-gray-900 hover:bg-gray-200 rounded">{{ session('mentor_name') }}</a>
           </li>
           @endif
           <li>
-            <a href="{{ route('kinderen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Kinderen</a>
+            <a href="{{ route('kinderen.index') }}" class="block py-2 pl-2 text-gray-900 hover:bg-gray-200 rounded">Kinderen</a>
           </li>
           <li>
-            <a href="{{ route('mentoren.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Mentor</a>
+            <a href="{{ route('mentoren.index') }}" class="block py-2 pl-2 text-gray-900 hover:bg-gray-200 rounded">Mentor</a>
           </li>
           <li>
-            <a href="{{ route('voorwerpen.index') }}" class="block py-2 text-gray-900 hover:bg-gray-200 rounded">Voorwerpen</a>
+            <a href="{{ route('voorwerpen.index') }}" class="block py-2 pl-2 text-gray-900 hover:bg-gray-200 rounded">Voorwerpen</a>
           </li>
           @auth
           <li>
             <form action="{{ route('logout') }}" method="POST">
               @csrf
-              <button type="submit" class="block py-2 text-gray-900 hover:bg-gray-200 rounded w-full text-left">Logout</button>
+              <button type="submit" class="block py-2 pl-2 text-gray-900 hover:bg-gray-200 rounded w-full text-left">Logout</button>
             </form>
           </li>
           @else

@@ -1,6 +1,6 @@
 @extends('layout.base') 
 @section('content')
-<div class="w-1/2 mx-auto mt-5">
+<div class="lg:w-1/2 px-2 lg:px-0 mx-auto mt-5">
     <form
         action="{{ route('voorwerpen.store') }}"
         method="POST"

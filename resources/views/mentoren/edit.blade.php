@@ -9,7 +9,7 @@
         @method('PUT')
         <!-- voornaam -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">Voornaam</label>
+            <label for="Voornaam" class="block font-medium text-gray-700">Voornaam</label>
             <input type="text" name="Voornaam" id="VSoornaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Mentoren->Voornaam }}">
             @error('Voornaam')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -19,7 +19,7 @@
 
         <!-- achternaam -->
         <div class="mb-4">
-            <label for="noun" class="block font-medium text-gray-700">Achternaam</label>
+            <label for="Achternaam" class="block font-medium text-gray-700">Achternaam</label>
             <input type="text" name="Achternaam" id="Achternaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Mentoren->Achternaam }}">
             @error('Achternaam')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -30,7 +30,7 @@
         <!-- Email -->
 
         <div class="mb-4">
-            <label for="quantity" class="block font-medium text-gray-700">Email</label>
+            <label for="email" class="block font-medium text-gray-700">Email</label>
             <input type="Email" name="Email" id="Email" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="{{ $Mentoren->Email }}">
             @error('Email')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -39,13 +39,24 @@
 
 
          <!-- wachtwoord -->
+         @if (session('mentor_uuid') == $Mentoren->UUID)
+         <div class="mb-4">
+             <label for="password" class="block font-medium text-gray-700">Wachtwoord</label>
+             <input disabled type="password" name="Wachtwoord" id="" class="border-gray-300 py-2 bg-gray-400 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
+             @error('wachtwoord')
+                 <span class="text-red-500 text-sm">{{ $message }}</span>
+             @enderror
+         </div>
+         @else
         <div class="mb-4">
-            <label for="price" class="block font-medium text-gray-700">Wachtwoord</label>
+            <label for="password" class="block font-medium text-gray-700">Wachtwoord</label>
             <input type="password" name="Wachtwoord" id="Wachtwoord" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2" value="">
             @error('wachtwoord')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror
         </div>
+        @endif
+
 
         <!-- admin -->
         <div class="mb-4">

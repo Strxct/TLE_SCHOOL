@@ -69,9 +69,11 @@
         <a href="{{ route('mentoren.edit', $Mentor->UUID) }}" class="bg-[#019AAC] w-full text-white text-center rounded text-sm py-1 px-2 ml-2 mr-2">
             <i class="fas fa-edit"></i> Update
         </a>
+        @if (session('mentor_uuid') !== $Mentor->UUID)
         <button class="bg-red-500 w-full text-white rounded text-sm py-1 px-2 ml-2 mr-2 open-modal" data-mentor-name="{{ $Mentor->Voornaam }}" data-mentor-id="{{ $Mentor->UUID }}">
             <i class="fas fa-trash"></i> Verwijderen
         </button>
+        @endif
         @endif
     </div>
     <div class="border-b border-black mt-2"></div>
@@ -94,7 +96,7 @@
                 >
                     <i class="fas fa-edit"></i> Update
                 </a>
-
+                @if (session('mentor_uuid') !== $Mentor->UUID)
                 <button
                     class="bg-red-500 w-full ml-4 text-white rounded py-1 px-2 open-modal"
                     data-mentor-name="{{ $Mentor['Voornaam'] }}"
@@ -102,6 +104,7 @@
                 >
                     <i class="fas fa-trash"></i> verwijderen
                 </button>
+                @endif
             </div>
             @endif
         </div>
