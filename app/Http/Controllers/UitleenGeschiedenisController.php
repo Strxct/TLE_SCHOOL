@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Uitleengeschiedenis;  // Import the Uitleengeschiedenis model
-use App\models\Reserveringen;
+use App\Models\Reserveringen;
 use App\Models\Voorwerpen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 
-class UitleengeschiedenisController extends Controller
+class UitleenGeschiedenisController extends Controller
 {
     // Toon een lijst van alle uitleengeschiedenissen
     public function index()
