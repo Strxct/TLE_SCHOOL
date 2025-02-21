@@ -13,7 +13,7 @@ use App\Models\Foto;
 use App\Models\Mentoren;
 use chillerlan\QRCode\{QRCode, QROptions};  
 use chillerlan\QRCode\Output\{QROutputInterface};
-use App\Models\Qr;
+use App\Models\QR;
 
 class VoorwerpenController extends Controller
 {  
@@ -70,7 +70,7 @@ class VoorwerpenController extends Controller
     
         $Voorwerpen = $query->select('voorwerpen.*')->paginate(5);
     
-        $Qr = Qr::all();
+        $Qr = QR::all();
         $Foto = Foto::all();
         return view('voorwerpen.index', compact('Voorwerpen', 'Categories', 'Reserveringen', 'Foto', 'Qr', 'Uitgeleend', 'Kinderen', 'sort', 'categorie', 'Mentoren'));
     }
@@ -130,9 +130,17 @@ class VoorwerpenController extends Controller
         return redirect()->route('voorwerpen.index')->with('msg', 'Voorwerp successfully reserved');
     }
 
-    public function removereservatie($uuid)
+    public function removereservatie($voorwerpuuid)
     {
-        $reservering = Reserveringen::where('UUID', $uuid)->firstOrFail();
+        if (session('mentor_uuid') == null) {
+            return redirect()->route('login')->with('msg', 'You need to be logged in to remove a reservation');
+        }
+        $reservering = Reserveringen::where('VoorwerpUUID', $voorwerpuuid)
+                        ->where('MentorUUID', session('mentor_uuid'))
+                        ->firstOrFail();
+        if (!$reservering) {
+            return redirect()->route('voorwerpen.index')->with('msg', 'Reservation not found');
+        }
         $reservering->delete();
 
         return redirect()->route('voorwerpen.index')->with('msg', 'Reservation successfully removed');
@@ -156,7 +164,7 @@ class VoorwerpenController extends Controller
             $Categories = Categories::all();
             // $Foto = Foto::findOrFail($voorwerp->FotoUUID);
             // $QR = Qr::findOrFail($voorwerp->QRUUID);
-            $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
+            $QR = QR::where('UUID', $voorwerp->QRUUID)->firstOrFail();
             $Foto = null;
 
             if ($voorwerp->FotoUUID) {
@@ -201,7 +209,7 @@ class VoorwerpenController extends Controller
         $validated['UUID'] = Str::uuid()->toString();
 
         $qrUUID = Str::uuid()->toString();
-        Qr::create([
+        QR::create([
             'UUID' => $qrUUID,
             'qr' => (new QRCode($options))->render($validated['UUID']),
         ]);
@@ -219,7 +227,7 @@ class VoorwerpenController extends Controller
         $voorwerp = Voorwerpen::findOrFail($id);
         $Categories = Categories::all();
         $Reserveringen = Reserveringen::all();
-        $QR = Qr::where('UUID', $voorwerp->QRUUID)->firstOrFail();
+        $QR = QR::where('UUID', $voorwerp->QRUUID)->firstOrFail();
         $Foto = Foto::where('UUID', $voorwerp->FotoUUID)->firstOrFail();
         return view('voorwerpen.show', compact('voorwerp', 'Categories', 'Reserveringen', 'Foto', 'QR'));
     }

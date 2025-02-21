@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\MentorenController;
 use App\Http\Controllers\ReserveringenController;
-use App\Http\Controllers\UitleengeschiedenisController;
+use App\Http\Controllers\UitleenGeschiedenisController;
 use App\Http\Controllers\VoorwerpenController;
 use App\Http\Controllers\KinderenController;
 
@@ -64,8 +64,10 @@ Route::post('/logout', [MentorenController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/voorwerpen/scan', [VoorwerpenController::class, 'scan'])->name('voorwerpen.scan');
+    Route::get('/voorwerpen/create', [VoorwerpenController::class, 'create'])->name('voorwerpen.create');
     Route::get('/voorwepen', [VoorwerpenController::class, 'index'])->name('voorwerpen');
     Route::post('/voorwerpen/reserveren/{uuid}', [VoorwerpenController::class, 'reserveren'])->name('voorwerpen.reserveren');
+    Route::post('/voorwerpen/verwijderreservatie/{uuid}', [VoorwerpenController::class, 'removereservatie'])->name('voorwerpen.removereservatie');
     Route::resource('voorwerpen', VoorwerpenController::class);
     Route::get('/kinderen', [KinderenController::class, 'index'])->name('kinderen');
     Route::get('/kinderen/{id}/scan', [KinderenController::class, 'scan'])->name('kinderen.scan');
@@ -74,8 +76,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/mentoren/profile', [MentorenController::class, 'profile'])->name('mentoren.profile');
     Route::put('/mentoren/updateProfile', [MentorenController::class, 'updateProfile'])->name('Mentoren.updateProfile');
     Route::resource('mentoren', MentorenController::class);
-    Route::resource('uitleengeschiedenis', UitleengeschiedenisController::class);
-    Route::post('/uitleengeschiedenis', [UitleengeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
+    Route::resource('uitleengeschiedenis', UitleenGeschiedenisController::class);
+    Route::post('/uitleengeschiedenis', [UitleenGeschiedenisController::class, 'store'])->name('uitleengeschiedenis.store');
     Route::post('/uitleengeschiedenis/retour', [UitleenGeschiedenisController::class, 'retourUitgeleend'])->name('uitleengeschiedenis.retourUitgeleend');
     Route::resource('reserveringen', ReserveringenController::class);
     Route::resource('categories', CategoriesController::class);

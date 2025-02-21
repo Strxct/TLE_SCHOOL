@@ -2,7 +2,7 @@
 
 @extends('layout.base')
 @section('content')
-<div class="w-1/2 mx-auto mt-5">
+<div class="lg:w-1/2 px-2 lg:px-0 mx-auto mt-5">
     <h1 class="text-center">Create Employe</h1>
     <form action="{{ route('mentoren.store') }}" method="post" class="max-w-md mx-auto" enctype="multipart/form-data">
         @csrf
@@ -19,7 +19,7 @@
         <!-- Achternaam -->
         <div class="mb-4">
             <label for="noun" class="block font-medium text-gray-700">Achternaam</label>
-            <input type="text" name="Achternaam" id="Achternaam" class="border-gray-300 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
+            <input type="text" name="Achternaam" id="Achternaam" class="border-gray-200 py-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border rounded-md shadow-sm p-2">
             @error('Achternaam')
                 <span class="text-red-500 text-sm">{{ $message }}</span>
             @enderror

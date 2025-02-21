@@ -15,7 +15,7 @@ class SetDefaultUitleendatumInUitleengeschiedenisTable extends Migration
     public function up()
     {
         Schema::table('uitleengeschiedenis', function (Blueprint $table) {
-            $table->date('Uitleendatum')->default(DB::raw('CURRENT_DATE'))->change();
+            $table->timestamp('Uitleendatum')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 

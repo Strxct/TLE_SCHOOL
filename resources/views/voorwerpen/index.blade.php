@@ -41,11 +41,12 @@
 
 <!-- Modal -->
 <div id="reserveer-modal" class="fixed z-50  inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center" style="display: none;">
-    <div class="relative p-5 border w-1/3 shadow-lg rounded-md bg-white">
+    <div class="relative p-5 border lg:w-1/3 w-2/3 shadow-lg rounded-md bg-white">
         <div class="">
             <form id="reserveForm" method="post" action="">
-            <h5><strong>Voorwerp Reserveren</strong></h5>
-            <p>Wilt u <strong><span id="modal-voorwerp-naam"></span></strong> Reserveren?<p>
+            <h5><strong id="reserveer-modal-title">Voorwerp Reserveren</strong></h5>
+            <p style="display: block" id="reserveer-modal-text">Wilt u <strong><span id="reserveer-modal-voorwerp-naam"></span></strong> Reserveren?<p>
+            <p style="display: none" id="annuleer-modal-text">Wilt u de reservering voor <strong><span id="annuleer-modal-voorwerp-naam"></span></strong> Annuleren?<p>
             <img id="modal-voorwerp-foto" alt="Uploaded Image" class="h-40 object-cover mx-auto rounded-lg">
             <div class="flex justify-between mt-4">
             @csrf 
@@ -139,7 +140,7 @@
         @if(!$Reservering)
         <button class="bg-blue-500 text-white py-1 px-2 w-full rounded" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Reserveer</button>
         @elseif($Reservering->MentorUUID == session('mentor_uuid'))
-        <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}'">Annuleer Reservering</button>
+        <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Annuleer Reservering</button>
         @else 
         <a href="{{ route('mentoren.show', $Mentor->UUID)}}" class="text-red-500 bg-gray-300 rounded py-1 text-center px-2 w-full">Gerserveerd: {{$Mentor->Voornaam}} {{$Mentor->Achternaam}}</a> 
         @endif
@@ -203,7 +204,7 @@
                 @if(!$Reservering)
                 <button class="bg-blue-500 text-white py-1 px-2 w-full rounded" onclick="showReserveerModal('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Reserveer</button>
                 @elseif($Reservering->MentorUUID == session('mentor_uuid'))
-                <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}'">Annuleer Reservering</button>
+                <button class="bg-red-500 text-white py-1 px-2 w-full rounded" onclick="removeReservatie('{{ $Voorwerp->UUID }}', '{{$Voorwerp->Naam}}', '{{optional($Voorwerp->Foto)->Foto}}')">Annuleer Reservering</button>
                 @else 
                 <a href="{{ route('mentoren.show', $Mentor->UUID)}}" class="text-red-500 bg-gray-300 rounded py-1 text-center px-2 w-full">Gerserveerd: {{$Mentor->Voornaam}} {{$Mentor->Achternaam}}</a> 
                 @endif
@@ -286,10 +287,24 @@
         const reserveForm = document.getElementById('reserveForm');
             function showReserveerModal(uuid, naam, foto) {
                 voorwerpUUID = uuid;
-                document.getElementById('modal-voorwerp-naam').innerText = naam;
+                document.getElementById('reserveer-modal-voorwerp-naam').innerText = naam;
+                document.getElementById('reserveer-modal-title').innerText = "voorwerp Reserveren";
+                document.getElementById('reserveer-modal-text').style.display = 'block';
+                document.getElementById('annuleer-modal-text').style.display = 'none';
                 document.getElementById('modal-voorwerp-foto').src = foto;
                 document.getElementById('reserveer-modal').style.display = 'flex';
                 reserveForm.action = '/voorwerpen/reserveren/' + voorwerpUUID;
+                }
+
+            function removeReservatie(uuid, naam, foto) {
+                voorwerpUUID = uuid;
+                document.getElementById('annuleer-modal-voorwerp-naam').innerText = naam;
+                document.getElementById('reserveer-modal-title').innerText = "Reservatie Annuleren";
+                document.getElementById('reserveer-modal-text').style.display = 'none';
+                document.getElementById('annuleer-modal-text').style.display = 'block';
+                document.getElementById('modal-voorwerp-foto').src = foto;
+                document.getElementById('reserveer-modal').style.display = 'flex';
+                reserveForm.action = '/voorwerpen/verwijderreservatie/' + voorwerpUUID;
                 }
                 
 
